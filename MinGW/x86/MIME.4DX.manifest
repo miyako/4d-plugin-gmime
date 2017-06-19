@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <assemblyIdentity type="win32"
+      name="com.4D.4DPlugin.MIME"
+      version="6.0.0.0"
+      processorArchitecture="x86"/>
+
+  <file name="libassuan-0.dll"/>
+  <file name="libffi-6.dll"/>
+  <file name="libgio-2.0-0.dll"/>
+  <file name="libglib-2.0-0.dll"/>
+  <file name="libgmime-3.0-0.dll"/>
+  <file name="libgmodule-2.0-0.dll"/>
+  <file name="libgobject-2.0-0.dll"/>
+  <file name="libgpg-error-0.dll"/>
+  <file name="libgpgme-11.dll"/>
+  <file name="libiconv-2.dll"/>
+  <file name="libidn-11.dll"/>
+  <file name="libintl-8.dll"/>
+  <file name="pthreadGC2.dll"/>
+  <file name="zlib1.dll"/>
+  <file name="libjson.7.6.1.dll"/>
+
+</assembly>

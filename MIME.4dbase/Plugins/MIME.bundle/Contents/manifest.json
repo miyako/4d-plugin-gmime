@@ -1,0 +1,1 @@
+﻿{"name":"MIME","id":20000,"commands":[{"theme":"MIME","syntax":"MIME PARSE MESSAGE(&O;&T;&Y)"},{"theme":"MIME","syntax":"MIME Create message(&T;&Y):O"}]}

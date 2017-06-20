@@ -279,10 +279,32 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 	try
 	{
 		PA_long32 pProcNum = selector;
-		sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
-		PackagePtr pParams = (PackagePtr)params->fParameters;
+//		sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+//		PackagePtr pParams = (PackagePtr)params->fParameters;
 		
-		CommandDispatcher(pProcNum, pResult, pParams);
+//	CommandDispatcher(pProcNum, pResult, pParams);
+		
+		switch(pProcNum)
+		{
+			case kInitPlugin :
+			case kServerInitPlugin :
+				OnStartup();
+				break;
+				
+			case kCloseProcess :
+				OnCloseProcess();
+				break;
+				
+				// --- Messages
+				
+			case 1 :
+				MIME_PARSE_MESSAGE(params);
+				break;
+				
+			case 2 :
+				MIME_Create_message(params);
+				break;
+		}
 	}
 	catch(...)
 	{
@@ -290,6 +312,7 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 	}
 }
 
+/*
 void CommandDispatcher (PA_long32 pProcNum, sLONG_PTR *pResult, PackagePtr pParams)
 {
 	switch(pProcNum)
@@ -314,6 +337,7 @@ void CommandDispatcher (PA_long32 pProcNum, sLONG_PTR *pResult, PackagePtr pPara
 			break;
 	}
 }
+*/
 
 // ------------------------------- Parsing Messages -------------------------------
 
@@ -764,8 +788,12 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 
 #pragma mark -
 
-void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
+void MIME_PARSE_MESSAGE(PA_PluginParameters params)
+//void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
 {
+//	sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+	PackagePtr pParams = (PackagePtr)params->fParameters;
+	
 	JSONNODE *json = json_new(JSON_NODE);
 	JSONNODE *json_message = json_new(JSON_NODE);
 	
@@ -775,7 +803,7 @@ void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
 	Param1.fromParamAtIndex(pParams, 1);
 	
 	//clear existing $3 and create ARRAY BLOB
-	PA_ClearVariable(((PA_Variable *)pParams[2]));
+//	PA_ClearVariable(((PA_Variable *)pParams[2]));
 	PA_Variable Param3 = PA_CreateVariable(eVK_ArrayBlob);
 	
 	//parse
@@ -825,8 +853,12 @@ void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
 	
 	json_delete(json);
 	
-	//return ARRAY BLOB
+	PA_SetVariableParameter(params, 3, Param3, 0);
+
 	Param2.toParamAtIndex(pParams, 2);
+	
+	//return ARRAY BLOB
+	/*
 	PA_Variable *p = ((PA_Variable *)pParams[2]);
 	p->fType = Param3.fType;
 	p->fFiller = Param3.fFiller;
@@ -837,10 +869,15 @@ void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
 	int x = sizeof(PA_Blob);
 	int y = (Param3.uValue.fArray.fNbElements)+1;
 	PA_SetHandleSize(h, x * y);
+	 */
 }
 
-void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams)
+void MIME_Create_message(PA_PluginParameters params)
+//void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams)
 {
+//	sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
+	PackagePtr pParams = (PackagePtr)params->fParameters;
+	
 	C_TEXT Param1;
 	Param1.fromParamAtIndex(pParams, 1);
 	
@@ -904,13 +941,16 @@ void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams)
 			GByteArray *array = g_byte_array_new();
 			g_mime_stream_mem_set_byte_array ((GMimeStreamMem *)stream, array);
 			
-			if(0)//debug: print headers
+			if(/* DISABLES CODE */ (0))
+			{//debug: print headers
 				g_mime_header_list_write_to_stream(message_mime->headers, format_options, stream);
-			
+			}
 			g_mime_object_write_to_stream (message_mime, format_options, stream);
 			
-			returnBlob(pResult, pParams, array->data, array->len);
-						
+//			returnBlob(pResult, pParams, array->data, array->len);
+			
+			PA_ReturnBlob(params, array->data, array->len);
+			
 			//cleanup
 			g_object_unref (stream);//GMimeStream
 			g_byte_array_free (array, FALSE);//GByteArray

@@ -26,8 +26,13 @@
 
 #pragma mark -
 
+void MIME_PARSE_MESSAGE(PA_PluginParameters params);
+void MIME_Create_message(PA_PluginParameters params);
+
+/*
 void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams);
 void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams);
+*/
 
 #pragma mark -
 

@@ -21,7 +21,7 @@ typedef struct
 
 #pragma mark JSON
 
-void wconv(const char *value, std::wstring &u32)
+void json_wconv(const char *value, std::wstring &u32)
 {
 	if(value)
 	{
@@ -199,7 +199,7 @@ void json_set_text(JSONNODE *n, const wchar_t *name, char *value, BOOL optional,
 		if((!optional) || ((optional) && (value)))
 		{
 			std::wstring w32;
-			wconv(value, w32);
+			json_wconv(value, w32);
 			json_push_back(n, json_new_a(name, w32.c_str()));
 			
 			if(release)
@@ -279,10 +279,6 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 	try
 	{
 		PA_long32 pProcNum = selector;
-//		sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
-//		PackagePtr pParams = (PackagePtr)params->fParameters;
-		
-//	CommandDispatcher(pProcNum, pResult, pParams);
 		
 		switch(pProcNum)
 		{
@@ -294,8 +290,6 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 			case kCloseProcess :
 				OnCloseProcess();
 				break;
-				
-				// --- Messages
 				
 			case 1 :
 				MIME_PARSE_MESSAGE(params);
@@ -311,33 +305,6 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 		
 	}
 }
-
-/*
-void CommandDispatcher (PA_long32 pProcNum, sLONG_PTR *pResult, PackagePtr pParams)
-{
-	switch(pProcNum)
-	{
-		case kInitPlugin :
-		case kServerInitPlugin :
-			OnStartup();
-			break;
-			
-		case kCloseProcess :
-			OnCloseProcess();
-			break;
-			
-			// --- Messages
-			
-		case 1 :
-			MIME_PARSE_MESSAGE(pResult, pParams);
-			break;
-			
-		case 2 :
-			MIME_Create_message(pResult, pParams);
-			break;
-	}
-}
-*/
 
 // ------------------------------- Parsing Messages -------------------------------
 
@@ -755,7 +722,7 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 							{
 								if(PA_GetArrayNbElements(*data_array) <= data_index)
 								{
-									PA_Blob data = PA_GetBlobInArray(*data_array, data_index);
+									PA_Blob data = PA_GetBlobInArray(*data_array, (PA_long32)data_index);
 									void *data_buf = (void *)PA_LockHandle(data.fHandle);
 									
 									GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)data_buf, data.fSize);
@@ -789,100 +756,85 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 #pragma mark -
 
 void MIME_PARSE_MESSAGE(PA_PluginParameters params)
-//void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams)
 {
-//	sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
 	PackagePtr pParams = (PackagePtr)params->fParameters;
 	
 	JSONNODE *json = json_new(JSON_NODE);
 	JSONNODE *json_message = json_new(JSON_NODE);
 	
-	C_BLOB Param1;
 	C_TEXT Param2;
-	
-	Param1.fromParamAtIndex(pParams, 1);
 	
 	//clear existing $3 and create ARRAY BLOB
 //	PA_ClearVariable(((PA_Variable *)pParams[2]));
 	PA_Variable Param3 = PA_CreateVariable(eVK_ArrayBlob);
 	
 	//parse
-	GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)Param1.getBytesPtr(), Param1.getBytesLength());
-	GMimeParser *parser = g_mime_parser_new_with_stream (stream);
-	GMimeParserOptions *options = g_mime_parser_options_new();
-	g_mime_parser_options_set_address_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
-	g_mime_parser_options_set_allow_addresses_without_domain(options, true);
-	g_mime_parser_options_set_parameter_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
-	g_mime_parser_options_set_rfc2047_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
-	GMimeMessage *message = g_mime_parser_construct_message (parser, options);
-	g_mime_parser_options_free(options);
-	g_clear_object(&parser);
-	g_clear_object(&stream);
 	
-	mime_ctx ctx;
-	ctx.json = json_message;
-	ctx.array_blob = &Param3;
-	ctx.name = L"body";
+	PA_Handle h = *(PA_Handle *)(pParams[0]);
 	
-	if(message)
+	if(h)
 	{
+		GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
+		GMimeParser *parser = g_mime_parser_new_with_stream (stream);
+		GMimeParserOptions *options = g_mime_parser_options_new();
+		g_mime_parser_options_set_address_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
+		g_mime_parser_options_set_allow_addresses_without_domain(options, true);
+		g_mime_parser_options_set_parameter_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
+		g_mime_parser_options_set_rfc2047_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
+		GMimeMessage *message = g_mime_parser_construct_message (parser, options);
+		g_mime_parser_options_free(options);
+		g_clear_object(&parser);
+		g_clear_object(&stream);
 		
-		getAddress(g_mime_message_get_from (message), L"from", json_message);
-		getAddress(g_mime_message_get_cc (message), L"cc", json_message);
-		getAddress(g_mime_message_get_to (message), L"to", json_message);
-		getAddress(g_mime_message_get_bcc (message), L"bcc", json_message);
-		getAddress(g_mime_message_get_sender (message), L"sender", json_message);
-		getAddress(g_mime_message_get_reply_to (message), L"reply_to", json_message);
-		getAddress(g_mime_message_get_all_recipients (message), L"all_recipients", json_message);
+		mime_ctx ctx;
+		ctx.json = json_message;
+		ctx.array_blob = &Param3;
+		ctx.name = L"body";
 		
-		json_set_text(json_message, L"id", (char *)g_mime_message_get_message_id(message));
-		json_set_text(json_message, L"subject", (char *)g_mime_message_get_subject(message));
-	 
-		GDateTime *date = g_mime_message_get_date(message);
+		if(message)
+		{
+			getAddress(g_mime_message_get_from (message), L"from", json_message);
+			getAddress(g_mime_message_get_cc (message), L"cc", json_message);
+			getAddress(g_mime_message_get_to (message), L"to", json_message);
+			getAddress(g_mime_message_get_bcc (message), L"bcc", json_message);
+			getAddress(g_mime_message_get_sender (message), L"sender", json_message);
+			getAddress(g_mime_message_get_reply_to (message), L"reply_to", json_message);
+			getAddress(g_mime_message_get_all_recipients (message), L"all_recipients", json_message);
+			
+			json_set_text(json_message, L"id", (char *)g_mime_message_get_message_id(message));
+			json_set_text(json_message, L"subject", (char *)g_mime_message_get_subject(message));
+			
+			GDateTime *date = g_mime_message_get_date(message);
+			
+			json_set_date(json_message, g_date_time_to_local(date), L"local_date", L"local_time", "%Y-%m-%dT%H:%M:%S%z");
+			json_set_date(json_message, g_date_time_to_utc(date), L"utc_date", L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
+			
+			g_mime_message_foreach(message, processTopLevel, &ctx);
+			
+			g_clear_object(&message);
+		}
 		
-		json_set_date(json_message, g_date_time_to_local(date), L"local_date", L"local_time", "%Y-%m-%dT%H:%M:%S%z");
-		json_set_date(json_message, g_date_time_to_utc(date), L"utc_date", L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
+		json_set_object(json, L"message", json_message);
+		json_set_text_param(json, Param2);
 		
-		g_mime_message_foreach(message, processTopLevel, &ctx);
+		json_delete(json);
 		
-		g_clear_object(&message);
- }
-	
-	json_set_object(json, L"message", json_message);
-	json_set_text_param(json, Param2);
-	
-	json_delete(json);
+		PA_UnlockHandle(h);
+	}
 	
 	PA_SetVariableParameter(params, 3, Param3, 0);
-
-	Param2.toParamAtIndex(pParams, 2);
 	
-	//return ARRAY BLOB
-	/*
-	PA_Variable *p = ((PA_Variable *)pParams[2]);
-	p->fType = Param3.fType;
-	p->fFiller = Param3.fFiller;
-	p->uValue.fArray.fCurrent = Param3.uValue.fArray.fCurrent;
-	p->uValue.fArray.fNbElements = Param3.uValue.fArray.fNbElements;
-	p->uValue.fArray.fData = Param3.uValue.fArray.fData;
-	PA_Handle h = p->uValue.fArray.fData;
-	int x = sizeof(PA_Blob);
-	int y = (Param3.uValue.fArray.fNbElements)+1;
-	PA_SetHandleSize(h, x * y);
-	 */
+	Param2.toParamAtIndex(pParams, 2);
 }
 
 void MIME_Create_message(PA_PluginParameters params)
-//void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams)
 {
-//	sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
 	PackagePtr pParams = (PackagePtr)params->fParameters;
 	
 	C_TEXT Param1;
 	Param1.fromParamAtIndex(pParams, 1);
 	
 	PA_Variable *data_array_p = ((PA_Variable *)pParams[1]);//Param2
-	//	PA_Variable data_array = *(((PA_Variable**)pParams)[1]);//Param2
 	
 	JSONNODE *json = json_parse_text_param(Param1);
 	
@@ -946,8 +898,6 @@ void MIME_Create_message(PA_PluginParameters params)
 				g_mime_header_list_write_to_stream(message_mime->headers, format_options, stream);
 			}
 			g_mime_object_write_to_stream (message_mime, format_options, stream);
-			
-//			returnBlob(pResult, pParams, array->data, array->len);
 			
 			PA_ReturnBlob(params, array->data, array->len);
 			

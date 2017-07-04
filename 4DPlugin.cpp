@@ -720,7 +720,7 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 							
 							if(PA_GetVariableKind(*data_array) == eVK_ArrayBlob)
 							{
-								if(PA_GetArrayNbElements(*data_array) <= data_index)
+								if(PA_GetArrayNbElements(*data_array) >= data_index)
 								{
 									PA_Blob data = PA_GetBlobInArray(*data_array, (PA_long32)data_index);
 									void *data_buf = (void *)PA_LockHandle(data.fHandle);

@@ -413,11 +413,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sXfl0aW+uW2xdFL0eyoLJNSKRGI=
+			c4wdDM1dvKxX+P0r/SHh1EMhwi0=
 			</data>
 			<key>hash2</key>
 			<data>
-			06XUcDnNQlF7sIWFTZExyRrs3/pfnaQtjeaIj8gWY0U=
+			Zb/853S/AnLP6CJUje9B59CGWFJPvcitThqxqYywpBY=
 			</data>
 		</dict>
 		<key>Windows/MIME.4DX.manifest</key>
@@ -431,17 +431,6 @@
 			xYOBxazijSepbOj39q7M0G/LWM+Xmis+Imy3x8pUOjY=
 			</data>
 		</dict>
-		<key>Windows/MIME.exp</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			4X0bi8qSBPvyXR4RygrMJnYxoZk=
-			</data>
-			<key>hash2</key>
-			<data>
-			4aDIrUS54NRUg8JlWs+bLHv5xfNRufiC+Hiym3LeyQo=
-			</data>
-		</dict>
 		<key>Windows/MIME.html</key>
 		<dict>
 			<key>hash</key>
@@ -451,39 +440,6 @@
 			<key>hash2</key>
 			<data>
 			EKLRdLPtg+PsdxOrCPdnhlHZLbWCJYLapu/sbQTYgHg=
-			</data>
-		</dict>
-		<key>Windows/MIME.iobj</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			eUkcXTa/6o/3TXfseX/xdAKVnKU=
-			</data>
-			<key>hash2</key>
-			<data>
-			5NqfVsPo5ZvuWHow7PaVwn6ZLJKLR/3aYNxZsZxiyR4=
-			</data>
-		</dict>
-		<key>Windows/MIME.ipdb</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			0BuWFai4Zx77MTuNZsMYtHstFfE=
-			</data>
-			<key>hash2</key>
-			<data>
-			27Gv44L6gHuOj1aExEZLLzqqk8Y4dYAeWEqFHaLYs0k=
-			</data>
-		</dict>
-		<key>Windows/MIME.lib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ibgWaFVusVOWKAGzjOzeMo3Ve+4=
-			</data>
-			<key>hash2</key>
-			<data>
-			BmEBKtrgtiQAU3aUBAMaHc5CCNqN3NBSVWw6tgb2/7k=
 			</data>
 		</dict>
 		<key>Windows/libassuan-0.dll</key>
@@ -655,11 +611,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			REHNdJXDGZeUN+o8Ef6HorRJzaQ=
+			ypNgNn41ITXhAg/aW7c4iGBPa2U=
 			</data>
 			<key>hash2</key>
 			<data>
-			+e1WAfCjmN2Zmiw7w9Jm4dyezr0m9rrcLfzyzQSPmyY=
+			q7XsHl/vcGEZuut+1hO1ogSkVfGonlo37/6aKv0stfs=
 			</data>
 		</dict>
 		<key>Windows64/MIME.4DX.manifest</key>
@@ -673,17 +629,6 @@
 			6spDiCIjtIh8UqZH63rycr/rjBVnZxjUbMqDJ//QfZk=
 			</data>
 		</dict>
-		<key>Windows64/MIME.exp</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			YgoGndGBPtEZWLUGYdTbjwTstUE=
-			</data>
-			<key>hash2</key>
-			<data>
-			9zNtP5FSA2cgYfA6TffkvTOSmVilaDBoQdcWozP+naE=
-			</data>
-		</dict>
 		<key>Windows64/MIME.html</key>
 		<dict>
 			<key>hash</key>
@@ -693,39 +638,6 @@
 			<key>hash2</key>
 			<data>
 			EKLRdLPtg+PsdxOrCPdnhlHZLbWCJYLapu/sbQTYgHg=
-			</data>
-		</dict>
-		<key>Windows64/MIME.iobj</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			YHaX09GINF7vAdOuHxRn/zAaK64=
-			</data>
-			<key>hash2</key>
-			<data>
-			rKockpdQtKiHeHQhYGxD5UOqnrel8stqP/+MpLrXoOA=
-			</data>
-		</dict>
-		<key>Windows64/MIME.ipdb</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			gO8A6+pRzry+T2UJ1nfkHL2dZ20=
-			</data>
-			<key>hash2</key>
-			<data>
-			147XEH5YRGtHPF8OSOrfHb7VOaYaQvksmhZIbrTLvbE=
-			</data>
-		</dict>
-		<key>Windows64/MIME.lib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xfNA3Jmrl5oDQADygYXOvx7dhb0=
-			</data>
-			<key>hash2</key>
-			<data>
-			v8mANWsr3Q78NMZtMEYaBkawFcSzA8/z/gY/oYdG3L0=
 			</data>
 		</dict>
 		<key>Windows64/libassuan6-0.dll</key>

@@ -112,15 +112,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>MacOS/MIME.html</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			T2S4lJGBnxVNfuHPFb1gx833N6I=
-			</data>
-			<key>requirement</key>
-			<string>identifier MIME and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>
-		</dict>
 		<key>QuickLook/Thumbnail.png</key>
 		<dict>
 			<key>hash</key>
@@ -413,11 +404,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			c4wdDM1dvKxX+P0r/SHh1EMhwi0=
+			sgYrMr4f4z/9dS2TTfc2vh/j2ko=
 			</data>
 			<key>hash2</key>
 			<data>
-			Zb/853S/AnLP6CJUje9B59CGWFJPvcitThqxqYywpBY=
+			l1iInzCcvM8BjD0kxIeV4S46AgOeTQ+e8dA0AjcQiMQ=
 			</data>
 		</dict>
 		<key>Windows/MIME.4DX.manifest</key>
@@ -429,17 +420,6 @@
 			<key>hash2</key>
 			<data>
 			xYOBxazijSepbOj39q7M0G/LWM+Xmis+Imy3x8pUOjY=
-			</data>
-		</dict>
-		<key>Windows/MIME.html</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			3f3hE90+GMuzyHmK9RVQvLK+Zs8=
-			</data>
-			<key>hash2</key>
-			<data>
-			EKLRdLPtg+PsdxOrCPdnhlHZLbWCJYLapu/sbQTYgHg=
 			</data>
 		</dict>
 		<key>Windows/libassuan-0.dll</key>
@@ -611,11 +591,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ypNgNn41ITXhAg/aW7c4iGBPa2U=
+			hKTITcp/p3H/6NIK5GQNxUuO+9I=
 			</data>
 			<key>hash2</key>
 			<data>
-			q7XsHl/vcGEZuut+1hO1ogSkVfGonlo37/6aKv0stfs=
+			ubI5MaPQGNKu9QwrJ36O9fSJ2+1lzvvJdVO3LheQFls=
 			</data>
 		</dict>
 		<key>Windows64/MIME.4DX.manifest</key>
@@ -627,17 +607,6 @@
 			<key>hash2</key>
 			<data>
 			6spDiCIjtIh8UqZH63rycr/rjBVnZxjUbMqDJ//QfZk=
-			</data>
-		</dict>
-		<key>Windows64/MIME.html</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			3f3hE90+GMuzyHmK9RVQvLK+Zs8=
-			</data>
-			<key>hash2</key>
-			<data>
-			EKLRdLPtg+PsdxOrCPdnhlHZLbWCJYLapu/sbQTYgHg=
 			</data>
 		</dict>
 		<key>Windows64/libassuan6-0.dll</key>

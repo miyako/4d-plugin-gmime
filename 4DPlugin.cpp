@@ -88,11 +88,11 @@ void json_set_text_param(JSONNODE *n, C_TEXT &t)
 #if VERSIONWIN
 		t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
 #else
-		uint32_t dataSize = (wstr.length() * sizeof(wchar_t))+ sizeof(PA_Unichar);
+		uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
 		std::vector<char> buf(dataSize);
 		
 		uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																							wstr.length() * sizeof(wchar_t),
+																							(PA_long32)(wstr.length() * sizeof(wchar_t)),
 																							eVTC_UTF_32,
 																							(char *)&buf[0],
 																							dataSize,
@@ -129,11 +129,11 @@ BOOL json_get_string(JSONNODE *json, CUTF8String &value)
 #if VERSIONWIN
 			t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
 #else
-			uint32_t dataSize = (wstr.length() * sizeof(wchar_t))+ sizeof(PA_Unichar);
+			uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
 			std::vector<char> buf(dataSize);
 			
 			uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																								wstr.length() * sizeof(wchar_t),
+																								(PA_long32)(wstr.length() * sizeof(wchar_t)),
 																								eVTC_UTF_32,
 																								(char *)&buf[0],
 																								dataSize,
@@ -170,11 +170,11 @@ BOOL json_get_string(JSONNODE *json, const wchar_t *name, CUTF8String &value)
 #if VERSIONWIN
 			t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
 #else
-			uint32_t dataSize = (wstr.length() * sizeof(wchar_t))+ sizeof(PA_Unichar);
+			uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
 			std::vector<char> buf(dataSize);
 			
 			uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																								wstr.length() * sizeof(wchar_t),
+																								(PA_long32)(wstr.length() * sizeof(wchar_t)),
 																								eVTC_UTF_32,
 																								(char *)&buf[0],
 																								dataSize,
@@ -196,7 +196,8 @@ void json_set_text(JSONNODE *n, const wchar_t *name, char *value, BOOL optional,
 {
 	if(n)
 	{
-		if((!optional) || ((optional) && (value)))
+		if(value)
+//		if((!optional) || ((optional) && (value)))
 		{
 			std::wstring w32;
 			json_wconv(value, w32);
@@ -206,6 +207,11 @@ void json_set_text(JSONNODE *n, const wchar_t *name, char *value, BOOL optional,
 			{
 				g_free(value);
 			}
+		}else
+		{
+			JSONNODE *node = json_new_a(name, L"");
+			json_nullify(node);
+			json_push_back(n, node);
 		}
 	}
 }
@@ -369,8 +375,16 @@ void getAddress(InternetAddressList *list, const wchar_t *label, JSONNODE *json_
 				json_push_back(address_array, item);
 			}
 			json_set_object(json_message, label, address_array);
+		}else
+		{
+			//create an empty array
+			json_set_object(json_message, label, json_new(JSON_ARRAY));
 		}
 		internet_address_list_clear(list);
+	}else
+	{
+		//create an empty array
+		json_set_object(json_message, label, json_new(JSON_ARRAY));
 	}
 	
 }
@@ -764,11 +778,7 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 	
 	C_TEXT Param2;
 	
-	//clear existing $3 and create ARRAY BLOB
-//	PA_ClearVariable(((PA_Variable *)pParams[2]));
 	PA_Variable Param3 = PA_CreateVariable(eVK_ArrayBlob);
-	
-	//parse
 	
 	PA_Handle h = *(PA_Handle *)(pParams[0]);
 	

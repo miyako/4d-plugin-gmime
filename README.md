@@ -36,7 +36,16 @@ mime|BLOB|Raw MIME data
 
 ### The parsed MIME content
 
-**Note**: The JSON schema is attached to the sample database.
+**Note**: The [JSON schema](https://github.com/miyako/4d-plugin-gmime/blob/master/MIME.4dbase/Resources/schema.json) is attached to the sample database.
+
+Use it like
+
+```
+$path:=Get 4D folder(Current resources folder)+"schema.json"
+$schema_json:=Document to text($path;"utf-8")
+$schema:=JSON Parse($schema_json)
+$errors:=JSON Validate($mime;$schema)
+```
 
 * Properties of the root ``message`` object
 

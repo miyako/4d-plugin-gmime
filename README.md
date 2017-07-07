@@ -36,6 +36,8 @@ mime|BLOB|Raw MIME data
 
 ### The parsed MIME content
 
+**Note**: The JSON schema is attached to the sample database.
+
 * Properties of the root ``message`` object
 
 ``from`` : ``address`` array (optional)

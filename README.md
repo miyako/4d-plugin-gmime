@@ -128,7 +128,7 @@ When creating a multi-part MIME, make sure you specifiy the ``Content-Type`` hea
 
 ``content_encoding`` : ``string``
 
-``header`` : ``header`` array
+``headers`` : ``header`` array
 
 When creating a MIME, make sure you specifiy the ``content_encoding`` in ``part``, not just as a header value.
 

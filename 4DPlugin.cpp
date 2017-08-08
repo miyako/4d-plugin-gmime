@@ -220,9 +220,9 @@ void json_set_date(JSONNODE *n, GDateTime *dt, const wchar_t *date, const wchar_
 {
 	if(n)
 	{
-		json_set_number(n, time, (json_int_t)((g_date_time_get_hour(dt) * 3600)
+		json_set_number(n, time, (json_int_t)(((g_date_time_get_hour(dt) * 3600)
 																					+ (g_date_time_get_minute(dt) * 60)
-																					+ (g_date_time_get_second(dt)) * 1000));
+																					+ (g_date_time_get_second(dt))) * 1000));
 		
 		gchar *dateString = g_date_time_format(dt, fmt);
 		

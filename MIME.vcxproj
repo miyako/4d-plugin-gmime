@@ -289,7 +289,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalLibraryDirectories>MinGW\x86\LIB;VC\x86\LIB</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>MinGW\x86\LIB;VC\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>libjson.7.6.1.lib;libglib-2.0-0.lib;libgmime-3.0-0.lib;libgobject-2.0-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -313,7 +313,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>MinGW\x86_64\LIB;VC\x86_64\LIB</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>MinGW\x86_64\LIB;VC\x86_64</AdditionalLibraryDirectories>
       <AdditionalDependencies>libjson.7.6.1.lib;libglib-2.0-0.lib;libgmime-3.0-0.lib;libgobject-2.0-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

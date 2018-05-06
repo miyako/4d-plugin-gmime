@@ -816,9 +816,19 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 			
 			GDateTime *date = g_mime_message_get_date(message);
 			
-			json_set_date(json_message, g_date_time_to_local(date), L"local_date", L"local_time", "%Y-%m-%dT%H:%M:%S%z");
-			json_set_date(json_message, g_date_time_to_utc(date), L"utc_date", L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
-			
+			if(date)
+			{
+				json_set_date(json_message, g_date_time_to_local(date), L"local_date", L"local_time", "%Y-%m-%dT%H:%M:%S%z");
+				json_set_date(json_message, g_date_time_to_utc(date), L"utc_date", L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
+			}else
+			{
+				/* g_mime_message_get_date returns NULL if the date could not be parsed */
+				json_set_text(json_message, L"local_date", NULL);
+				json_set_text(json_message, L"local_time", NULL);
+				json_set_text(json_message, L"utc_date", NULL);
+				json_set_text(json_message, L"utc_time", NULL);
+			}
+
 			g_mime_message_foreach(message, processTopLevel, &ctx);
 			
 			g_clear_object(&message);

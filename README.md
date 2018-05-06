@@ -14,7 +14,7 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 ### Releases
 
-[1.0](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.0)
+[1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1)
 
 ## Syntax
 

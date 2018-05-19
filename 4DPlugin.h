@@ -24,15 +24,17 @@
 #define strncasecmp _strnicmp
 #endif
 
+/* hack to statically link glib */
+#if VERSIONWIN
+extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+#endif
+
 #pragma mark -
 
 void MIME_PARSE_MESSAGE(PA_PluginParameters params);
 void MIME_Create_message(PA_PluginParameters params);
-
-/*
-void MIME_PARSE_MESSAGE(sLONG_PTR *pResult, PackagePtr pParams);
-void MIME_Create_message(sLONG_PTR *pResult, PackagePtr pParams);
-*/
 
 #pragma mark -
 

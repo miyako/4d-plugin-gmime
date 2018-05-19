@@ -273,6 +273,19 @@ void OnCloseProcess()
 	}
 }
 
+#if VERSIONWIN
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	glib_DllMain(hinstDLL, fdwReason, lpvReserved);
+	gio_DllMain(hinstDLL, fdwReason, lpvReserved);
+	gobject_DllMain(hinstDLL, fdwReason, lpvReserved);
+
+	return TRUE;
+}
+
+#endif
+
 void OnStartup()
 {
 	g_mime_init();

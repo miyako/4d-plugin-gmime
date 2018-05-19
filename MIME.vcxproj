@@ -121,7 +121,9 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
-    <ClCompile Include="4DPlugin.cpp" />
+    <ClCompile Include="4DPlugin.cpp">
+      <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Cdecl</CallingConvention>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4D Plugin API\4DPluginAPI.h" />
@@ -154,12 +156,13 @@
     <ProjectGuid>{7A96E65F-9359-489F-A82A-C705EAE67CC4}</ProjectGuid>
     <RootNamespace>My4DPlugin</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -223,7 +226,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>4D Plugin API\Classes;4D Plugin API;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>VC\include;VC\include\libjson;4D Plugin API;4D Plugin API\Classes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MY4DPLUGIN_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -243,6 +246,8 @@
       <TargetMachine>MachineX86</TargetMachine>
       <EntryPointSymbol>
       </EntryPointSymbol>
+      <AdditionalDependencies>libcharset.lib;shlwapi.lib;Dnsapi.lib;glib-2.0-pcre.lib;gobject-2.0-ffi.lib;gio-2.0.lib;gmodule-2.0.lib;gthread-2.0.lib;libiconv.lib;libintl.lib;gmime-3.0-idn2.lib;libjson.7.6.1.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>VC\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -270,7 +275,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>4D Plugin API\Classes;4D Plugin API;MinGW\include\glib-2.0;MinGW\include\gmime-3.0;MinGW\include;VC\include\libjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>VC\include;VC\include\libjson;4D Plugin API;4D Plugin API\Classes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MY4DPLUGIN_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -278,6 +283,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4244;4068;4800;4819;4005;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(TargetPath)</OutputFile>
@@ -289,13 +295,13 @@
       <TargetMachine>MachineX86</TargetMachine>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalLibraryDirectories>MinGW\x86\LIB;VC\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libjson.7.6.1.lib;libglib-2.0-0.lib;libgmime-3.0-0.lib;libgobject-2.0-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>VC\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcharset.lib;shlwapi.lib;Dnsapi.lib;glib-2.0-pcre.lib;gobject-2.0-ffi.lib;gio-2.0.lib;gmodule-2.0.lib;gthread-2.0.lib;libiconv.lib;libintl.lib;gmime-3.0-idn2.lib;libjson.7.6.1.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>4D Plugin API\Classes;4D Plugin API;MinGW\include\glib-2.0;MinGW\include\gmime-3.0;MinGW\include;VC\include\libjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>VC\include\libjson;4D Plugin API;4D Plugin API\Classes;C:\Users\miyako\Desktop\vcpkg\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;MY4DPLUGIN_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -304,7 +310,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
       <OmitFramePointers>false</OmitFramePointers>
-      <DisableSpecificWarnings>4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4068;4800;4819;4005;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(TargetPath)</OutputFile>
@@ -313,8 +319,10 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>MinGW\x86_64\LIB;VC\x86_64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libjson.7.6.1.lib;libglib-2.0-0.lib;libgmime-3.0-0.lib;libgobject-2.0-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>VC\x86_64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcharset.lib;shlwapi.lib;Dnsapi.lib;glib-2.0-pcre.lib;gobject-2.0-ffi.lib;gio-2.0.lib;gmodule-2.0.lib;gthread-2.0.lib;libiconv.lib;libintl.lib;gmime-3.0-idn2.lib;libjson.7.6.1.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

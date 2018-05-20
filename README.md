@@ -18,6 +18,18 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 [1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1) MinGW
 
+**Notes on building static GLIB for MSVC**: 
+
+link gmime with static idn2 +``IDN2_STATIC``  
+
+link glib with static pcre -``USE_SYSTEM_PCRE``  
+
+link gio with static ffi +``FFI_BUILDING``
+
+force static iconv in iconv.h and charset.h -``LIBICONV_DYNAMIC``
+
+create ``DllMain`` wrappers for glib, gio, gobject
+
 ## Syntax
 
 ```

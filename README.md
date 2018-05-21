@@ -28,6 +28,10 @@ link gio with static ffi +``FFI_BUILDING``
 
 force static iconv in iconv.h and charset.h -``LIBICONV_DYNAMIC``
 
+uninstall Japanese version of Visual Studio ([zlib build fails with vcpkg](https://github.com/Microsoft/vcpkg/issues/1939))
+
+use [VisualStudioUninstaller](https://github.com/Microsoft/VisualStudioUninstaller) and manually delete surviving registry keys
+
 create ``DllMain`` wrappers for glib, gio, gobject
 
 ## Syntax

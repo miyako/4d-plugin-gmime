@@ -14,7 +14,27 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 ### Releases
 
-[1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1)
+[2.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.1)  
+
+[2.0](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.0) Visual C
+
+[1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1) MinGW
+
+**Notes on building static GLIB for MSVC**: 
+
+link gmime with static idn2 +``IDN2_STATIC``  
+
+link glib with static pcre -``USE_SYSTEM_PCRE``  
+
+link gio with static ffi +``FFI_BUILDING``
+
+force static iconv in iconv.h and charset.h -``LIBICONV_DYNAMIC``
+
+uninstall Japanese version of Visual Studio ([zlib build fails with vcpkg](https://github.com/Microsoft/vcpkg/issues/1939))
+
+use [VisualStudioUninstaller](https://github.com/Microsoft/VisualStudioUninstaller) and manually delete surviving registry keys
+
+create ``DllMain`` wrappers for glib, gio, gobject
 
 ## Syntax
 

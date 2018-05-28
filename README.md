@@ -14,6 +14,8 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 ### Releases
 
+[2.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.1)  
+
 [2.0](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.0) Visual C
 
 [1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1) MinGW

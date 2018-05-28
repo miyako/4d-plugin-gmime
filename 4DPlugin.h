@@ -24,12 +24,9 @@
 #define strncasecmp _strnicmp
 #endif
 
-/* hack to statically link glib */
-#if VERSIONWIN
 extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
-#endif
 
 #pragma mark -
 

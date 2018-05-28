@@ -784,10 +784,7 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 
 void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 {
-	PackagePtr pParams = (PackagePtr)params->fParameters;
-	
-	JSONNODE *json = json_new(JSON_NODE);
-	JSONNODE *json_message = json_new(JSON_NODE);
+	PackagePtr pParams = (PackagePtr)params->fParameters;	
 	
 	C_TEXT Param2;
 	
@@ -797,6 +794,9 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 	
 	if(h)
 	{
+		JSONNODE *json = json_new(JSON_NODE);
+		JSONNODE *json_message = json_new(JSON_NODE);
+		
 		GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
 		GMimeParser *parser = g_mime_parser_new_with_stream (stream);
 		GMimeParserOptions *options = g_mime_parser_options_new();

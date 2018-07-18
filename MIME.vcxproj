@@ -124,6 +124,7 @@
     <ClCompile Include="4DPlugin.cpp">
       <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Cdecl</CallingConvention>
     </ClCompile>
+    <ClCompile Include="include\libjson_methods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4D Plugin API\4DPluginAPI.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="4D Plugin API\PrivateTypes.h" />
     <ClInclude Include="4D Plugin API\PublicTypes.h" />
     <ClInclude Include="4DPlugin.h" />
+    <ClInclude Include="include\libjson_methods.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="4D Plugin API\4DPluginAPI.def" />
@@ -275,7 +277,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>VC\include;VC\include\libjson;4D Plugin API;4D Plugin API\Classes;C:\Users\miyako\Desktop\vcpkg\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include\libjson;4D Plugin API;4D Plugin API\Classes;C:\Users\miyako\Documents\vcpkg\vcpkg-master\installed\x86-windows\include;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MY4DPLUGIN_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -301,7 +303,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>VC\include\libjson;4D Plugin API;4D Plugin API\Classes;C:\Users\miyako\Desktop\vcpkg\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include\libjson;4D Plugin API;4D Plugin API\Classes;C:\Users\miyako\Documents\vcpkg\vcpkg-master\installed\x64-windows\include;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;MY4DPLUGIN_EXPORTS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>

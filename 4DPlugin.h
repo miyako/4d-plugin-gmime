@@ -14,19 +14,21 @@
 #define ssize_t int
 #endif
 
-#include <gmime/gmime.h>
+#include "gmime/gmime.h"
 #include "libjson.h"
+#include "libjson_methods.h"
+
+#include <mutex>
 
 #if defined(_WIN32)
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
-#endif
-
 extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+#endif
 
 #pragma mark -
 

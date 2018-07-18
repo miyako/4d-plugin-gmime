@@ -12,6 +12,8 @@
 #include "4DPluginAPI.h"
 #include "4DPlugin.h"
 
+std::mutex mutexJson;
+
 typedef struct
 {
 	JSONNODE *json;
@@ -20,91 +22,6 @@ typedef struct
 }mime_ctx;
 
 #pragma mark JSON
-
-void json_wconv(const char *value, std::wstring &u32)
-{
-	if(value)
-	{
-		C_TEXT t;
-		CUTF8String u8;
-		
-		u8 = (const uint8_t *)value;
-		t.setUTF8String(&u8);
-		
-#if VERSIONWIN
-		u32 = std::wstring((wchar_t *)t.getUTF16StringPtr());
-#else
-		
-		uint32_t dataSize = (t.getUTF16Length() * sizeof(wchar_t))+ sizeof(wchar_t);
-		std::vector<char> buf(dataSize);
-		
-		PA_ConvertCharsetToCharset((char *)t.getUTF16StringPtr(),
-															 t.getUTF16Length() * sizeof(PA_Unichar),
-															 eVTC_UTF_16,
-															 (char *)&buf[0],
-															 dataSize,
-															 eVTC_UTF_32);
-		
-		u32 = std::wstring((wchar_t *)&buf[0]);
-#endif
-	}else
-	{
-		u32 = L"";
-	}
-	
-}
-
-JSONNODE *json_parse_text_param(C_TEXT &t)
-{
-	std::wstring u32;
-	
-#if VERSIONWIN
-	u32 = std::wstring((wchar_t *)t.getUTF16StringPtr());
-#else
-	
-	uint32_t dataSize = (t.getUTF16Length() * sizeof(wchar_t))+ sizeof(wchar_t);
-	std::vector<char> buf(dataSize);
-	
-	PA_ConvertCharsetToCharset((char *)t.getUTF16StringPtr(),
-														 t.getUTF16Length() * sizeof(PA_Unichar),
-														 eVTC_UTF_16,
-														 (char *)&buf[0],
-														 dataSize,
-														 eVTC_UTF_32);
-	
-	u32 = std::wstring((wchar_t *)&buf[0]);
-#endif
-	return json_parse((json_const json_char *)u32.c_str());
-}
-
-void json_set_text_param(JSONNODE *n, C_TEXT &t)
-{
-	if(n)
-	{
-		json_char *json_string = json_write_formatted(n);
-		
-		std::wstring wstr = std::wstring(json_string);
-		
-#if VERSIONWIN
-		t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
-#else
-		uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
-		std::vector<char> buf(dataSize);
-		
-		uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																							(PA_long32)(wstr.length() * sizeof(wchar_t)),
-																							eVTC_UTF_32,
-																							(char *)&buf[0],
-																							dataSize,
-																							eVTC_UTF_16);
-		
-		t.setUTF16String((const PA_Unichar *)&buf[0], len);
-#endif
-		
-		json_free(json_string);
-	}
-	
-}
 
 void json_set_object(JSONNODE *n, const wchar_t *name, JSONNODE *o)
 {
@@ -121,32 +38,12 @@ BOOL json_get_string(JSONNODE *json, CUTF8String &value)
 		if(json_type(json) == JSON_STRING)
 		{
 			json_char *s = json_as_string(json);
-			
-			std::wstring wstr = std::wstring(s);
-			
-			C_TEXT t;
-			
-#if VERSIONWIN
-			t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
-#else
-			uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
-			std::vector<char> buf(dataSize);
-			
-			uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																								(PA_long32)(wstr.length() * sizeof(wchar_t)),
-																								eVTC_UTF_32,
-																								(char *)&buf[0],
-																								dataSize,
-																								eVTC_UTF_16);
-			
-			t.setUTF16String((const PA_Unichar *)&buf[0], len);
-#endif
-			
-			t.copyUTF8String(&value);
-			
-			json_free(s);
+			if(s)
+            {
+                json_wconv(s, &value);
+                json_free(s);
+            }
 		}
-		
 	}
 	
 	return !!value.length();
@@ -162,30 +59,11 @@ BOOL json_get_string(JSONNODE *json, const wchar_t *name, CUTF8String &value)
 		if(node)
 		{
 			json_char *s =json_as_string(node);
-			
-			std::wstring wstr = std::wstring(s);
-			
-			C_TEXT t;
-			
-#if VERSIONWIN
-			t.setUTF16String((const PA_Unichar *)wstr.c_str(), (uint32_t)wstr.length());
-#else
-			uint32_t dataSize = (uint32_t)((wstr.length() * sizeof(wchar_t)) + sizeof(PA_Unichar));
-			std::vector<char> buf(dataSize);
-			
-			uint32_t len = PA_ConvertCharsetToCharset((char *)wstr.c_str(),
-																								(PA_long32)(wstr.length() * sizeof(wchar_t)),
-																								eVTC_UTF_32,
-																								(char *)&buf[0],
-																								dataSize,
-																								eVTC_UTF_16);
-			
-			t.setUTF16String((const PA_Unichar *)&buf[0], len);
-#endif
-			
-			t.copyUTF8String(&value);
-			
-			json_free(s);
+            if(s)
+            {
+                json_wconv(s, &value);
+                json_free(s);
+            }
 		}
 	}
 	
@@ -216,11 +94,11 @@ void json_set_text(JSONNODE *n, const wchar_t *name, char *value, BOOL optional,
 	}
 }
 
-void json_set_date(JSONNODE *n, GDateTime *dt, const wchar_t *date, const wchar_t *time, const char *fmt)
+void json_set_date(JSONNODE *n, GDateTime *dt, const wchar_t *date, json_char *time, const char *fmt)
 {
 	if(n)
 	{
-		json_set_number(n, time, (json_int_t)(((g_date_time_get_hour(dt) * 3600)
+		json_set_i_for_key(n, time, (json_int_t)(((g_date_time_get_hour(dt) * 3600)
 																					+ (g_date_time_get_minute(dt) * 60)
 																					+ (g_date_time_get_second(dt))) * 1000));
 		
@@ -240,41 +118,14 @@ void json_set_date(JSONNODE *n, GDateTime *dt, const wchar_t *date, const wchar_
 	
 }
 
-void json_set_number(JSONNODE *n, const wchar_t *name, json_int_t value)
-{
-	if(n)
-	{
-		json_push_back(n, json_new_i(name, value));
-	}
-}
-
 #pragma mark Startup / Exit
-
-bool IsProcessOnExit()
-{
-	C_TEXT name;
-	PA_long32 state, time;
-	PA_GetProcessInfo(PA_GetCurrentProcessNumber(), name, &state, &time);
-	CUTF16String procName(name.getUTF16StringPtr());
-	CUTF16String exitProcName((PA_Unichar *)"$\0x\0x\0\0\0");
-	return (!procName.compare(exitProcName));
-}
 
 void OnExit()
 {
 	g_mime_shutdown();
 }
 
-void OnCloseProcess()
-{
-	if(IsProcessOnExit())
-	{
-		OnExit();
-	}
-}
-
 #if VERSIONWIN
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	glib_DllMain(hinstDLL, fdwReason, lpvReserved);
@@ -283,7 +134,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 	return TRUE;
 }
-
 #endif
 
 void OnStartup()
@@ -306,10 +156,10 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 				OnStartup();
 				break;
 				
-			case kCloseProcess :
-				OnCloseProcess();
-				break;
-				
+            case kDeinitPlugin :
+                OnExit();
+                break;
+
 			case 1 :
 				MIME_PARSE_MESSAGE(params);
 				break;
@@ -441,10 +291,19 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
 			JSONNODE *json_part = json_new(JSON_NODE);
 			
 			GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
-			if(0 == strncasecmp(g_mime_content_type_get_media_type(partMediaType), "text", 4))
+            const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
+			if(0 == strncasecmp(mediaType, "text", 4))
 			{
 				//g_mime_text_part_get_text will alloc
 				// https://developer.gnome.org/gmime/stable/GMimeTextPart.html
+
+                //special consideration for microsoft mht
+                const char *charset = g_mime_text_part_get_charset((GMimeTextPart *)part);
+                if(charset && (0 == strncasecmp(charset, "unicode", 7)))
+                {
+                    g_mime_text_part_set_charset ((GMimeTextPart *)part, "utf-16le");
+                }
+            
 				char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
 				json_set_text(json_part, L"data", text, FALSE, TRUE);
 				
@@ -461,7 +320,7 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
 				PA_SetBlobVariable(&element, (void *)bytes->data, bytes->len);
 				PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
 				
-				json_set_number(json_part, L"data", i);
+				json_set_i_for_key(json_part, L"data", i);
 				
 				g_mime_stream_close(content);
 				g_clear_object(&content);
@@ -499,15 +358,6 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
 			}
 		}
 	}
-}
-
-void returnBlob(sLONG_PTR *pResult, PackagePtr pParams, void *blob, PA_long32 len)
-{
-	PluginBlock params;
-	params.fResult = pResult;
-	params.fParameters = pParams;
-	params.fData = NULL;
-	PA_ReturnBlob(&params, blob, len);
 }
 
 void filter_double_header(GMimeObject *message_mime, const char *name, BOOL with_new_line)
@@ -784,6 +634,8 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 
 void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 {
+    std::lock_guard<std::mutex> lock(mutexJson);
+    
 	PackagePtr pParams = (PackagePtr)params->fParameters;	
 	
 	C_TEXT Param2;
@@ -831,8 +683,8 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 			
 			if(date)
 			{
-				json_set_date(json_message, g_date_time_to_local(date), L"local_date", L"local_time", "%Y-%m-%dT%H:%M:%S%z");
-				json_set_date(json_message, g_date_time_to_utc(date), L"utc_date", L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
+				json_set_date(json_message, g_date_time_to_local(date), (json_char *)L"local_date", (json_char *)L"local_time", "%Y-%m-%dT%H:%M:%S%z");
+				json_set_date(json_message, g_date_time_to_utc(date), (json_char *)L"utc_date", (json_char *)L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
 			}else
 			{
 				/* g_mime_message_get_date returns NULL if the date could not be parsed */
@@ -848,8 +700,11 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 		}
 		
 		json_set_object(json, L"message", json_message);
-		json_set_text_param(json, Param2);
-		
+        
+        CUTF16String u16;
+        json_stringify(json, u16, false);
+        Param2.setUTF16String(&u16);
+        
 		json_delete(json);
 		
 		PA_UnlockHandle(h);
@@ -862,6 +717,8 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 
 void MIME_Create_message(PA_PluginParameters params)
 {
+    std::lock_guard<std::mutex> lock(mutexJson);
+    
 	PackagePtr pParams = (PackagePtr)params->fParameters;
 	
 	C_TEXT Param1;
@@ -869,7 +726,9 @@ void MIME_Create_message(PA_PluginParameters params)
 	
 	PA_Variable *data_array_p = ((PA_Variable *)pParams[1]);//Param2
 	
-	JSONNODE *json = json_parse_text_param(Param1);
+    CUTF16String u16;
+    Param1.copyUTF16String(&u16);
+    JSONNODE *json = json_parse(u16);
 	
 	if(json)
 	{

@@ -16,6 +16,23 @@
 		8D01CCC80486CAD60068D4B7 /* 4D Plugin_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		D120937F13534DCC00A72CAA /* 4DPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = D120937E13534DCC00A72CAA /* 4DPlugin.h */; };
+		D12A25F920FF1243005B3A55 /* libgobject-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */; };
+		D12A25FA20FF1243005B3A55 /* libgthread-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */; };
+		D12A25FB20FF1243005B3A55 /* libglib-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EC20FF1242005B3A55 /* libglib-2.0.a */; };
+		D12A25FC20FF1243005B3A55 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25ED20FF1242005B3A55 /* libintl.a */; };
+		D12A25FD20FF1243005B3A55 /* libjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EE20FF1242005B3A55 /* libjson.a */; };
+		D12A25FE20FF1243005B3A55 /* libgmodule-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */; };
+		D12A25FF20FF1243005B3A55 /* libgpg-error.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F020FF1243005B3A55 /* libgpg-error.a */; };
+		D12A260020FF1243005B3A55 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F120FF1243005B3A55 /* libiconv.a */; };
+		D12A260120FF1243005B3A55 /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F220FF1243005B3A55 /* libffi.a */; };
+		D12A260220FF1243005B3A55 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F320FF1243005B3A55 /* libidn.a */; };
+		D12A260320FF1243005B3A55 /* libassuan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F420FF1243005B3A55 /* libassuan.a */; };
+		D12A260420FF1243005B3A55 /* libgmime-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F520FF1243005B3A55 /* libgmime-3.0.a */; };
+		D12A260520FF1243005B3A55 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F620FF1243005B3A55 /* libz.a */; };
+		D12A260620FF1243005B3A55 /* libgpgme.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F720FF1243005B3A55 /* libgpgme.a */; };
+		D12A260720FF1243005B3A55 /* libgio-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F820FF1243005B3A55 /* libgio-2.0.a */; };
+		D12A260B20FF1391005B3A55 /* libjson_methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D12A260920FF1391005B3A55 /* libjson_methods.cpp */; };
+		D12A260C20FF1391005B3A55 /* libjson_methods.h in Headers */ = {isa = PBXBuildFile; fileRef = D12A260A20FF1391005B3A55 /* libjson_methods.h */; };
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D13116AC1A03B10800DE1322 /* C_LONGINT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13116AA1A03B10800DE1322 /* C_LONGINT.cpp */; };
@@ -52,21 +69,6 @@
 		D13116F41A03C7AF00DE1322 /* ARRAY_DATE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13116F21A03C7AF00DE1322 /* ARRAY_DATE.cpp */; };
 		D13116F51A03C7AF00DE1322 /* ARRAY_DATE.h in Headers */ = {isa = PBXBuildFile; fileRef = D13116F31A03C7AF00DE1322 /* ARRAY_DATE.h */; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
-		D162F71C1EF7BCEB00E51DFB /* libassuan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F70D1EF7BCEB00E51DFB /* libassuan.a */; };
-		D162F71D1EF7BCEB00E51DFB /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F70E1EF7BCEB00E51DFB /* libffi.a */; };
-		D162F71E1EF7BCEB00E51DFB /* libgio-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F70F1EF7BCEB00E51DFB /* libgio-2.0.a */; };
-		D162F71F1EF7BCEB00E51DFB /* libglib-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7101EF7BCEB00E51DFB /* libglib-2.0.a */; };
-		D162F7201EF7BCEB00E51DFB /* libgmime-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7111EF7BCEB00E51DFB /* libgmime-3.0.a */; };
-		D162F7211EF7BCEB00E51DFB /* libgmodule-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7121EF7BCEB00E51DFB /* libgmodule-2.0.a */; };
-		D162F7221EF7BCEB00E51DFB /* libgobject-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7131EF7BCEB00E51DFB /* libgobject-2.0.a */; };
-		D162F7231EF7BCEB00E51DFB /* libgpg-error.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7141EF7BCEB00E51DFB /* libgpg-error.a */; };
-		D162F7241EF7BCEB00E51DFB /* libgpgme.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7151EF7BCEB00E51DFB /* libgpgme.a */; };
-		D162F7251EF7BCEB00E51DFB /* libgthread-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7161EF7BCEB00E51DFB /* libgthread-2.0.a */; };
-		D162F7261EF7BCEB00E51DFB /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7171EF7BCEB00E51DFB /* libiconv.a */; };
-		D162F7271EF7BCEB00E51DFB /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7181EF7BCEB00E51DFB /* libidn.a */; };
-		D162F7281EF7BCEB00E51DFB /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F7191EF7BCEB00E51DFB /* libintl.a */; };
-		D162F7291EF7BCEB00E51DFB /* libjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F71A1EF7BCEB00E51DFB /* libjson.a */; };
-		D162F72A1EF7BCEB00E51DFB /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F71B1EF7BCEB00E51DFB /* libz.a */; };
 		D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */; };
 		D175D9CD1A02E8DD0006B569 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D175D9CC1A02E8DD0006B569 /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
@@ -96,6 +98,23 @@
 		32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "4D Plugin_Prefix.pch"; sourceTree = "<group>"; };
 		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D120937E13534DCC00A72CAA /* 4DPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 4DPlugin.h; sourceTree = "<group>"; };
+		D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgobject-2.0.a"; path = "a/libgobject-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgthread-2.0.a"; path = "a/libgthread-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A25EC20FF1242005B3A55 /* libglib-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libglib-2.0.a"; path = "a/libglib-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A25ED20FF1242005B3A55 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = a/libintl.a; sourceTree = SOURCE_ROOT; };
+		D12A25EE20FF1242005B3A55 /* libjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjson.a; path = a/libjson.a; sourceTree = SOURCE_ROOT; };
+		D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgmodule-2.0.a"; path = "a/libgmodule-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A25F020FF1243005B3A55 /* libgpg-error.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgpg-error.a"; path = "a/libgpg-error.a"; sourceTree = SOURCE_ROOT; };
+		D12A25F120FF1243005B3A55 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = a/libiconv.a; sourceTree = SOURCE_ROOT; };
+		D12A25F220FF1243005B3A55 /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libffi.a; path = a/libffi.a; sourceTree = SOURCE_ROOT; };
+		D12A25F320FF1243005B3A55 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = a/libidn.a; sourceTree = SOURCE_ROOT; };
+		D12A25F420FF1243005B3A55 /* libassuan.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassuan.a; path = a/libassuan.a; sourceTree = SOURCE_ROOT; };
+		D12A25F520FF1243005B3A55 /* libgmime-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgmime-3.0.a"; path = "a/libgmime-3.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A25F620FF1243005B3A55 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = a/libz.a; sourceTree = SOURCE_ROOT; };
+		D12A25F720FF1243005B3A55 /* libgpgme.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgpgme.a; path = a/libgpgme.a; sourceTree = SOURCE_ROOT; };
+		D12A25F820FF1243005B3A55 /* libgio-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgio-2.0.a"; path = "a/libgio-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D12A260920FF1391005B3A55 /* libjson_methods.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = libjson_methods.cpp; path = include/libjson_methods.cpp; sourceTree = SOURCE_ROOT; };
+		D12A260A20FF1391005B3A55 /* libjson_methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libjson_methods.h; path = include/libjson_methods.h; sourceTree = SOURCE_ROOT; };
 		D130064E12F02D9700702C0E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
 		D13116AA1A03B10800DE1322 /* C_LONGINT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_LONGINT.cpp; path = Classes/C_LONGINT.cpp; sourceTree = "<group>"; };
@@ -133,21 +152,6 @@
 		D13116F31A03C7AF00DE1322 /* ARRAY_DATE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARRAY_DATE.h; path = Classes/ARRAY_DATE.h; sourceTree = "<group>"; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
-		D162F70D1EF7BCEB00E51DFB /* libassuan.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libassuan.a; sourceTree = "<group>"; };
-		D162F70E1EF7BCEB00E51DFB /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libffi.a; sourceTree = "<group>"; };
-		D162F70F1EF7BCEB00E51DFB /* libgio-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgio-2.0.a"; sourceTree = "<group>"; };
-		D162F7101EF7BCEB00E51DFB /* libglib-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libglib-2.0.a"; sourceTree = "<group>"; };
-		D162F7111EF7BCEB00E51DFB /* libgmime-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgmime-3.0.a"; sourceTree = "<group>"; };
-		D162F7121EF7BCEB00E51DFB /* libgmodule-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgmodule-2.0.a"; sourceTree = "<group>"; };
-		D162F7131EF7BCEB00E51DFB /* libgobject-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgobject-2.0.a"; sourceTree = "<group>"; };
-		D162F7141EF7BCEB00E51DFB /* libgpg-error.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgpg-error.a"; sourceTree = "<group>"; };
-		D162F7151EF7BCEB00E51DFB /* libgpgme.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgpgme.a; sourceTree = "<group>"; };
-		D162F7161EF7BCEB00E51DFB /* libgthread-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgthread-2.0.a"; sourceTree = "<group>"; };
-		D162F7171EF7BCEB00E51DFB /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiconv.a; sourceTree = "<group>"; };
-		D162F7181EF7BCEB00E51DFB /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libidn.a; sourceTree = "<group>"; };
-		D162F7191EF7BCEB00E51DFB /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libintl.a; sourceTree = "<group>"; };
-		D162F71A1EF7BCEB00E51DFB /* libjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjson.a; sourceTree = "<group>"; };
-		D162F71B1EF7BCEB00E51DFB /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libz.a; sourceTree = "<group>"; };
 		D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		D175D9CC1A02E8DD0006B569 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -158,23 +162,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */,
-				D162F72A1EF7BCEB00E51DFB /* libz.a in Frameworks */,
-				D162F7251EF7BCEB00E51DFB /* libgthread-2.0.a in Frameworks */,
-				D162F7261EF7BCEB00E51DFB /* libiconv.a in Frameworks */,
-				D162F71C1EF7BCEB00E51DFB /* libassuan.a in Frameworks */,
-				D162F7291EF7BCEB00E51DFB /* libjson.a in Frameworks */,
-				D162F7201EF7BCEB00E51DFB /* libgmime-3.0.a in Frameworks */,
-				D162F71F1EF7BCEB00E51DFB /* libglib-2.0.a in Frameworks */,
+				D12A260420FF1243005B3A55 /* libgmime-3.0.a in Frameworks */,
+				D12A260120FF1243005B3A55 /* libffi.a in Frameworks */,
+				D12A260720FF1243005B3A55 /* libgio-2.0.a in Frameworks */,
+				D12A25FB20FF1243005B3A55 /* libglib-2.0.a in Frameworks */,
+				D12A25FD20FF1243005B3A55 /* libjson.a in Frameworks */,
+				D12A260520FF1243005B3A55 /* libz.a in Frameworks */,
 				D13116C71A03B5B600DE1322 /* AppKit.framework in Frameworks */,
-				D162F7281EF7BCEB00E51DFB /* libintl.a in Frameworks */,
-				D162F7271EF7BCEB00E51DFB /* libidn.a in Frameworks */,
+				D12A25FA20FF1243005B3A55 /* libgthread-2.0.a in Frameworks */,
+				D12A260320FF1243005B3A55 /* libassuan.a in Frameworks */,
+				D12A25F920FF1243005B3A55 /* libgobject-2.0.a in Frameworks */,
+				D12A260220FF1243005B3A55 /* libidn.a in Frameworks */,
+				D12A25FE20FF1243005B3A55 /* libgmodule-2.0.a in Frameworks */,
+				D12A260020FF1243005B3A55 /* libiconv.a in Frameworks */,
 				D175D9CD1A02E8DD0006B569 /* CoreGraphics.framework in Frameworks */,
-				D162F7211EF7BCEB00E51DFB /* libgmodule-2.0.a in Frameworks */,
-				D162F71D1EF7BCEB00E51DFB /* libffi.a in Frameworks */,
-				D162F7221EF7BCEB00E51DFB /* libgobject-2.0.a in Frameworks */,
-				D162F7241EF7BCEB00E51DFB /* libgpgme.a in Frameworks */,
-				D162F7231EF7BCEB00E51DFB /* libgpg-error.a in Frameworks */,
-				D162F71E1EF7BCEB00E51DFB /* libgio-2.0.a in Frameworks */,
+				D12A260620FF1243005B3A55 /* libgpgme.a in Frameworks */,
+				D12A25FF20FF1243005B3A55 /* libgpg-error.a in Frameworks */,
+				D12A25FC20FF1243005B3A55 /* libintl.a in Frameworks */,
 				D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +189,7 @@
 		089C166AFE841209C02AAC07 /* MIME */ = {
 			isa = PBXGroup;
 			children = (
+				D12A260820FF1388005B3A55 /* libjson */,
 				D162F70C1EF7BCEB00E51DFB /* a */,
 				D108BD7A1A03D1E6001F1B90 /* Manifest */,
 				08FB77ADFE841716C02AAC07 /* Source */,
@@ -257,6 +262,15 @@
 			name = Manifest;
 			sourceTree = "<group>";
 		};
+		D12A260820FF1388005B3A55 /* libjson */ = {
+			isa = PBXGroup;
+			children = (
+				D12A260920FF1391005B3A55 /* libjson_methods.cpp */,
+				D12A260A20FF1391005B3A55 /* libjson_methods.h */,
+			);
+			path = libjson;
+			sourceTree = "<group>";
+		};
 		D13116D01A03BBA100DE1322 /* C */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,21 +320,21 @@
 		D162F70C1EF7BCEB00E51DFB /* a */ = {
 			isa = PBXGroup;
 			children = (
-				D162F70D1EF7BCEB00E51DFB /* libassuan.a */,
-				D162F70E1EF7BCEB00E51DFB /* libffi.a */,
-				D162F70F1EF7BCEB00E51DFB /* libgio-2.0.a */,
-				D162F7101EF7BCEB00E51DFB /* libglib-2.0.a */,
-				D162F7111EF7BCEB00E51DFB /* libgmime-3.0.a */,
-				D162F7121EF7BCEB00E51DFB /* libgmodule-2.0.a */,
-				D162F7131EF7BCEB00E51DFB /* libgobject-2.0.a */,
-				D162F7141EF7BCEB00E51DFB /* libgpg-error.a */,
-				D162F7151EF7BCEB00E51DFB /* libgpgme.a */,
-				D162F7161EF7BCEB00E51DFB /* libgthread-2.0.a */,
-				D162F7171EF7BCEB00E51DFB /* libiconv.a */,
-				D162F7181EF7BCEB00E51DFB /* libidn.a */,
-				D162F7191EF7BCEB00E51DFB /* libintl.a */,
-				D162F71A1EF7BCEB00E51DFB /* libjson.a */,
-				D162F71B1EF7BCEB00E51DFB /* libz.a */,
+				D12A25F420FF1243005B3A55 /* libassuan.a */,
+				D12A25F220FF1243005B3A55 /* libffi.a */,
+				D12A25F820FF1243005B3A55 /* libgio-2.0.a */,
+				D12A25EC20FF1242005B3A55 /* libglib-2.0.a */,
+				D12A25F520FF1243005B3A55 /* libgmime-3.0.a */,
+				D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */,
+				D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */,
+				D12A25F020FF1243005B3A55 /* libgpg-error.a */,
+				D12A25F720FF1243005B3A55 /* libgpgme.a */,
+				D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */,
+				D12A25F120FF1243005B3A55 /* libiconv.a */,
+				D12A25F320FF1243005B3A55 /* libidn.a */,
+				D12A25ED20FF1242005B3A55 /* libintl.a */,
+				D12A25EE20FF1242005B3A55 /* libjson.a */,
+				D12A25F620FF1243005B3A55 /* libz.a */,
 			);
 			name = a;
 			path = stdc/a;
@@ -369,6 +383,7 @@
 				D13116E71A03BC1100DE1322 /* ARRAY_LONGINT.h in Headers */,
 				D13116C51A03B48900DE1322 /* C_TEXT.h in Headers */,
 				D13116AD1A03B10800DE1322 /* C_LONGINT.h in Headers */,
+				D12A260C20FF1391005B3A55 /* libjson_methods.h in Headers */,
 				D120937F13534DCC00A72CAA /* 4DPlugin.h in Headers */,
 				D13116E51A03BC1100DE1322 /* ARRAY_INTEGER.h in Headers */,
 				D13116F51A03C7AF00DE1322 /* ARRAY_DATE.h in Headers */,
@@ -406,11 +421,11 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0940;
 				TargetAttributes = {
 					8D01CCC60486CAD60068D4B7 = {
 						DevelopmentTeam = Y69CWUC25B;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -473,6 +488,7 @@
 				D13116CE1A03B62400DE1322 /* C_PICTURE.cpp in Sources */,
 				D13116CA1A03B5CC00DE1322 /* C_POINTER.cpp in Sources */,
 				D13116EC1A03BE2300DE1322 /* ARRAY_TIME.cpp in Sources */,
+				D12A260B20FF1391005B3A55 /* libjson_methods.cpp in Sources */,
 				D13116B01A03B33D00DE1322 /* C_INTEGER.cpp in Sources */,
 				D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */,
 				D13116E21A03BC1100DE1322 /* ARRAY_BOOLEAN.cpp in Sources */,
@@ -498,8 +514,10 @@
 		42D60B400A9DDBC8002ABB42 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application: keisuke miyako (Y69CWUC25B)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -519,15 +537,19 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/stdc/a";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/a",
+				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "stdc/include/** VC/include/libjson";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -541,8 +563,10 @@
 		42D60B410A9DDBC8002ABB42 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application: keisuke miyako (Y69CWUC25B)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_LOCATION = NO;
@@ -560,15 +584,19 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/stdc/a";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/a",
+				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "stdc/include/** VC/include/libjson";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -582,8 +610,10 @@
 		42D60B420A9DDBC8002ABB42 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application: keisuke miyako (Y69CWUC25B)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = Y69CWUC25B;
@@ -598,15 +628,19 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/stdc/a";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/a",
+				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "stdc/include/** VC/include/libjson";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -620,12 +654,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -647,6 +689,7 @@
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx10.8;
 				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
 			};
 			name = Development;
 		};
@@ -654,12 +697,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -681,6 +732,7 @@
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx10.8;
 				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
 			};
 			name = Deployment;
 		};
@@ -688,12 +740,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -713,6 +773,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx10.8;
 				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
+				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
 			};
 			name = Default;
 		};

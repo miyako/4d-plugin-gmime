@@ -10,15 +10,11 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 ### Version
 
-<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" />
+<img src="https://cloud.githubusercontent.com/assets/1725068/18940649/21945000-8645-11e6-86ed-4a0f800e5a73.png" width="32" height="32" /> <img src="https://cloud.githubusercontent.com/assets/1725068/18940648/2192ddba-8645-11e6-864d-6d5692d55717.png" width="32" height="32" /> <img src="https://user-images.githubusercontent.com/1725068/41266195-ddf767b2-6e30-11e8-9d6b-2adf6a9f57a5.png" width="32" height="32" />
 
 ### Releases
 
-[2.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.1)  
-
-[2.0](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.0) Visual C
-
-[1.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/1.1) MinGW
+[2.0](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.0)
 
 **Notes on building static GLIB for MSVC**: 
 
@@ -139,7 +135,15 @@ When creating a MIME, the only properties needed are ``name`` and ``addr``.
 
 ``value`` : ``string``
 
-When creating a multi-part MIME, make sure you specifiy the ``Content-Type`` header in the ``message`` object or use the ``mime_type`` property, especially when you have multiple parts. If there is only 1 ``body``, then the ``Content-Type`` of that part becomes the ``Content-Type`` of the ``message`` object. If there are 2 or more ``body`` elements, the ``Content-Type`` or ``mime_type`` of the ``message`` object (``multipart/alternative``, ``multipart/mixed``, ``multipart/related``, etc) has an impact on how the message is rendered by a client.
+~~When creating a multi-part MIME, make sure you specifiy the ``Content-Type`` header in the ``message`` object or use the ``mime_type`` property, especially when you have multiple parts. If there is only 1 ``body``, then the ``Content-Type`` of that part becomes the ``Content-Type`` of the ``message`` object. If there are 2 or more ``body`` elements, the ``Content-Type`` or ``mime_type`` of the ``message`` object (``multipart/alternative``, ``multipart/mixed``, ``multipart/related``, etc) has an impact on how the message is rendered by a client.~~
+
+* Revision
+
+Now, ``body`` and ``attachments`` are processed separately (same as parsing). 
+
+To create a ``multipart/alternative`` message, pass 2 bodies and set the ``mime_type`` to ``multipart/mixed``. 
+
+To create a message with attachments, pass 1 or more bodies and/or attachments and set the ``mime_type`` to ``multipart/mixed``.
 
 ---
 

@@ -53,6 +53,8 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 
 #pragma mark -
 
+//TODO: clean this
+
 void wconv(const char *value, std::wstring &u32);
 JSONNODE *json_parse_text_param(C_TEXT &t);
 void json_set_text_param(JSONNODE *n, C_TEXT &t);

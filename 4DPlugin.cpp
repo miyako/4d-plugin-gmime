@@ -478,29 +478,45 @@ void add_date(GMimeMessage *message, JSONNODE *message_node)
 	}
 }
 
-void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *data_array)
+void add_parts(GMimeObject *message_mime,
+               JSONNODE *message_node,
+               PA_Variable *data_array,
+               bool isBody,
+               GMimeMultipart **multipart,
+               json_index_t *part_count)
 {
-	JSONNODE *node = json_get(message_node, L"body");
-	
+    JSONNODE *node;
+    
+    if(isBody)
+    {
+        node = json_get(message_node, L"body");
+    }else
+    {
+        node = json_get(message_node, L"attachments");
+    }
+
 	if(node)
 	{
 		JSONNODE *array_node = json_as_array(node);
 		if(array_node)
 		{
-			json_index_t array_node_count = json_size(array_node);
+			*part_count += json_size(array_node);
 			
-			GMimeMultipart *multipart = NULL;
-			
-			//set the content type based on header value
-			if(array_node_count > 1)
+			if(*part_count > 1)
 			{
-				multipart = g_mime_multipart_new();
-				g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipart);
-				g_mime_object_set_content_type((GMimeObject *)multipart, g_mime_object_get_content_type(message_mime));
+                if(*multipart == NULL)
+                {
+                    *multipart = g_mime_multipart_new();
+                    g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)*multipart);
+                    g_mime_object_set_content_type((GMimeObject *)*multipart, g_mime_object_get_content_type(message_mime));
+                }
+                
 			}
+            
+            /* remove default header */
 			g_mime_object_remove_header (message_mime, "Content-Type");
-			
-			for (json_index_t i = 0; i < array_node_count; i++)
+            
+			for (json_index_t i = 0; i < (*part_count); i++)
 			{
 				JSONNODE *item_node = json_at(array_node, i);
 				if(item_node)
@@ -531,6 +547,7 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 						}
 						
 						GMimeObject *part_mime = (GMimeObject *)part;
+                        
 						add_headers(part_mime, item_node);
 						
 						//base64 seems more robust for binary parts
@@ -570,7 +587,7 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 							g_mime_part_set_content_location(part, (const char *)part_content_location.c_str());
 							filter_double_header(part_mime, "Content-Location");
 						}
-						
+                        
 						CUTF8String part_content_description;
 						if(json_get_string(item_node, L"content_description", part_content_description))
 						{
@@ -590,7 +607,13 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 							g_mime_part_set_content_md5(part, (const char *)part_content_md5.c_str());
 							filter_double_header(part_mime, "Content-Md5");
 						}
-						
+                        
+                        if(isBody)
+                        {
+                             /* remove default header */
+                            g_mime_object_remove_header (part_mime, "Content-Disposition");
+                        }
+                        
 						if(JSON_NUMBER == json_type(data_node))
 						{
 							json_int_t data_index = json_as_int(data_node);
@@ -613,13 +636,13 @@ void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *d
 							}
 						}
 						
-						if(array_node_count == 1)
+						if(*multipart == NULL)
 						{
 							g_mime_message_set_mime_part ((GMimeMessage *)message_mime, part_mime);
 						}
 						else
 						{
-							g_mime_multipart_add (multipart, part_mime);
+							g_mime_multipart_add (*multipart, part_mime);
 						}
 						
 						g_object_unref (part_mime);
@@ -775,7 +798,11 @@ void MIME_Create_message(PA_PluginParameters params)
 				g_mime_object_set_content_type(message_mime, content_type);
 			}
 			
-			add_parts(message_mime, message_node, data_array_p);
+            GMimeMultipart *multipart = NULL;
+            json_index_t part_count = 0;
+            
+			add_parts(message_mime, message_node, data_array_p, true, &multipart, &part_count);
+            add_parts(message_mime, message_node, data_array_p, false, &multipart, &part_count);
 			
 			//prepare
 			GMimeFormatOptions *format_options = g_mime_format_options_new();

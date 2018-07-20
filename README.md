@@ -141,11 +141,17 @@ When creating a MIME, the only properties needed are ``name`` and ``addr``.
 
 Now, ``body`` and ``attachments`` are processed separately (same as parsing). 
 
-To create a ``multipart/alternative`` message, pass 2 bodies and set the ``mime_type`` to ``multipart/mixed``. 
+* To create ``multipart/related``
 
-To create a message with attachments, pass 1 or more bodies and/or attachments and set the ``mime_type`` to ``multipart/mixed``.
+pass all inline images in ``body``, not ``attachment``
 
-As such, you can not create a nested MIME structure (e.g. top level ``multipart/mixed``, second level ``multipart/related``, third level ``multipart/alternative``).
+* To create ``multipart/mixed``
+
+ pass all attachments in ``attachment``
+
+* To create ``multipart/alternative``
+
+pass text and html in ``body``
 
 ---
 

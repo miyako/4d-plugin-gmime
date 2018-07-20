@@ -153,6 +153,10 @@ pass all inline images in ``body``, not ``attachment``
 
 pass text and html in ``body``
 
+* To create ``multipart/alternative`` inside ``multipart/related``
+
+pass text,  html and all inline images in ``body``
+
 ---
 
 * Properties of a ``part`` object

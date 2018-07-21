@@ -14,7 +14,7 @@ Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
 ### Releases
 
-[2.1](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.1)
+[2.2](https://github.com/miyako/4d-plugin-gmime/releases/tag/2.2)
 
 **Notes on building static GLIB for MSVC**: 
 

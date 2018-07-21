@@ -484,11 +484,14 @@ void add_parts(GMimeObject *message_mime,
                bool isBody,
                GMimeMultipart **multipart,
                json_index_t *body_count,
-               json_index_t *part_count)
+               json_index_t *part_count,
+               std::string &boundary_a,
+               std::string &boundary_b)
 {
     JSONNODE *node;
     
     GMimeMultipart *multipartForBody = NULL;
+    GMimeMultipart *multipartForAttachment = NULL;
     
     /* remove default header */
     g_mime_object_remove_header (message_mime, "Content-Type");
@@ -517,59 +520,84 @@ void add_parts(GMimeObject *message_mime,
                 
                 if(item_node)
                 {
-                    CUTF8String part_data, part_charset, part_text;
                     JSONNODE *data_node = json_get(item_node, L"data");
                     
                     if(data_node)
                     {
-                        *part_count++;
+                        *part_count = (*part_count) + 1;
                         
                         if(isBody)
                         {
-                            GMimeContentType *ct = g_mime_object_get_content_type(message_mime);
-                            const char *mt = g_mime_content_type_get_media_type(ct);
-                            if(0 == strncasecmp(mt, "text", 4))
+                            CUTF8String part_content_type;
+                            if(json_get_string(item_node, L"mime_type", part_content_type))
                             {
-                                *body_count++;
-                                
-                                if(*body_count == 2)
+                                GMimeContentType *content_type = g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                           (const char *)part_content_type.c_str());
+                                const char *mt = g_mime_content_type_get_media_type(content_type);
+
+                                if(0 == strncasecmp(mt, "text", 4))
                                 {
-                                    multipartForBody = g_mime_multipart_new();
-                                    g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipartForBody);
-                                    g_mime_object_set_content_type((GMimeObject *)multipartForBody,
-                                                                   g_mime_content_type_parse(g_mime_parser_options_get_default(),
-                                                                                             (const char *)"multipart/alternative"));
+                                    *body_count = (*body_count) + 1;
                                     
-                                    if(*multipart)
+                                    if(*body_count == 2)
                                     {
-                                        g_mime_multipart_add (*multipart, (GMimeObject *)multipartForBody);
+                                        multipartForBody = g_mime_multipart_new();
+                                        boundary_a = g_mime_multipart_get_boundary (multipartForBody);
+                                        g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipartForBody);
+                                        g_mime_object_set_content_type((GMimeObject *)multipartForBody,
+                                                                       g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                                 (const char *)"multipart/alternative"));
+                                        g_mime_multipart_set_boundary (multipartForBody, boundary_a.c_str());
+                                        if(*multipart)
+                                        {
+                                            /* multipart/related > multipart/alternative */
+                                            g_mime_multipart_add (*multipart, (GMimeObject *)multipartForBody);
+                                        }
                                     }
-                                }
-                            }else
-                            {
-                                if((*part_count > 1) && (*multipart == NULL))
+                                }else
                                 {
-                                    *multipart = g_mime_multipart_new();
-                                    g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)*multipart);
-                                    g_mime_object_set_content_type((GMimeObject *)*multipart,
-                                                                   g_mime_content_type_parse(g_mime_parser_options_get_default(),
-                                                                                             (const char *)"multipart/related"));/* this is the body */
-                                    
-                                    if(multipartForBody)
+                                    if(*part_count > 1)
                                     {
-                                        g_mime_multipart_add (*multipart, (GMimeObject *)multipartForBody);
+                                        if(*multipart == NULL)
+                                        {
+                                            *multipart = g_mime_multipart_new();
+                                            boundary_b = g_mime_multipart_get_boundary (*multipart);
+                                            g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)*multipart);
+                                            g_mime_object_set_content_type((GMimeObject *)*multipart,
+                                                                           g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                                     (const char *)"multipart/related"));
+                                            /* inline image for body */
+                                            g_mime_multipart_set_boundary (multipartForBody, boundary_b.c_str());
+                                        }
+                                        if(multipartForBody)
+                                        {
+                                            /* multipart/related > multipart/alternative */
+                                            g_mime_multipart_add (*multipart, (GMimeObject *)multipartForBody);
+                                        }
                                     }
                                 }
                             }
                         }else
                         {
-                            if((*part_count > 1) && (*multipart == NULL))
+                            if(*part_count > 1)
                             {
-                                *multipart = g_mime_multipart_new();
-                                g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)*multipart);
-                                g_mime_object_set_content_type((GMimeObject *)*multipart,
-                                                               g_mime_content_type_parse(g_mime_parser_options_get_default(),
-                                                                                         (const char *)"multipart/mixed"));/* this is not the body */
+                                if(boundary_b.length())
+                                {
+                                    multipartForAttachment = *multipart;
+                                }
+                                
+                                if(multipartForAttachment == NULL)
+                                {
+                                    multipartForAttachment = g_mime_multipart_new();
+                                    boundary_b = g_mime_multipart_get_boundary (multipartForAttachment);
+                                    g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipartForAttachment);
+                                    g_mime_object_set_content_type((GMimeObject *)multipartForAttachment,
+                                                                   g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                             (const char *)"multipart/mixed"));
+                                    /* unrelated attachments */
+                                    g_mime_multipart_set_boundary (multipartForAttachment, boundary_b.c_str());
+                                    *multipart = multipartForAttachment;
+                                }
                             }
                         }
                     }
@@ -589,13 +617,18 @@ void add_parts(GMimeObject *message_mime,
 					{
                         if(isBody)
                         {
-                            GMimeContentType *ct = g_mime_object_get_content_type(message_mime);
-                            const char *mt = g_mime_content_type_get_media_type(ct);
-                            if(0 == strncasecmp(mt, "text", 4))
+                            CUTF8String part_content_type;
+                            if(json_get_string(item_node, L"mime_type", part_content_type))
                             {
-                                if(multipartForBody)
+                                GMimeContentType *content_type = g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                           (const char *)part_content_type.c_str());
+                                const char *mt = g_mime_content_type_get_media_type(content_type);
+                                if(0 == strncasecmp(mt, "text", 4))
                                 {
-                                    *multipart = multipartForBody;
+                                    if(multipartForBody)
+                                    {
+                                        *multipart = multipartForBody;
+                                    }
                                 }
                             }
                         }
@@ -688,7 +721,7 @@ void add_parts(GMimeObject *message_mime,
                              /* remove default header */
                             g_mime_object_remove_header (part_mime, "Content-Disposition");
                         }
-                        
+
 						if(JSON_NUMBER == json_type(data_node))
 						{
 							json_int_t data_index = json_as_int(data_node);
@@ -876,9 +909,10 @@ void MIME_Create_message(PA_PluginParameters params)
             GMimeMultipart *multipart = NULL;
             json_index_t part_count = 0;
             json_index_t body_count = 0;
+            std::string boundary_a, boundary_b;
             
-			add_parts(message_mime, message_node, data_array_p, true, &multipart, &body_count, &part_count);
-            add_parts(message_mime, message_node, data_array_p, false, &multipart, &body_count, &part_count);
+			add_parts(message_mime, message_node, data_array_p, true, &multipart, &body_count, &part_count, boundary_a, boundary_b);
+            add_parts(message_mime, message_node, data_array_p, false, &multipart, &body_count, &part_count, boundary_a, boundary_b);
 			
 			//prepare
 			GMimeFormatOptions *format_options = g_mime_format_options_new();

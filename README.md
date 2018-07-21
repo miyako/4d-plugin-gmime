@@ -135,11 +135,11 @@ When creating a MIME, the only properties needed are ``name`` and ``addr``.
 
 ``value`` : ``string``
 
-~~When creating a multi-part MIME, make sure you specifiy the ``Content-Type`` header in the ``message`` object or use the ``mime_type`` property, especially when you have multiple parts. If there is only 1 ``body``, then the ``Content-Type`` of that part becomes the ``Content-Type`` of the ``message`` object. If there are 2 or more ``body`` elements, the ``Content-Type`` or ``mime_type`` of the ``message`` object (``multipart/alternative``, ``multipart/mixed``, ``multipart/related``, etc) has an impact on how the message is rendered by a client.~~
+---
 
-* Revision
+* Creating ``multipart/*`` messages
 
-Now, ``body`` and ``attachments`` are processed separately (same as parsing). 
+``body`` and ``attachments`` are processed separately (same as parsing). 
 
 * To create ``multipart/related``
 

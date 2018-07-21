@@ -101,15 +101,11 @@ $errors:=JSON Validate($mime;$schema)
 
 ``attachments`` : ``part`` array
 
-Parts that have a ``Content-Disposition`` of ``attachment``  are included in ``attachment``.
+When creating MIME, you can also specify a ``subject_charset`` and ``mime_type``. Both are  ``string``.
 
-Otherwise, they are included in ``body`` (``multipart-related``, ``multipart/alternative``).
+When creating MIME, the ``Date`` header is decided by ``utc_date``. If omitted, ``local_date`` is used instead.
 
-When creating a MIME, you can also specify a ``subject_charset`` and ``mime_type`` in ``string``.
-
-When creating a MIME, the ``Date`` header is decided by ``utc_date``. If omitted, ``local_date`` is used instead.
-
-When creating MIME, ``subject``, ``id``, ``mime_type`` take precedence over header definition. For example, you can specify the ``multipart/*`` type without specifying it in the header.
+When creating MIME, ``subject``, ``id``, ``mime_type`` take precedence over header definition. 
 
 ---
 
@@ -137,9 +133,17 @@ When creating a MIME, the only properties needed are ``name`` and ``addr``.
 
 ---
 
+* Parsing ``multipart/*`` messages
+
+Parts that have a ``Content-Disposition`` of ``attachment``  are included in ``attachment``.
+
+Otherwise, they are included in ``body`` (``multipart-related``, ``multipart/alternative``).
+
+---
+
 * Creating ``multipart/*`` messages
 
-``body`` and ``attachments`` are processed separately (same as parsing). 
+``body`` and ``attachments`` are processed separately 
 
 * To create ``multipart/related``
 

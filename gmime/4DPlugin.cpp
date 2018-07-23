@@ -556,6 +556,7 @@ void add_parts(GMimeObject *message_mime,
                                     }
                                 }else
                                 {
+                                    /* non-text body; inline images */
                                     if(*part_count > 1)
                                     {
                                         if(*multipart == NULL)
@@ -588,15 +589,29 @@ void add_parts(GMimeObject *message_mime,
                                 
                                 if(multipartForAttachment == NULL)
                                 {
+                                    /* there are not parts yet */
                                     multipartForAttachment = g_mime_multipart_new();
-                                    boundary_b = g_mime_multipart_get_boundary (multipartForAttachment);
+                                     boundary_b = g_mime_multipart_get_boundary (multipartForAttachment);
+                                    /* the single part body */
+//                                    do this during the body run
+//                                    GMimePart *part = (GMimePart *)g_mime_message_get_body((GMimeMessage *)message_mime);
+                                    
                                     g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipartForAttachment);
                                     g_mime_object_set_content_type((GMimeObject *)multipartForAttachment,
                                                                    g_mime_content_type_parse(g_mime_parser_options_get_default(),
                                                                                              (const char *)"multipart/mixed"));
                                     /* unrelated attachments */
                                     g_mime_multipart_set_boundary (multipartForAttachment, boundary_b.c_str());
+                                    
+                                    if(*multipart)
+                                    {
+                                        multipartForBody = *multipart;
+                                        g_mime_multipart_add (multipartForAttachment, (GMimeObject *)multipartForBody);
+                                    }
+                                    
                                     *multipart = multipartForAttachment;
+//                                    do this during the body run
+//                                    g_mime_multipart_add (*multipart, (GMimeObject *)part);
                                 }
                             }
                         }
@@ -746,7 +761,41 @@ void add_parts(GMimeObject *message_mime,
                         
                         if(*multipart == NULL)
                         {
-                            g_mime_message_set_mime_part ((GMimeMessage *)message_mime, part_mime);
+                            if(isBody)
+                            {
+                                bool isMultiPart = false;
+                                node = json_get(message_node, L"attachments");
+                                if(node)
+                                {
+                                    JSONNODE *array_node = json_as_array(node);
+                                    
+                                    if(array_node)
+                                    {
+                                        json_index_t array_size = json_size(array_node);
+                                        if((array_size) != 0)
+                                        {
+                                            isMultiPart = true;
+                                        }
+                                    }
+                                }
+                                if(isMultiPart)
+                                {
+                                    /* there are not parts yet */
+                                    multipartForAttachment = g_mime_multipart_new();
+                                    boundary_b = g_mime_multipart_get_boundary (multipartForAttachment);
+                                    g_mime_message_set_mime_part((GMimeMessage *)message_mime, (GMimeObject *)multipartForAttachment);
+                                    g_mime_object_set_content_type((GMimeObject *)multipartForAttachment,
+                                                                   g_mime_content_type_parse(g_mime_parser_options_get_default(),
+                                                                                             (const char *)"multipart/mixed"));
+                                    /* unrelated attachments */
+                                    g_mime_multipart_set_boundary (multipartForAttachment, boundary_b.c_str());
+                                    *multipart = multipartForAttachment;
+                                    g_mime_multipart_add (*multipart, (GMimeObject *)part_mime);
+                                }else
+                                {
+                                    g_mime_message_set_mime_part ((GMimeMessage *)message_mime, part_mime);
+                                }
+                            }
                         }
                         else
                         {

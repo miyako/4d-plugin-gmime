@@ -19,6 +19,7 @@ typedef struct
 	JSONNODE *json;
 	PA_Variable *array_blob;
 	const wchar_t *name;
+    bool is_top_level;
 }mime_ctx;
 
 #pragma mark JSON
@@ -257,7 +258,8 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 	mime_ctx *ctx = (mime_ctx *)user_data;
 	
 	bool isPart = GMIME_IS_PART(part);
-	
+	bool isMessage = GMIME_IS_MESSAGE_PART(part);
+    
 	if (isPart)
 	{
 		ctx->name = g_mime_part_is_attachment((GMimePart *)part) ? L"attachments" : L"body";
@@ -272,8 +274,23 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 		}
 		
 	}//isPart
+    else {
+
+        if(isMessage) {
+            GMimeMessage *message = g_mime_message_part_get_message ((GMimeMessagePart *)part);
+            if (message) {
+                g_mime_message_foreach(message, processTopLevel, ctx);
+            }
+            
+        }
+        
+    }
 	
-	getHeaders(part, L"headers", ctx->json);
+    if (ctx->is_top_level) {
+        ctx->is_top_level = false;
+        getHeaders(part, L"headers", ctx->json);
+    }
+
 }
 
 void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
@@ -845,6 +862,7 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 		ctx.json = json_message;
 		ctx.array_blob = &Param3;
 		ctx.name = L"body";
+        ctx.is_top_level = true;
 		
 		if(message)
 		{

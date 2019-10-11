@@ -2,38 +2,4 @@
 <Bucket
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "4DPlugin.cpp"
-            timestampString = "554025973.158182"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "481"
-            endingLineNumber = "481"
-            landmarkName = "add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *data_array, bool isBody, GMimeMultipart **multipart, json_index_t *body_count, json_index_t *part_count, std::string &amp;boundary_a, std::string &amp;boundary_b)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "4DPlugin.cpp"
-            timestampString = "554025973.159354"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "606"
-            endingLineNumber = "606"
-            landmarkName = "add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *data_array, bool isBody, GMimeMultipart **multipart, json_index_t *body_count, json_index_t *part_count, std::string &amp;boundary_a, std::string &amp;boundary_b)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>

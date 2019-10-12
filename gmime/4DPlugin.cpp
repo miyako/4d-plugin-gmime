@@ -279,13 +279,15 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
         if(isMessage) {
             GMimeMessage *message = g_mime_message_part_get_message ((GMimeMessagePart *)part);
             if (message) {
-                g_mime_message_foreach(message, processTopLevel, ctx);
+                ctx->name = L"attachments";
+                g_mime_message_foreach(message, processNextLevel, ctx);
             }
             
         }
         
     }
 	
+    /* ignore headers for message/rfc822 */
     if (ctx->is_top_level) {
         ctx->is_top_level = false;
         getHeaders(part, L"headers", ctx->json);

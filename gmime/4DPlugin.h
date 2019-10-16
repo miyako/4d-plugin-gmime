@@ -39,6 +39,7 @@ void MIME_Create_message(PA_PluginParameters params);
 
 void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data);
 void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data);
+void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data);
 
 void getHeaders(GMimeObject *part, const wchar_t *label, JSONNODE *json_message);
 void getAddress(InternetAddressList *list, const wchar_t *label, JSONNODE *json_message);

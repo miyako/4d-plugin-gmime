@@ -20,6 +20,14 @@ typedef struct
 	PA_Variable *array_blob;
 	const wchar_t *name;
     bool is_top_level;
+    
+    GMimeMessage *message;
+    int level;
+    int part_level;
+    
+    int part;
+    bool is_message;
+    
 }mime_ctx;
 
 #pragma mark JSON
@@ -265,35 +273,60 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 	bool isPart = GMIME_IS_PART(part);
 	bool isMessage = GMIME_IS_MESSAGE_PART(part);
     bool isMultipart = GMIME_IS_MULTIPART(part);
-
-    if(isMultipart)
-    {
-        g_mime_multipart_foreach((GMimeMultipart *)part, processNextLevel, ctx);
-    }else{
+    
+    if(ctx->is_message) {
+        if(isPart) {
+            ctx->part++;
+        }
+    }
+    
+   /* NSLog(@"\t%s\tlevel:%d\tid:%d",
+          g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
+          ctx->level, ctx->part);*/
+    
+    if(!isMultipart) {
         
-        if(isMessage) {
+        if(!isMessage) {
+            
+            if(isPart) {
+                
+                if(!g_mime_part_is_attachment((GMimePart *)part)) {
+                    
+                    GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
+                    const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
+                    if(0 == strncasecmp(mediaType, "text", 4))
+                    {
+                        ctx->name = L"body";
+                        processBottomLevel(parent, part, ctx);
+                    }
+                }
+            }
+            
+        }else{
             GMimeMessage *message = g_mime_message_part_get_message ((GMimeMessagePart *)part);
             if (message) {
-                g_mime_message_foreach(message, processNextLevel, ctx);
-            }
-        }else if(isPart) {
-            
-            if(!g_mime_part_is_attachment((GMimePart *)part)) {
                 
-                GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
-                const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
-                if(0 == strncasecmp(mediaType, "text", 4))
-                {
-                    ctx->name = L"body";
-                    processBottomLevel(parent, part, ctx);
-                }
- 
-            }
- 
-        }
+                ctx->is_message = true;
+                
+                GMimeMessage *_message = ctx->message;
+                ctx->message = message;
+                g_mime_message_foreach(message, processNextLevel, ctx);
+                ctx->message = _message;
 
+            }
+  
+        }
+        
+    }else{
+        
+        ctx->is_message = false;
+        
+        ctx->level++;
+        g_mime_multipart_foreach((GMimeMultipart *)part, processNextLevel, ctx);
+        ctx->level--;
+        
     }
-   
+    
 }
 
 void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
@@ -304,23 +337,46 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
     bool isMessage = GMIME_IS_MESSAGE_PART(part);
     bool isMultipart = GMIME_IS_MULTIPART(part);
     
-    if(isMultipart)
-    {
-        g_mime_multipart_foreach((GMimeMultipart *)part, processNextLevel, ctx);
-    }else{
+    if(ctx->is_message) {
+        if(isPart) {
+            ctx->part++;
+        }
+    }
+    
+    if(!isMultipart) {
         
-        if(isMessage) {
+        if(!isMessage) {
+            
+            if(isPart) {
+                
+                if(g_mime_part_is_attachment((GMimePart *)part)) {
+                    
+                    ctx->name = L"attachments";
+                    processBottomLevel(parent, part, ctx);
+                    
+                }
+            }
+        }else{
             GMimeMessage *message = g_mime_message_part_get_message ((GMimeMessagePart *)part);
             if (message) {
+                
+                ctx->is_message = true;
+                
+                GMimeMessage *_message = ctx->message;
+                ctx->message = message;
                 g_mime_message_foreach(message, processTopLevel, ctx);
+                ctx->message = _message;
+
             }
-        }else if(isPart) {
-            if(g_mime_part_is_attachment((GMimePart *)part)) {
-                ctx->name = L"attachments";
-                processBottomLevel(parent, part, ctx);
-            }
-            
         }
+        
+    }else{
+        
+        ctx->is_message = false;
+        
+        ctx->level++;
+        g_mime_multipart_foreach((GMimeMultipart *)part, processNextLevel, ctx);
+        ctx->level--;
         
     }
     
@@ -352,6 +408,34 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
             char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
             json_set_text(json_part, L"data", text, FALSE, TRUE);
             
+            GMimeMessage *message = ctx->message;
+            
+            getAddress(g_mime_message_get_from (message), L"from", json_part);
+            getAddress(g_mime_message_get_cc (message), L"cc", json_part);
+            getAddress(g_mime_message_get_to (message), L"to", json_part);
+            getAddress(g_mime_message_get_bcc (message), L"bcc", json_part);
+            getAddress(g_mime_message_get_sender (message), L"sender", json_part);
+            getAddress(g_mime_message_get_reply_to (message), L"reply_to", json_part);
+            getAddress(g_mime_message_get_all_recipients (message), L"all_recipients", json_part);
+            
+            json_set_text(json_part, L"id", (char *)g_mime_message_get_message_id(message));
+            json_set_text(json_part, L"subject", (char *)g_mime_message_get_subject(message));
+            
+            GDateTime *date = g_mime_message_get_date(message);
+            
+            if(date)
+            {
+                json_set_date(json_part, g_date_time_to_local(date), (json_char *)L"local_date", (json_char *)L"local_time", "%Y-%m-%dT%H:%M:%S%z");
+                json_set_date(json_part, g_date_time_to_utc(date), (json_char *)L"utc_date", (json_char *)L"utc_time", "%Y-%m-%dT%H:%M:%SZ");
+            }else
+            {
+                /* g_mime_message_get_date returns NULL if the date could not be parsed */
+                json_set_text(json_part, L"local_date", NULL);
+                json_set_text(json_part, L"local_time", NULL);
+                json_set_text(json_part, L"utc_date", NULL);
+                json_set_text(json_part, L"utc_time", NULL);
+            }
+ 
         }else
         {
             GMimeStream *content = g_mime_stream_mem_new();
@@ -370,6 +454,9 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
             g_mime_stream_close(content);
             g_clear_object(&content);
         }
+        
+        json_set_i_for_key(json_part, L"level", ctx->part_level);
+        json_set_i_for_key(json_part, L"message", ctx->part);
         
         //Content-Type
         GMimeContentType *type = g_mime_object_get_content_type(part);
@@ -890,9 +977,16 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 		ctx.array_blob = &Param3;
 		ctx.name = L"body";
         ctx.is_top_level = true;
-		
+        ctx.message = NULL;
+        ctx.level = 1;
+        ctx.part_level = 1;
+        ctx.part = 1;
+        ctx.is_message = true;
+        
 		if(message)
 		{
+            ctx.message = message;
+            
 			getAddress(g_mime_message_get_from (message), L"from", json_message);
 			getAddress(g_mime_message_get_cc (message), L"cc", json_message);
 			getAddress(g_mime_message_get_to (message), L"to", json_message);

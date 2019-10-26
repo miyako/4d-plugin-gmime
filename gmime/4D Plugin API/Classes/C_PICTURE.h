@@ -11,6 +11,10 @@
 
 #include "4DPluginAPI.h"
 
+#if VERSIONMAC
+#import <Cocoa/Cocoa.h>
+#endif
+
 class CBytes;
 
 #ifdef __cplusplus

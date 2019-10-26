@@ -21,6 +21,15 @@ typedef unsigned __int64 PA_ulong64;
 typedef unsigned long PA_ulong32;
 typedef long PA_long32;
 #elif VERSIONMAC
+typedef   signed long long              SInt64;
+typedef unsigned long long              UInt64;
+#if __LP64__
+typedef unsigned int                    UInt32;
+typedef signed int                      SInt32;
+#else
+typedef unsigned long                   UInt32;
+typedef signed long                     SInt32;
+#endif
 typedef SInt64 PA_long64;
 typedef UInt64 PA_ulong64;
 typedef UInt32 PA_ulong32;

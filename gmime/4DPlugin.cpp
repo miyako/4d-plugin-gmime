@@ -280,17 +280,18 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
         }
     }
     
-   /* NSLog(@"\t%s\tlevel:%d\tid:%d",
-          g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
-          ctx->level, ctx->part);*/
-    
+//    NSLog(@"\t%s\tlevel:%d\tid:%d",
+//          g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
+//          ctx->level, ctx->part);
+
     if(!isMultipart) {
         
         if(!isMessage) {
             
             if(isPart) {
                 
-                if(!g_mime_part_is_attachment((GMimePart *)part)) {
+                GMimeContentDisposition *disposition = g_mime_object_get_content_disposition (part);
+                if(!disposition) {
                     
                     GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
                     const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
@@ -298,6 +299,13 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
                     {
                         ctx->name = L"body";
                         processBottomLevel(parent, part, ctx);
+                    }else{
+                        
+                        if(g_mime_part_get_content_encoding((GMimePart *)part)) {
+                            ctx->name = L"attachments";
+                            processBottomLevel(parent, part, ctx);
+                        }
+
                     }
                 }
             }
@@ -349,11 +357,12 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
             
             if(isPart) {
                 
-                if(g_mime_part_is_attachment((GMimePart *)part)) {
-                    
-                    ctx->name = L"attachments";
-                    processBottomLevel(parent, part, ctx);
-                    
+                GMimeContentDisposition *disposition = g_mime_object_get_content_disposition (part);
+                if(disposition) {
+                    if(g_mime_part_get_content_encoding((GMimePart *)part)) {
+                        ctx->name = L"attachments";
+                        processBottomLevel(parent, part, ctx);
+                    }
                 }
             }
         }else{
@@ -474,6 +483,8 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
         json_set_text(json_part, L"content_description", (char *)g_mime_part_get_content_description((GMimePart *)part), TRUE);
         json_set_text(json_part, L"content_md5", (char *)g_mime_part_get_content_md5((GMimePart *)part), TRUE);
         json_set_text(json_part, L"content_location", (char *)g_mime_part_get_content_location((GMimePart *)part), TRUE);
+        
+        json_set_text(json_part, L"content_disposition", (char *)g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part)), TRUE);
         
         getHeaders(part, L"headers", json_part);
         

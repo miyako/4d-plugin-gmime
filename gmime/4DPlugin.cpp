@@ -274,15 +274,33 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 	bool isMessage = GMIME_IS_MESSAGE_PART(part);
     bool isMultipart = GMIME_IS_MULTIPART(part);
     
+    /*
+     if(!isMultipart) {
+     if(!isMessage) {
+     if(isPart) {
+     char *fn = (char *)g_mime_part_get_filename((GMimePart *)part);
+     if(fn) {
+     std::string file_name = std::string(fn, strlen(fn));
+     std::string file_extension = file_name.substr(file_name.find_last_of(".") + 1);
+     if((file_extension == "eml") || (file_extension == "msg")){
+     
+     }
+     }
+     }
+     }
+     }
+     */
+
     if(ctx->is_message) {
         if(isPart) {
             ctx->part++;
         }
     }
-    
-//    NSLog(@"\t%s\tlevel:%d\tid:%d",
-//          g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
-//          ctx->level, ctx->part);
+    /*
+	NSLog(@"\t%s\tlevel:%d\tid:%d",
+	g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
+	ctx->level, ctx->part);
+	*/
 
     if(!isMultipart) {
         
@@ -295,17 +313,32 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
                     
                     GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
                     const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
+                    
                     if(0 == strncasecmp(mediaType, "text", 4))
                     {
                         ctx->name = L"body";
                         processBottomLevel(parent, part, ctx);
                     }else{
                         
-                        if(g_mime_part_get_content_encoding((GMimePart *)part)) {
-                            ctx->name = L"attachments";
-                            processBottomLevel(parent, part, ctx);
-                        }
-
+                        if(0 == strncasecmp(part->content_type->type, "message", 7)) {
+                            if(0 == strncasecmp(part->content_type->subtype, "partial", 7)) {
+                                ctx->name = L"body";
+                                processBottomLevel(parent, part, ctx);
+                            }else {
+                                /* message, but not partial; not implemented */
+                            }
+                        }else {
+                            if(g_mime_part_get_content_encoding((GMimePart *)part)) {
+                                ctx->name = L"attachments";
+                                processBottomLevel(parent, part, ctx);
+                            }else {
+                                /* single part, not partical message, not body, not node */
+                                if(!GMIME_IS_MULTIPART(parent)) {
+                                    ctx->name = L"attachments";
+                                    processBottomLevel(parent, part, ctx);
+                                }
+                            }
+                        }   
                     }
                 }
             }

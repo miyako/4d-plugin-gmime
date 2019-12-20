@@ -150,6 +150,24 @@ void OnStartup()
 	g_mime_init();
 }
 
+bool IsProcessOnExit()
+{
+    C_TEXT name;
+    PA_long32 state, time;
+    PA_GetProcessInfo(PA_GetCurrentProcessNumber(), name, &state, &time);
+    CUTF16String procName(name.getUTF16StringPtr());
+    CUTF16String exitProcName((PA_Unichar *)"$\0x\0x\0\0\0");
+    return (!procName.compare(exitProcName));
+}
+
+void OnCloseProcess()
+{
+    if(IsProcessOnExit())
+    {
+        PA_RunInMainProcess((PA_RunInMainProcessProcPtr)OnExit, NULL);
+    }
+}
+
 #pragma mark -
 
 void PluginMain(PA_long32 selector, PA_PluginParameters params)
@@ -162,13 +180,13 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 		{
 			case kInitPlugin :
 			case kServerInitPlugin :
-				OnStartup();
+                PA_RunInMainProcess((PA_RunInMainProcessProcPtr)OnStartup, NULL);
 				break;
-				
-            case kDeinitPlugin :
-                OnExit();
-                break;
-
+			
+            case kCloseProcess :
+                OnCloseProcess();
+            break;
+                
 			case 1 :
 				MIME_PARSE_MESSAGE(params);
 				break;
@@ -653,6 +671,69 @@ void add_date(GMimeMessage *message, JSONNODE *message_node)
 	}
 }
 
+void g_mime_text_part_set_text_with_charset(GMimeTextPart *mime_part, const char *text, const char *charset) {
+    
+    GMimeContentType *content_type;
+    GMimeStream *filtered, *stream;
+    GMimeContentEncoding encoding;
+    GMimeDataWrapper *content;
+    GMimeFilter *filter;
+//    const char *charset;
+    GMimeCharset mask;
+    size_t len;
+    
+    g_return_if_fail (GMIME_IS_TEXT_PART (mime_part));
+    g_return_if_fail (text != NULL);
+    
+    len = strlen (text);
+    
+    g_mime_charset_init (&mask);
+    g_mime_charset_step (&mask, text, len);
+    
+    charset = "utf-8";
+    
+//    switch (mask.level) {
+//    case 1: charset = "iso-8859-1"; break;
+//    case 0: charset = "us-ascii"; break;
+//    default: charset = "utf-8"; break;
+//    }
+    
+    content_type = g_mime_object_get_content_type ((GMimeObject *) mime_part);
+    g_mime_content_type_set_parameter (content_type, "charset", charset);
+    
+    stream = g_mime_stream_mem_new_with_buffer (text, len);
+    
+    if (mask.level == 1) {
+        filtered = g_mime_stream_filter_new (stream);
+        g_object_unref (stream);
+        
+        filter = g_mime_filter_charset_new ("utf-8", charset);
+        g_mime_stream_filter_add ((GMimeStreamFilter *) filtered, filter);
+        g_object_unref (filter);
+        
+        stream = filtered;
+    }
+    
+    content = g_mime_data_wrapper_new_with_stream (stream, GMIME_CONTENT_ENCODING_DEFAULT);
+    g_object_unref (stream);
+    
+    g_mime_part_set_content ((GMimePart *) mime_part, content);
+    g_object_unref (content);
+    
+    encoding = g_mime_part_get_content_encoding ((GMimePart *) mime_part);
+    
+    /* if the user has already specified encoding the content with base64/qp/uu, don't change it */
+    if (encoding > GMIME_CONTENT_ENCODING_BINARY)
+        return;
+    
+    /* ...otherwise, set an appropriate Content-Transfer-Encoding based on the text provided... */
+    if (mask.level > 0)
+        g_mime_part_set_content_encoding ((GMimePart *) mime_part, GMIME_CONTENT_ENCODING_8BIT);
+    else
+        g_mime_part_set_content_encoding ((GMimePart *) mime_part, GMIME_CONTENT_ENCODING_7BIT);
+
+}
+
 void add_parts(GMimeObject *message_mime,
                JSONNODE *message_node,
                PA_Variable *data_array,
@@ -829,13 +910,27 @@ void add_parts(GMimeObject *message_mime,
 						if(JSON_STRING == json_type(data_node))
 						{
 							text_part = g_mime_text_part_new();
-							
-							if(json_get_string(item_node, L"charset", part_charset))
-								g_mime_text_part_set_charset(text_part, (const char *)part_charset.c_str());
-							
+							                            
+                            part_charset = CUTF8String((const uint8_t *)"utf-8");
+                            
+                            CUTF8String charset;
+                            if(json_get_string(item_node, L"charset", charset)) {
+                                part_charset = charset;
+                            }
+
+                            /*
+                             https://github.com/GNOME/gmime/blob/f1123691ba3110f3c945a3c6cf1a5128d6ab7dc3/gmime/gmime-text-part.c
+                             */
+                            
 							if(json_get_string(item_node, L"data", part_text))
-								g_mime_text_part_set_text (text_part, (const char *)part_text.c_str());
+                                g_mime_text_part_set_text_with_charset(text_part,
+                                                                       (const char *)part_text.c_str(),
+                                                                       (const char *)part_charset.c_str());
+                            
+//								g_mime_text_part_set_text (text_part, (const char *)part_text.c_str());
 							
+                            
+                            
 							part = (GMimePart *)text_part;
 							
 						}else{

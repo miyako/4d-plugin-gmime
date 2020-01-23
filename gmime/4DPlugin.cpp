@@ -444,29 +444,14 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
 
 void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 {
-	mime_ctx *ctx = (mime_ctx *)user_data;
-
+    mime_ctx *ctx = (mime_ctx *)user_data;
+    
     GMimeDataWrapper *wrapper = g_mime_part_get_content((GMimePart *)part);
     if(wrapper)
     {
         JSONNODE *json_part = json_new(JSON_NODE);
         
-        GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
-        const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
-        if(0 == strncasecmp(mediaType, "text", 4))
-        {
-            //g_mime_text_part_get_text will alloc
-            // https://developer.gnome.org/gmime/stable/GMimeTextPart.html
-            
-            //special consideration for microsoft mht
-            const char *charset = g_mime_text_part_get_charset((GMimeTextPart *)part);
-            if(charset && (0 == strncasecmp(charset, "unicode", 7)))
-            {
-                g_mime_text_part_set_charset ((GMimeTextPart *)part, "utf-16le");
-            }
-            
-            char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
-            json_set_text(json_part, L"data", text, FALSE, TRUE);
+        if(GMIME_IS_MESSAGE_PART(part)) {
             
             GMimeMessage *message = ctx->message;
             
@@ -495,9 +480,36 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
                 json_set_text(json_part, L"utc_date", NULL);
                 json_set_text(json_part, L"utc_time", NULL);
             }
- 
-        }else
+        }
+        
+        bool isBinary = true;
+        
+        GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
+        const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
+        if(0 == strncasecmp(mediaType, "text", 4))
         {
+            //g_mime_text_part_get_text will alloc
+            // https://developer.gnome.org/gmime/stable/GMimeTextPart.html
+            
+            //special consideration for microsoft mht
+            const char *charset = g_mime_text_part_get_charset((GMimeTextPart *)part);
+            if(charset && (0 == strncasecmp(charset, "unicode", 7)))
+            {
+                g_mime_text_part_set_charset ((GMimeTextPart *)part, "utf-16le");
+            }
+            
+            if(charset) {
+
+                char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
+                json_set_text(json_part, L"data", text, FALSE, TRUE);
+                
+                isBinary = false;
+            }
+ 
+        }
+        
+        if(isBinary) {
+            
             GMimeStream *content = g_mime_stream_mem_new();
             g_mime_data_wrapper_write_to_stream(wrapper, content);
             GByteArray *bytes = g_mime_stream_mem_get_byte_array ((GMimeStreamMem *)content);
@@ -513,6 +525,7 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
             
             g_mime_stream_close(content);
             g_clear_object(&content);
+            
         }
         
         json_set_i_for_key(json_part, L"level", ctx->part_level);

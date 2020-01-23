@@ -1,0 +1,52 @@
+Received: from EXCH16.ad2.4d.com (2002:c2b1:2355::c2b1:2355) by
+ EXCH16.ad2.4d.com (2002:c2b1:2355::c2b1:2355) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
+ 15.1.1713.5 via Mailbox Transport; Wed, 22 Jan 2020 13:40:40 +0100
+Received: from EXCH16.ad2.4d.com (2002:c2b1:2354::c2b1:2354) by
+ EXCH16.ad2.4d.com (2002:c2b1:2354::c2b1:2354) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
+ 15.1.1713.5; Wed, 22 Jan 2020 13:40:39 +0100
+Received: from EXCH16.ad2.4d.com ([194.177.35.85]) by EXCH16.ad2.4d.com
+ ([194.177.35.85]) with mapi id 15.01.1713.009; Wed, 22 Jan 2020 13:40:39
+ +0100
+From: Keisuke Miyako <Keisuke.Miyako@4d.com>
+To: Keisuke Miyako <Keisuke.Miyako@4d.com>
+Subject: test
+Thread-Topic: test
+Thread-Index: AQHV0SEn7iZEZYnGVUynvgurafIyLQ==
+Date: Wed, 22 Jan 2020 12:40:39 +0000
+Message-ID: <D0874809-3E4F-4A1A-8FEE-8E5D2D9E918A@4d.com>
+Accept-Language: ja-JP, fr-FR, en-US
+Content-Language: en-US
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource: EXCH16.ad2.4d.com
+X-MS-Has-Attach: yes
+X-MS-Exchange-Organization-Network-Message-Id:
+	532fb3c8-a7db-47e1-5467-08d79f3849a4
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+Content-Type: multipart/mixed;
+	boundary="_002_D08748093E4F4A1A8FEE8E5D2D9E918A4dcom_"
+MIME-Version: 1.0
+
+--_002_D08748093E4F4A1A8FEE8E5D2D9E918A4dcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4C7E63C79AA0324EBA8F8FE42181D24D@4d.com>
+
+abcde
+
+
+--_002_D08748093E4F4A1A8FEE8E5D2D9E918A4dcom_
+Content-Type: text/plain; name="test.txt"
+Content-Description: test.txt
+Content-Disposition: attachment; filename="test.txt"; size=234;
+	creation-date="Wed, 22 Jan 2020 12:40:39 GMT";
+	modification-date="Wed, 22 Jan 2020 12:40:39 GMT"
+Content-ID: <5578C9DAFC63BC49A941616A549D2E61@4d.com>
+Content-Transfer-Encoding: base64
+
+dGVzdA==
+
+--_002_D08748093E4F4A1A8FEE8E5D2D9E918A4dcom_--

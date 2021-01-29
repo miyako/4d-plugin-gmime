@@ -100,7 +100,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fDVyWMGDQGkc3wmfjXwBgLBJm1s=
+			cwZsd2PTBk32qylvz9O8kIKVWEc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -108,6 +108,10 @@
 		<key>Resources/constants.xlf</key>
 		<data>
 		UbZYnK1QdI2HA5cO0/aNT2a+ucQ=
+		</data>
+		<key>Resources/manifest.json</key>
+		<data>
+		ZmHDOlwmnnEkIemmy5YUbiA6n10=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -380,11 +384,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fDVyWMGDQGkc3wmfjXwBgLBJm1s=
+			cwZsd2PTBk32qylvz9O8kIKVWEc=
 			</data>
 			<key>hash2</key>
 			<data>
-			NX5U3+gctngegFP0Q6Wy5KlDau8d/lPtu/mXGAhuI5M=
+			if2HykxDH1EeaGMcTjcp8flLGS37Sj/HoqDqTHZgOq0=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -400,36 +404,38 @@
 			7t2nF9u/4W05GOd8UQ7QAt/PFge16k3ydWYX/6ElmJk=
 			</data>
 		</dict>
+		<key>Resources/manifest.json</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZmHDOlwmnnEkIemmy5YUbiA6n10=
+			</data>
+			<key>hash2</key>
+			<data>
+			nby7lOWFyAZuKvie0qJrUFQywhP6ct1av7nOD22pLBE=
+			</data>
+		</dict>
 		<key>Windows/MIME.4DX</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GhshJuzc+7baj7osgCR8rv0ywH4=
+			djWLAF590+UfagPwVukl+6ta7NA=
 			</data>
 			<key>hash2</key>
 			<data>
-			9juFdvWAni0CwgaDuVKeqD9bqKUDuJGFpn7qAoix71k=
+			kki8Op5fQyAZZ7w+KeDEr9RBfY84kq1FOMOYUsNXOko=
 			</data>
 		</dict>
 		<key>Windows64/MIME.4DX</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KfD/bEerN0BdhHOWhLno6uvM1oE=
+			NtsnO921pjE9reZzfEblDqUgZOI=
 			</data>
 			<key>hash2</key>
 			<data>
-			8x3tzHRS/Jao5bsCJdTS4dAaxrFEezSmKLx+TLgXJio=
+			r9uSvcjLKvzmfJdJVwvDMiclRI+uX/GOU0SPtXGN6bY=
 			</data>
-		</dict>
-		<key>manifest.json</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			UTV7pcnb5W1aP0cI9RZuJGFkpVc=
-			</data>
-			<key>requirement</key>
-			<string>identifier manifest and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>
 		</dict>
 	</dict>
 	<key>rules</key>

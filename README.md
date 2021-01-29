@@ -7,6 +7,8 @@
 
 Parse MIME using the [GMIME](https://github.com/GNOME/gmime) library.
 
+switched from libjson.7.6.1.lib to jsoncpp (`4.0.0`).
+
 **Notes on building static GLIB for MSVC**: 
 
 link gmime with static idn2 +``IDN2_STATIC``  

@@ -18,6 +18,8 @@
 
 #define USE_JSONCPP 1
 
+#include "gmime/gmime.h"
+
 #if USE_JSONCPP
 #include "json.h"
 #else
@@ -38,7 +40,7 @@ void getHeaders(GMimeObject *part, const wchar_t *label, JSONNODE *json_message)
 void getAddress(InternetAddressList *list, const wchar_t *label, JSONNODE *json_message);
 
 void returnBlob(sLONG_PTR *pResult, PackagePtr pParams, void *blob, PA_long32 len);
-void filter_double_header(GMimeObject *message_mime, const char *name, BOOL with_new_line = FALSE);
+//void filter_double_header(GMimeObject *message_mime, const char *name, BOOL with_new_line = FALSE);
 
 void add_mailboxes(GMimeMessage *message, JSONNODE *message_node, const wchar_t *key, GMimeAddressType type);
 void add_headers(GMimeObject *message_mime, JSONNODE *message_node);
@@ -46,8 +48,6 @@ void add_date(GMimeMessage *message, JSONNODE *message_node);
 void add_parts(GMimeObject *message_mime, JSONNODE *message_node, PA_Variable *data_array);
 
 #endif
-
-#include "gmime/gmime.h"
 
 #include <mutex>
 

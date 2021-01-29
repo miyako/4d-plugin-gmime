@@ -34,6 +34,9 @@
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D13116C71A03B5B600DE1322 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D13116C61A03B5B600DE1322 /* AppKit.framework */; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
+		D14B1D7F25C4880A00EDA41C /* libjson_methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */; };
+		D14B1D8025C4880A00EDA41C /* libjson_methods.h in Headers */ = {isa = PBXBuildFile; fileRef = D14B1D7E25C4880A00EDA41C /* libjson_methods.h */; };
+		D14B1D8125C4897600EDA41C /* libjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EE20FF1242005B3A55 /* libjson.a */; };
 		D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */; };
 		D173985125C39417008AD5E8 /* 4DPlugin-JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D173984F25C39417008AD5E8 /* 4DPlugin-JSON.cpp */; };
 		D173985225C39417008AD5E8 /* 4DPlugin-JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985025C39417008AD5E8 /* 4DPlugin-JSON.h */; };
@@ -93,6 +96,8 @@
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
 		D13116C61A03B5B600DE1322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = libjson_methods.cpp; path = include/libjson_methods.cpp; sourceTree = "<group>"; };
+		D14B1D7E25C4880A00EDA41C /* libjson_methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libjson_methods.h; path = include/libjson_methods.h; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
 		D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		D173984F25C39417008AD5E8 /* 4DPlugin-JSON.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = "4DPlugin-JSON.cpp"; sourceTree = SOURCE_ROOT; };
@@ -115,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D173986425C3C2CB008AD5E8 /* libjsoncpp.a in Frameworks */,
+				D14B1D8125C4897600EDA41C /* libjson.a in Frameworks */,
 				D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */,
 				D12A260420FF1243005B3A55 /* libgmime-3.0.a in Frameworks */,
 				D12A260120FF1243005B3A55 /* libffi.a in Frameworks */,
@@ -187,6 +193,8 @@
 			children = (
 				18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */,
 				D120937E13534DCC00A72CAA /* 4DPlugin.h */,
+				D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */,
+				D14B1D7E25C4880A00EDA41C /* libjson_methods.h */,
 				18B684ED06944F2000CC6A1E /* 4D Plugin API */,
 				32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */,
 			);
@@ -267,6 +275,7 @@
 				18B684F706944F2000CC6A1E /* 4DPluginAPI.h in Headers */,
 				18B684F806944F2000CC6A1E /* EntryPoints.h in Headers */,
 				18B684F906944F2000CC6A1E /* Flags.h in Headers */,
+				D14B1D8025C4880A00EDA41C /* libjson_methods.h in Headers */,
 				D173985E25C3BDC6008AD5E8 /* C_TEXT.h in Headers */,
 				D173986025C3BDC6008AD5E8 /* C_BLOB.h in Headers */,
 				18B684FA06944F2000CC6A1E /* PrivateTypes.h in Headers */,
@@ -383,6 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D14B1D7F25C4880A00EDA41C /* libjson_methods.cpp in Sources */,
 				D173986225C3BDC6008AD5E8 /* C_BLOB.cpp in Sources */,
 				18B684FF06944F8800CC6A1E /* 4DPlugin.cpp in Sources */,
 				D173985125C39417008AD5E8 /* 4DPlugin-JSON.cpp in Sources */,

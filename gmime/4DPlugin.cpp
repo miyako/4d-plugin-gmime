@@ -18,6 +18,73 @@
 #endif
 
 #if USE_JSONCPP
+#else
+static void json_wconv(const wchar_t *value, CUTF16String *u16)
+{
+    size_t wlen = wcslen(value);
+    
+#if VERSIONWIN
+    *u16 = CUTF16String((const PA_Unichar *)value, wlen);
+#else
+    
+     CFStringRef str = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *)value, wlen*sizeof(wchar_t), kCFStringEncodingUTF32LE, true);
+     if(str)
+     {
+        int len = CFStringGetLength(str);
+        std::vector<uint8_t> buf((len+1) * sizeof(PA_Unichar));
+        CFStringGetCharacters(str, CFRangeMake(0, len), (UniChar *)&buf[0]);
+        *u16 = CUTF16String((const PA_Unichar *)&buf[0], len);
+        CFRelease(str);
+     }    
+#endif
+}
+static void json_wconv(const wchar_t *value, CUTF8String *u8)
+{
+    C_TEXT t;
+    size_t wlen = wcslen(value);
+#if VERSIONWIN
+    t.setUTF16String((const PA_Unichar *)value, wlen);
+#else
+     CUTF16String u16;
+     json_wconv(value, &u16);
+     t.setUTF16String(&u16);
+
+#endif
+    t.copyUTF8String(u8);
+}
+static void json_wconv(const char *value, std::wstring &u32)
+{
+    if((value) && strlen(value))
+    {
+        C_TEXT t;
+        CUTF8String u8 = CUTF8String((const uint8_t *)value);
+        
+        t.setUTF8String(&u8);
+        
+#if VERSIONWIN
+        u32 = std::wstring((wchar_t *)t.getUTF16StringPtr());
+#else
+         CFStringRef str = CFStringCreateWithCharacters(kCFAllocatorDefault, (const UniChar *)t.getUTF16StringPtr(), t.getUTF16Length());
+         if(str)
+         {
+            size_t size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), kCFStringEncodingUTF32LE) + sizeof(wchar_t);
+            std::vector<uint8_t> buf(size);
+            CFIndex len = 0;
+            CFIndex count = CFStringGetBytes(str, CFRangeMake(0, CFStringGetLength(str)), kCFStringEncodingUTF32LE, 0, true, (UInt8 *)&buf[0], size, &len);
+            u32 = std::wstring((wchar_t *)&buf[0], count);
+            CFRelease(str);
+         }
+
+#endif
+    }else
+    {
+        u32 = L"";
+    }
+    
+}
+#endif
+
+#if USE_JSONCPP
 typedef struct
 {
     Json::Value *json;
@@ -404,40 +471,17 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 	
     if(ctx->is_top_level) {
         ctx->is_top_level = false;
-        //getHeaders(part, L"headers", ctx->json);
     }
     
 	bool isPart = GMIME_IS_PART(part);
 	bool isMessage = GMIME_IS_MESSAGE_PART(part);
     bool isMultipart = GMIME_IS_MULTIPART(part);
     
-    /*
-     if(!isMultipart) {
-     if(!isMessage) {
-     if(isPart) {
-     char *fn = (char *)g_mime_part_get_filename((GMimePart *)part);
-     if(fn) {
-     std::string file_name = std::string(fn, strlen(fn));
-     std::string file_extension = file_name.substr(file_name.find_last_of(".") + 1);
-     if((file_extension == "eml") || (file_extension == "msg")){
-     
-     }
-     }
-     }
-     }
-     }
-     */
-
     if(ctx->is_message) {
         if(isPart) {
             ctx->part++;
         }
     }
-    /*
-	NSLog(@"\t%s\tlevel:%d\tid:%d",
-	g_mime_content_type_get_mime_type(g_mime_object_get_content_type(part)),
-	ctx->level, ctx->part);
-	*/
 
     if(!isMultipart) {
         
@@ -453,25 +497,39 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
                     
                     if(0 == strncasecmp(mediaType, "text", 4))
                     {
-                        ctx->name = "body";
+                        #if USE_JSONCPP
+                        ctx->name =  "body";
+                        #else
+                        ctx->name = L"body";
+                        #endif
                         processBottomLevel(parent, part, ctx);
                     }else{
                         
                         if(0 == strncasecmp(part->content_type->type, "message", 7)) {
                             if(0 == strncasecmp(part->content_type->subtype, "partial", 7)) {
-                                ctx->name = "body";
+                                #if USE_JSONCPP
+                                ctx->name =  "body";
+                                #else
+                                ctx->name = L"body";
+                                #endif
                                 processBottomLevel(parent, part, ctx);
-                            }else {
-                                /* message, but not partial; not implemented */
                             }
                         }else {
                             if(g_mime_part_get_content_encoding((GMimePart *)part)) {
-                                ctx->name = "attachments";
+                                #if USE_JSONCPP
+                                ctx->name =  "attachments";
+                                #else
+                                ctx->name = L"attachments";
+                                #endif
                                 processBottomLevel(parent, part, ctx);
                             }else {
                                 /* single part, not partical message, not body, not node */
                                 if(!GMIME_IS_MULTIPART(parent)) {
-                                    ctx->name = "attachments";
+                                    #if USE_JSONCPP
+                                    ctx->name =  "attachments";
+                                    #else
+                                    ctx->name = L"attachments";
+                                    #endif
                                     processBottomLevel(parent, part, ctx);
                                 }
                             }
@@ -481,6 +539,7 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
             }
             
         }else{
+            //is message
             GMimeMessage *message = g_mime_message_part_get_message ((GMimeMessagePart *)part);
             if (message) {
                 
@@ -496,7 +555,7 @@ void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data)
         }
         
     }else{
-        
+        //not multipart (node)
         ctx->is_message = false;
         
         ctx->level++;
@@ -530,9 +589,15 @@ void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer user_data
                 GMimeContentDisposition *disposition = g_mime_object_get_content_disposition (part);
                 if(disposition) {
                     if(g_mime_part_get_content_encoding((GMimePart *)part)) {
-                        ctx->name = "attachments";
+                        #if USE_JSONCPP
+                        ctx->name =  "attachments";
+                        #else
+                        ctx->name = L"attachments";
+                        #endif
                         processBottomLevel(parent, part, ctx);
                     }
+                }else{
+                    //no disposition;
                 }
             }
         }else{
@@ -577,7 +642,7 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
         if(GMIME_IS_MESSAGE_PART(part)) {
             
             GMimeMessage *message = ctx->message;
-            
+            #if USE_JSONCPP
             getAddress(g_mime_message_get_from (message), "from", json_part);
             getAddress(g_mime_message_get_cc (message), "cc", json_part);
             getAddress(g_mime_message_get_to (message), "to", json_part);
@@ -585,6 +650,15 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
             getAddress(g_mime_message_get_sender (message), "sender", json_part);
             getAddress(g_mime_message_get_reply_to (message), "reply_to", json_part);
             getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_part);
+            #else
+            getAddress(g_mime_message_get_from (message),L"from", json_part);
+            getAddress(g_mime_message_get_cc (message),L"cc", json_part);
+            getAddress(g_mime_message_get_to (message),L"to", json_part);
+            getAddress(g_mime_message_get_bcc (message),L"bcc", json_part);
+            getAddress(g_mime_message_get_sender (message),L"sender", json_part);
+            getAddress(g_mime_message_get_reply_to (message),L"reply_to", json_part);
+            getAddress(g_mime_message_get_all_recipients (message),L"all_recipients", json_part);
+            #endif
 
 #if USE_JSONCPP
             json_part["id"]      = g_mime_message_get_message_id(message);
@@ -773,8 +847,11 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
         
         json_set_text(json_part, L"content_disposition", (char *)g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part)), TRUE);
 #endif
-        
+        #if USE_JSONCPP
         getHeaders(part, "headers", json_part);
+        #else
+        getHeaders(part,L"headers", json_part);
+        #endif
 
 #if USE_JSONCPP
         Json::Value *value = ctx->json;
@@ -785,11 +862,11 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
             
             if(part.isArray())
             {
-                part.append(json_part);
+                (*value)[ctx->name].append(json_part);
                 
-            }else{
-                part = Json::Value(Json::arrayValue);
-                part.append(json_part);
+            }else{                
+                (*value)[ctx->name] = Json::Value(Json::arrayValue);
+                (*value)[ctx->name].append(json_part);
             }
 
         }
@@ -1869,14 +1946,23 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 		if(message)
 		{
             ctx.message = message;
-            
-			getAddress(g_mime_message_get_from (message), "from", json_message);
-			getAddress(g_mime_message_get_cc (message), "cc", json_message);
-			getAddress(g_mime_message_get_to (message), "to", json_message);
-			getAddress(g_mime_message_get_bcc (message), "bcc", json_message);
-			getAddress(g_mime_message_get_sender (message), "sender", json_message);
-			getAddress(g_mime_message_get_reply_to (message), "reply_to", json_message);
-			getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_message);
+#if USE_JSONCPP
+            getAddress(g_mime_message_get_from (message), "from", json_message);
+            getAddress(g_mime_message_get_cc (message), "cc", json_message);
+            getAddress(g_mime_message_get_to (message), "to", json_message);
+            getAddress(g_mime_message_get_bcc (message), "bcc", json_message);
+            getAddress(g_mime_message_get_sender (message), "sender", json_message);
+            getAddress(g_mime_message_get_reply_to (message), "reply_to", json_message);
+            getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_message);
+#else
+            getAddress(g_mime_message_get_from (message),L"from", json_message);
+            getAddress(g_mime_message_get_cc (message),L"cc", json_message);
+            getAddress(g_mime_message_get_to (message),L"to", json_message);
+            getAddress(g_mime_message_get_bcc (message),L"bcc", json_message);
+            getAddress(g_mime_message_get_sender (message),L"sender", json_message);
+            getAddress(g_mime_message_get_reply_to (message),L"reply_to", json_message);
+            getAddress(g_mime_message_get_all_recipients (message),L"all_recipients", json_message);
+#endif
 
 #if USE_JSONCPP
             json_message["id"] = g_mime_message_get_message_id(message);
@@ -1948,8 +2034,11 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
                 json_set_text(json_message, L"utc_time", NULL);
 #endif
 			}
-
+#if USE_JSONCPP
             getHeaders((GMimeObject *)message, "headers", json_message);
+#else
+            getHeaders((GMimeObject *)message,L"headers", json_message);
+#endif
             
 			g_mime_message_foreach(message, processTopLevel, &ctx);
 			

@@ -1,7 +1,14 @@
 #include "libjson_methods.h"
 
 /* utf-32 to utf-16 */
-void json_wconv(const wchar_t *value, CUTF16String *u16)
+static void json_wconv(const wchar_t *value, CUTF16String *u16);
+/* utf-32 to utf-8 */
+static void json_wconv(const wchar_t *value, CUTF8String *u8);
+/* utf-8 to utf-16 to utf-32 */
+static void json_wconv(const char *value, std::wstring &u32);
+
+/* utf-32 to utf-16 */
+static void json_wconv(const wchar_t *value, CUTF16String *u16)
 {
 	size_t wlen = wcslen(value);
 	
@@ -36,7 +43,7 @@ void json_wconv(const wchar_t *value, CUTF16String *u16)
 }
 
 /* utf-32 to utf-8 */
-void json_wconv(const wchar_t *value, CUTF8String *u8)
+static void json_wconv(const wchar_t *value, CUTF8String *u8)
 {
 	C_TEXT t;
 	size_t wlen = wcslen(value);
@@ -68,7 +75,7 @@ void json_wconv(const wchar_t *value, CUTF8String *u8)
 #include <iostream>
 
 /* utf-8 to utf-16 to utf-32 */
-void json_wconv(const char *value, std::wstring &u32)
+static void json_wconv(const char *value, std::wstring &u32)
 {
 	if((value) && strlen(value))
 	{

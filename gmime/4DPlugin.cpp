@@ -1873,12 +1873,9 @@ void add_parts(GMimeObject *message_mime,
                      https://github.com/GNOME/gmime/blob/f1123691ba3110f3c945a3c6cf1a5128d6ab7dc3/gmime/gmime-text-part.c
                      */
                     
-                    Json::Value part_text = it->get("charset", defaultValue);
-                    
-                    if(part_text.isString())
-                        g_mime_text_part_set_text_with_charset(text_part,
-                                                               part_text.asString().c_str(),
-                                                               part_charset.c_str());
+                    g_mime_text_part_set_text_with_charset(text_part,
+                                                           data_node.asString().c_str(),
+                                                           part_charset.c_str());
                     
                     //                                g_mime_text_part_set_text (text_part, (const char *)part_text.c_str());
 

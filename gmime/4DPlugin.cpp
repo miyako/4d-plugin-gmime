@@ -2490,8 +2490,13 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 #endif
 
 #if USE_JSONCPP
-            json_message["id"] = g_mime_message_get_message_id(message);
-            json_message["subject"] = g_mime_message_get_subject(message);
+            const char *message_id = g_mime_message_get_message_id(message);
+            if(message_id)
+                json_message["id"] = message_id;
+            
+            const char *message_subject = g_mime_message_get_subject(message);
+            if(message_subject)
+                json_message["subject"] = message_subject;
 #else
             json_set_text(json_message, L"id", (char *)g_mime_message_get_message_id(message));
             json_set_text(json_message, L"subject", (char *)g_mime_message_get_subject(message));

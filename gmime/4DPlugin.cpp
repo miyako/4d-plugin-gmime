@@ -315,8 +315,10 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params)
 #pragma mark MIME subobjects
 
 #if USE_JSONCPP
-void getHeaders(GMimeObject *part, const char *label, Json::Value& json_message)
+bool getHeaders(GMimeObject *part, const char *label, Json::Value& json_message)
 {
+    bool hasHeaders = false;
+    
     GMimeHeaderList *headers = g_mime_object_get_header_list (part);
     
     if(headers)
@@ -325,6 +327,8 @@ void getHeaders(GMimeObject *part, const char *label, Json::Value& json_message)
         
         if(len)
         {
+            hasHeaders = true;
+            
             Json::Value header_array = Json::Value(Json::arrayValue);
                         
             for(int i = 0; i < len; ++i)
@@ -342,6 +346,7 @@ void getHeaders(GMimeObject *part, const char *label, Json::Value& json_message)
         }
         g_mime_header_list_clear(headers);
     }
+    return hasHeaders;
 }
 #else
 void getHeaders(GMimeObject *part, const wchar_t *label, JSONNODE *json_message)
@@ -568,125 +573,175 @@ void processPart(GMimeObject *parent, GMimeObject *part, gpointer user_data)
 void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mime_ctx_simple *ctx)
 {
     if(GMIME_IS_MESSAGE_PART(part)) {
+                
 #if USE_JSONCPP
         Json::Value json_part = Json::Value(Json::objectValue);
 #else
         JSONNODE *json_part = json_new(JSON_NODE);
 #endif
-               
-        GMimeFormatOptions *format_options = g_mime_format_options_new();
-        g_mime_format_options_set_param_encoding_method(format_options, GMIME_PARAM_ENCODING_METHOD_RFC2231);
-        g_mime_format_options_set_newline_format (format_options, GMIME_NEWLINE_FORMAT_DOS);
-        GMimeStream *stream = g_mime_stream_mem_new();
-        GByteArray *array = g_byte_array_new();
-        g_mime_stream_mem_set_byte_array ((GMimeStreamMem *)stream, array);
-        g_mime_object_write_to_stream (part, format_options, stream);
-        
-        PA_long32 i = PA_GetArrayNbElements(*(ctx->array_blob));
-        PA_ResizeArray(ctx->array_blob, ++i);
-        
-        PA_Variable element = PA_CreateVariable(eVK_Blob);
-        
-        PA_SetBlobVariable(&element, array->data, array->len);
-        PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
-        
-#if USE_JSONCPP
-        json_part["data"] = i;
-#else
-        json_set_i_for_key(json_part, L"data", i);
-#endif
-        
-        //Content-Type
-        GMimeContentType *type = g_mime_object_get_content_type(part);
-        
-        //g_mime_content_type_get_mime_type will alloc
-        // https://developer.gnome.org/gmime/stable/GMimeContentType.html#g-mime-content-type-get-mime-type
-        
-#if USE_JSONCPP
-        char *mime_type = g_mime_content_type_get_mime_type(type);
-        json_part["mime_type"] = mime_type ? mime_type : "";
-        if(mime_type) g_free(mime_type);
-        
-        const char *media_type = g_mime_content_type_get_media_type(type);
-        json_part["media_type"] = media_type ? media_type : "";
-        
-        const char *media_subtype = g_mime_content_type_get_media_subtype(type);
-        json_part["media_subtype"] = media_subtype ? media_subtype : "";
-        
-        const char *content_id = g_mime_object_get_content_id(part);
-        json_part["content_id"] = content_id ? content_id : "";
-        
-        const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-        json_part["content_encoding"] = content_encoding ? content_encoding : "";
-        
-        const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-        json_part["file_name"] = file_name ? file_name : "";
-        
-        const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-        json_part["content_description"] = content_description ? content_description : "";
-        
-        const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-        json_part["content_md5"] = content_md5 ? content_md5 : "";
-        
-        const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-        json_part["content_disposition"] = content_disposition ? content_disposition : "";
-        
-#else
-        json_set_text(json_part, L"mime_type", (char *)g_mime_content_type_get_mime_type(type), FALSE, TRUE);
-        json_set_text(json_part, L"media_type", (char *)g_mime_content_type_get_media_type(type));
-        json_set_text(json_part, L"media_subtype", (char *)g_mime_content_type_get_media_subtype(type));
-        json_set_text(json_part, L"content_id", (char *)g_mime_object_get_content_id(part));
-        json_set_text(json_part, L"content_encoding", (char *)g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part)));
-        json_set_text(json_part, L"file_name", (char *)g_mime_part_get_filename((GMimePart *)part), TRUE);
-        json_set_text(json_part, L"content_description", (char *)g_mime_part_get_content_description((GMimePart *)part), TRUE);
-        json_set_text(json_part, L"content_md5", (char *)g_mime_part_get_content_md5((GMimePart *)part), TRUE);
-        json_set_text(json_part, L"content_location", (char *)g_mime_part_get_content_location((GMimePart *)part), TRUE);
-        
-        json_set_text(json_part, L"content_disposition", (char *)g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part)), TRUE);
-#endif
-        
-#if USE_JSONCPP
-        getHeaders(part, "headers", json_part);
-#else
-        getHeaders(part,L"headers", json_part);
-#endif
-        
-#if USE_JSONCPP
-        Json::Value *value = ctx->json;
-        if(value->isObject())
-        {
-            Json::Value defaultValue;
-            Json::Value part = value->get(ctx->name, defaultValue);
             
-            if(part.isArray())
-            {
-                (*value)[ctx->name].append(json_part);
-                
-            }else{
-                (*value)[ctx->name] = Json::Value(Json::arrayValue);
-                (*value)[ctx->name].append(json_part);
+#if USE_JSONCPP
+        bool hasHeaders = getHeaders(part, "headers", json_part);
+#else
+        bool hasHeaders = getHeaders(part,L"headers", json_part);
+#endif
+        
+        if(hasHeaders) {
+            
+            GMimeFormatOptions *format_options = g_mime_format_options_new();
+            g_mime_format_options_set_param_encoding_method(format_options, GMIME_PARAM_ENCODING_METHOD_RFC2231);
+            g_mime_format_options_set_newline_format (format_options, GMIME_NEWLINE_FORMAT_DOS);
+            GMimeStream *stream = g_mime_stream_mem_new();
+            GByteArray *array = g_byte_array_new();
+            g_mime_stream_mem_set_byte_array ((GMimeStreamMem *)stream, array);
+            g_mime_object_write_to_stream (part, format_options, stream);
+            
+            PA_long32 i = PA_GetArrayNbElements(*(ctx->array_blob));
+            PA_ResizeArray(ctx->array_blob, ++i);
+            
+            PA_Variable element = PA_CreateVariable(eVK_Blob);
+            
+            PA_SetBlobVariable(&element, array->data, array->len);
+            PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
+            
+            #if USE_JSONCPP
+                    json_part["data"] = i;
+            #else
+                    json_set_i_for_key(json_part, L"data", i);
+            #endif
+            
+            //Content-Type
+            GMimeContentType *type = g_mime_object_get_content_type(part);
+            
+            //g_mime_content_type_get_mime_type will alloc
+            // https://developer.gnome.org/gmime/stable/GMimeContentType.html#g-mime-content-type-get-mime-type
+
+            #if USE_JSONCPP
+                    char *mime_type = g_mime_content_type_get_mime_type(type);
+                    json_part["mime_type"] = mime_type ? mime_type : "";
+                    if(mime_type) g_free(mime_type);
+                    
+                    const char *media_type = g_mime_content_type_get_media_type(type);
+                    json_part["media_type"] = media_type ? media_type : "";
+                    
+                    const char *media_subtype = g_mime_content_type_get_media_subtype(type);
+                    json_part["media_subtype"] = media_subtype ? media_subtype : "";
+                    
+                    const char *content_id = g_mime_object_get_content_id(part);
+                    if(content_id) {
+                        json_part["content_id"] = content_id;
+                    }
+//                    json_part["content_id"] = content_id ? content_id : "";
+                    
+            const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
+            if(content_encoding) {
+                json_part["content_encoding"] = content_encoding;
+            }
+            //                    json_part["content_encoding"] = content_encoding ? content_encoding : "";
+            else{
+                const char *encoding = g_mime_object_get_header(part, "Content-Transfer-Encoding:");
+                if(encoding) {
+                    json_part["content_encoding"] = encoding;
+                }
             }
             
-        }
-        
-#else
-        JSONNODE *array_part = json_get(ctx->json, ctx->name);
-        
-        if(json_type(array_part) != JSON_ARRAY)
-        {
-            array_part = json_new(JSON_ARRAY);
-            json_push_back(array_part, json_part);
-            json_set_object(ctx->json, ctx->name, array_part);
-        }else
-        {
-            json_push_back(array_part, json_part);
-        }
-        #endif
+            const char *file_name = g_mime_part_get_filename((GMimePart *)part);
+            if(file_name) {
+                json_part["file_name"] = file_name;
+            }else{
+                const char *_name = g_mime_object_get_content_type_parameter (part, "name");
+                if(_name) {
+                    json_part["file_name"] = _name;
+                }else{
+                    const char *_filename = g_mime_object_get_content_disposition_parameter (part, "filename");
+                    if(_filename) {
+                        json_part["file_name"] = _filename;
+                    }
+                }
+            }
+                        
+            const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
+            if(content_description) {
+                json_part["content_description"] = content_description;
+            }
+//            json_part["content_description"] = content_description ? content_description : "";
+                    
+                    const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
+            if(content_md5) {
+                json_part["content_md5"] = content_md5;
+            }
+//                    json_part["content_md5"] = content_md5 ? content_md5 : "";
+                    
+                    const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
+                            
+            if(content_disposition) {
+                json_part["content_disposition"] = content_disposition;
+            }
+//                    json_part["content_disposition"] = content_disposition ? content_disposition : "";
+            else{
+//                const char *disposition = g_mime_object_get_disposition(part);
+//                if(disposition) {
+//                    json_part["content_disposition"] = disposition;
+//                }
+            }
+            #else
+                    json_set_text(json_part, L"mime_type", (char *)g_mime_content_type_get_mime_type(type), FALSE, TRUE);
+                    json_set_text(json_part, L"media_type", (char *)g_mime_content_type_get_media_type(type));
+                    json_set_text(json_part, L"media_subtype", (char *)g_mime_content_type_get_media_subtype(type));
+                    json_set_text(json_part, L"content_id", (char *)g_mime_object_get_content_id(part));
+                    json_set_text(json_part, L"content_encoding", (char *)g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part)));
+                    json_set_text(json_part, L"file_name", (char *)g_mime_part_get_filename((GMimePart *)part), TRUE);
+            //        json_set_text(json_part, L"content_description", (char *)g_mime_part_get_content_description((GMimePart *)part), TRUE);
+                    json_set_text(json_part, L"content_md5", (char *)g_mime_part_get_content_md5((GMimePart *)part), TRUE);
+                    json_set_text(json_part, L"content_location", (char *)g_mime_part_get_content_location((GMimePart *)part), TRUE);
+                    
+                    json_set_text(json_part, L"content_disposition", (char *)g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part)), TRUE);
+            #endif
             
-        //cleanup
-        g_object_unref (stream);//GMimeStream
-        g_byte_array_free (array, FALSE);//GByteArray
-        g_mime_format_options_free(format_options);//GMimeFormatOptions
+            #if USE_JSONCPP
+                    Json::Value *value = ctx->json;
+                    if(value->isObject())
+                    {
+                        Json::Value defaultValue;
+                        Json::Value part = value->get(ctx->name, defaultValue);
+                        
+                        if(part.isArray())
+                        {
+                            (*value)[ctx->name].append(json_part);
+                            
+                        }else{
+                            (*value)[ctx->name] = Json::Value(Json::arrayValue);
+                            (*value)[ctx->name].append(json_part);
+                        }
+                        
+                    }
+                    
+            #else
+                    JSONNODE *array_part = json_get(ctx->json, ctx->name);
+                    
+                    if(json_type(array_part) != JSON_ARRAY)
+                    {
+                        array_part = json_new(JSON_ARRAY);
+                        json_push_back(array_part, json_part);
+                        json_set_object(ctx->json, ctx->name, array_part);
+                    }else
+                    {
+                        json_push_back(array_part, json_part);
+                    }
+            #endif
+            
+            //cleanup
+            g_object_unref (stream);//GMimeStream
+            g_byte_array_free (array, FALSE);//GByteArray
+            g_mime_format_options_free(format_options);//GMimeFormatOptions
+
+        }else{
+         
+#if USE_JSONCPP
+#else
+            json_clear(json_part);
+#endif
+        }
     }
 }
 
@@ -1080,22 +1135,40 @@ void processBodyOrAttachment(GMimeObject *parent, GMimeObject *part, mime_ctx_si
         json_part["media_subtype"] = media_subtype ? media_subtype : "";
         
         const char *content_id = g_mime_object_get_content_id(part);
-        json_part["content_id"] = content_id ? content_id : "";
+        if(content_id) {
+            json_part["content_id"] = content_id;
+        }
+//        json_part["content_id"] = content_id ? content_id : "";
 
         const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-        json_part["content_encoding"] = content_encoding ? content_encoding : "";
+        if(content_encoding) {
+            json_part["content_encoding"] = content_encoding;
+        }
+//        json_part["content_encoding"] = content_encoding ? content_encoding : "";
         
         const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-        json_part["file_name"] = file_name ? file_name : "";
+        if(file_name) {
+            json_part["file_name"] = file_name;
+        }
+//        json_part["file_name"] = file_name ? file_name : "";
         
         const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-        json_part["content_description"] = content_description ? content_description : "";
+        if(content_description) {
+            json_part["content_description"] = content_description;
+        }
+//        json_part["content_description"] = content_description ? content_description : "";
         
         const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-        json_part["content_md5"] = content_md5 ? content_md5 : "";
+        if(content_md5) {
+            json_part["content_md5"] = content_md5;
+        }
+//        json_part["content_md5"] = content_md5 ? content_md5 : "";
         
         const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-        json_part["content_disposition"] = content_disposition ? content_disposition : "";
+        if(content_disposition) {
+            json_part["content_disposition"] = content_disposition;
+        }
+//        json_part["content_disposition"] = content_disposition ? content_disposition : "";
 
 #else
         json_set_text(json_part, L"mime_type", (char *)g_mime_content_type_get_mime_type(type), FALSE, TRUE);
@@ -1341,22 +1414,40 @@ void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer user_da
         json_part["media_subtype"] = media_subtype ? media_subtype : "";
         
         const char *content_id = g_mime_object_get_content_id(part);
-        json_part["content_id"] = content_id ? content_id : "";
+        if(content_id) {
+            json_part["content_id"] = content_id;
+        }
+//        json_part["content_id"] = content_id ? content_id : "";
 
         const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-        json_part["content_encoding"] = content_encoding ? content_encoding : "";
+        if(content_encoding) {
+            json_part["content_encoding"] = content_encoding;
+        }
+//        json_part["content_encoding"] = content_encoding ? content_encoding : "";
         
         const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-        json_part["file_name"] = file_name ? file_name : "";
+        if(file_name) {
+            json_part["file_name"] = file_name;
+        }
+//        json_part["file_name"] = file_name ? file_name : "";
         
         const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-        json_part["content_description"] = content_description ? content_description : "";
+        if(content_description) {
+            json_part["content_description"] = content_description;
+        }
+//        json_part["content_description"] = content_description ? content_description : "";
         
         const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-        json_part["content_md5"] = content_md5 ? content_md5 : "";
+        if(content_md5) {
+            json_part["content_md5"] = content_md5;
+        }
+//        json_part["content_md5"] = content_md5 ? content_md5 : "";
         
         const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-        json_part["content_disposition"] = content_disposition ? content_disposition : "";
+        if(content_disposition) {
+            json_part["content_disposition"] = content_disposition;
+        }
+//        json_part["content_disposition"] = content_disposition ? content_disposition : "";
 
 #else
         json_set_text(json_part, L"mime_type", (char *)g_mime_content_type_get_mime_type(type), FALSE, TRUE);

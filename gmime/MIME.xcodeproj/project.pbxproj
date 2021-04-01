@@ -12,44 +12,38 @@
 		18B684F906944F2000CC6A1E /* Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 18B684F206944F2000CC6A1E /* Flags.h */; };
 		18B684FA06944F2000CC6A1E /* PrivateTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 18B684F306944F2000CC6A1E /* PrivateTypes.h */; };
 		18B684FB06944F2000CC6A1E /* PublicTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 18B684F406944F2000CC6A1E /* PublicTypes.h */; };
-		18B684FF06944F8800CC6A1E /* 4DPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8D01CCC80486CAD60068D4B7 /* 4D Plugin_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */; };
+		18B684FF06944F8800CC6A1E /* 4DPlugin-MIME.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B684FE06944F8800CC6A1E /* 4DPlugin-MIME.cpp */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
-		D120937F13534DCC00A72CAA /* 4DPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = D120937E13534DCC00A72CAA /* 4DPlugin.h */; };
-		D12A25F920FF1243005B3A55 /* libgobject-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */; };
-		D12A25FA20FF1243005B3A55 /* libgthread-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */; };
-		D12A25FB20FF1243005B3A55 /* libglib-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EC20FF1242005B3A55 /* libglib-2.0.a */; };
-		D12A25FC20FF1243005B3A55 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25ED20FF1242005B3A55 /* libintl.a */; };
-		D12A25FE20FF1243005B3A55 /* libgmodule-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */; };
-		D12A25FF20FF1243005B3A55 /* libgpg-error.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F020FF1243005B3A55 /* libgpg-error.a */; };
-		D12A260020FF1243005B3A55 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F120FF1243005B3A55 /* libiconv.a */; };
-		D12A260120FF1243005B3A55 /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F220FF1243005B3A55 /* libffi.a */; };
-		D12A260220FF1243005B3A55 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F320FF1243005B3A55 /* libidn.a */; };
-		D12A260320FF1243005B3A55 /* libassuan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F420FF1243005B3A55 /* libassuan.a */; };
-		D12A260420FF1243005B3A55 /* libgmime-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F520FF1243005B3A55 /* libgmime-3.0.a */; };
-		D12A260520FF1243005B3A55 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F620FF1243005B3A55 /* libz.a */; };
-		D12A260620FF1243005B3A55 /* libgpgme.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F720FF1243005B3A55 /* libgpgme.a */; };
-		D12A260720FF1243005B3A55 /* libgio-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25F820FF1243005B3A55 /* libgio-2.0.a */; };
+		D120937F13534DCC00A72CAA /* 4DPlugin-MIME.h in Headers */ = {isa = PBXBuildFile; fileRef = D120937E13534DCC00A72CAA /* 4DPlugin-MIME.h */; };
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
-		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D13116C71A03B5B600DE1322 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D13116C61A03B5B600DE1322 /* AppKit.framework */; };
+		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-Wno-multichar"; }; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
-		D14B1D7F25C4880A00EDA41C /* libjson_methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */; };
-		D14B1D8025C4880A00EDA41C /* libjson_methods.h in Headers */ = {isa = PBXBuildFile; fileRef = D14B1D7E25C4880A00EDA41C /* libjson_methods.h */; };
-		D14B1D8125C4897600EDA41C /* libjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D12A25EE20FF1242005B3A55 /* libjson.a */; };
-		D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */; };
-		D173985125C39417008AD5E8 /* 4DPlugin-JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D173984F25C39417008AD5E8 /* 4DPlugin-JSON.cpp */; };
-		D173985225C39417008AD5E8 /* 4DPlugin-JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985025C39417008AD5E8 /* 4DPlugin-JSON.h */; };
-		D173985425C394D9008AD5E8 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985325C394D9008AD5E8 /* json.h */; };
-		D173985C25C3BDC6008AD5E8 /* C_TYPES.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985525C3BDC5008AD5E8 /* C_TYPES.h */; };
-		D173985D25C3BDC6008AD5E8 /* C_LONGINT.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985625C3BDC5008AD5E8 /* C_LONGINT.h */; };
-		D173985E25C3BDC6008AD5E8 /* C_TEXT.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985725C3BDC5008AD5E8 /* C_TEXT.h */; };
-		D173985F25C3BDC6008AD5E8 /* C_TEXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D173985825C3BDC5008AD5E8 /* C_TEXT.cpp */; };
-		D173986025C3BDC6008AD5E8 /* C_BLOB.h in Headers */ = {isa = PBXBuildFile; fileRef = D173985925C3BDC5008AD5E8 /* C_BLOB.h */; };
-		D173986125C3BDC6008AD5E8 /* C_LONGINT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D173985A25C3BDC6008AD5E8 /* C_LONGINT.cpp */; };
-		D173986225C3BDC6008AD5E8 /* C_BLOB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D173985B25C3BDC6008AD5E8 /* C_BLOB.cpp */; };
-		D173986425C3C2CB008AD5E8 /* libjsoncpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D173986325C3C2CB008AD5E8 /* libjsoncpp.a */; };
-		D175D9CD1A02E8DD0006B569 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D175D9CC1A02E8DD0006B569 /* CoreGraphics.framework */; };
+		D188F3152615F97000650473 /* libgmodule-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3062615F97000650473 /* libgmodule-2.0.a */; };
+		D188F3162615F97000650473 /* libgobject-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3072615F97000650473 /* libgobject-2.0.a */; };
+		D188F3172615F97000650473 /* libgmime-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3082615F97000650473 /* libgmime-3.0.a */; };
+		D188F3182615F97000650473 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3092615F97000650473 /* libz.a */; };
+		D188F3192615F97000650473 /* libassuan.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30A2615F97000650473 /* libassuan.a */; };
+		D188F31A2615F97000650473 /* libglib-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30B2615F97000650473 /* libglib-2.0.a */; };
+		D188F31B2615F97000650473 /* libjsoncpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30C2615F97000650473 /* libjsoncpp.a */; };
+		D188F31C2615F97000650473 /* libgpg-error.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30D2615F97000650473 /* libgpg-error.a */; };
+		D188F31D2615F97000650473 /* libgio-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30E2615F97000650473 /* libgio-2.0.a */; };
+		D188F31E2615F97000650473 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F30F2615F97000650473 /* libintl.a */; };
+		D188F31F2615F97000650473 /* libgpgme.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3102615F97000650473 /* libgpgme.a */; };
+		D188F3202615F97000650473 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3112615F97000650473 /* libidn.a */; };
+		D188F3212615F97000650473 /* libgthread-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3122615F97000650473 /* libgthread-2.0.a */; };
+		D188F3232615F97000650473 /* libffi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3142615F97000650473 /* libffi.a */; };
+		D188F32C2615FD1000650473 /* C_TYPES.h in Headers */ = {isa = PBXBuildFile; fileRef = D188F3252615FD1000650473 /* C_TYPES.h */; };
+		D188F32D2615FD1000650473 /* C_TEXT.h in Headers */ = {isa = PBXBuildFile; fileRef = D188F3262615FD1000650473 /* C_TEXT.h */; };
+		D188F32E2615FD1000650473 /* C_LONGINT.h in Headers */ = {isa = PBXBuildFile; fileRef = D188F3272615FD1000650473 /* C_LONGINT.h */; };
+		D188F32F2615FD1000650473 /* C_BLOB.h in Headers */ = {isa = PBXBuildFile; fileRef = D188F3282615FD1000650473 /* C_BLOB.h */; };
+		D188F3302615FD1000650473 /* C_LONGINT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D188F3292615FD1000650473 /* C_LONGINT.cpp */; };
+		D188F3312615FD1000650473 /* C_TEXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D188F32A2615FD1000650473 /* C_TEXT.cpp */; };
+		D188F3322615FD1000650473 /* C_BLOB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D188F32B2615FD1000650473 /* C_BLOB.cpp */; };
+		D188F3362615FE0B00650473 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3352615FE0B00650473 /* libresolv.tbd */; };
+		D188F3392615FE2B00650473 /* libpcre.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3382615FE2B00650473 /* libpcre.tbd */; };
+		D188F3402615FE7400650473 /* libidn2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F33F2615FE7400650473 /* libidn2.a */; };
+		D188F34E2616033C00650473 /* libunistring.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F34D2616033C00650473 /* libunistring.a */; };
+		D188F3522616070B00650473 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3512616070B00650473 /* libiconv.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,45 +67,41 @@
 		18B684F206944F2000CC6A1E /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Flags.h; sourceTree = "<group>"; };
 		18B684F306944F2000CC6A1E /* PrivateTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrivateTypes.h; sourceTree = "<group>"; };
 		18B684F406944F2000CC6A1E /* PublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PublicTypes.h; sourceTree = "<group>"; };
-		18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = 4DPlugin.cpp; sourceTree = "<group>"; };
-		32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "4D Plugin_Prefix.pch"; sourceTree = "<group>"; };
+		18B684FE06944F8800CC6A1E /* 4DPlugin-MIME.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = "4DPlugin-MIME.cpp"; sourceTree = "<group>"; };
 		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		D120937E13534DCC00A72CAA /* 4DPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 4DPlugin.h; sourceTree = "<group>"; };
-		D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgobject-2.0.a"; path = "a/libgobject-2.0.a"; sourceTree = SOURCE_ROOT; };
-		D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgthread-2.0.a"; path = "a/libgthread-2.0.a"; sourceTree = SOURCE_ROOT; };
-		D12A25EC20FF1242005B3A55 /* libglib-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libglib-2.0.a"; path = "a/libglib-2.0.a"; sourceTree = SOURCE_ROOT; };
-		D12A25ED20FF1242005B3A55 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = a/libintl.a; sourceTree = SOURCE_ROOT; };
-		D12A25EE20FF1242005B3A55 /* libjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjson.a; path = a/libjson.a; sourceTree = SOURCE_ROOT; };
-		D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgmodule-2.0.a"; path = "a/libgmodule-2.0.a"; sourceTree = SOURCE_ROOT; };
-		D12A25F020FF1243005B3A55 /* libgpg-error.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgpg-error.a"; path = "a/libgpg-error.a"; sourceTree = SOURCE_ROOT; };
-		D12A25F120FF1243005B3A55 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = a/libiconv.a; sourceTree = SOURCE_ROOT; };
-		D12A25F220FF1243005B3A55 /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libffi.a; path = a/libffi.a; sourceTree = SOURCE_ROOT; };
-		D12A25F320FF1243005B3A55 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = a/libidn.a; sourceTree = SOURCE_ROOT; };
-		D12A25F420FF1243005B3A55 /* libassuan.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassuan.a; path = a/libassuan.a; sourceTree = SOURCE_ROOT; };
-		D12A25F520FF1243005B3A55 /* libgmime-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgmime-3.0.a"; path = "a/libgmime-3.0.a"; sourceTree = SOURCE_ROOT; };
-		D12A25F620FF1243005B3A55 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = a/libz.a; sourceTree = SOURCE_ROOT; };
-		D12A25F720FF1243005B3A55 /* libgpgme.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgpgme.a; path = a/libgpgme.a; sourceTree = SOURCE_ROOT; };
-		D12A25F820FF1243005B3A55 /* libgio-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgio-2.0.a"; path = "a/libgio-2.0.a"; sourceTree = SOURCE_ROOT; };
+		D120937E13534DCC00A72CAA /* 4DPlugin-MIME.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "4DPlugin-MIME.h"; sourceTree = "<group>"; };
 		D130064E12F02D9700702C0E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
-		D13116C61A03B5B600DE1322 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
-		D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = libjson_methods.cpp; path = include/libjson_methods.cpp; sourceTree = "<group>"; };
-		D14B1D7E25C4880A00EDA41C /* libjson_methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libjson_methods.h; path = include/libjson_methods.h; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
-		D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
-		D173984F25C39417008AD5E8 /* 4DPlugin-JSON.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = "4DPlugin-JSON.cpp"; sourceTree = SOURCE_ROOT; };
-		D173985025C39417008AD5E8 /* 4DPlugin-JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "4DPlugin-JSON.h"; sourceTree = SOURCE_ROOT; };
-		D173985325C394D9008AD5E8 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json.h; path = include/json/json.h; sourceTree = SOURCE_ROOT; };
-		D173985525C3BDC5008AD5E8 /* C_TYPES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TYPES.h; path = "4D Plugin API/Classes/C_TYPES.h"; sourceTree = "<group>"; };
-		D173985625C3BDC5008AD5E8 /* C_LONGINT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_LONGINT.h; path = "4D Plugin API/Classes/C_LONGINT.h"; sourceTree = "<group>"; };
-		D173985725C3BDC5008AD5E8 /* C_TEXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TEXT.h; path = "4D Plugin API/Classes/C_TEXT.h"; sourceTree = "<group>"; };
-		D173985825C3BDC5008AD5E8 /* C_TEXT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_TEXT.cpp; path = "4D Plugin API/Classes/C_TEXT.cpp"; sourceTree = "<group>"; };
-		D173985925C3BDC5008AD5E8 /* C_BLOB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_BLOB.h; path = "4D Plugin API/Classes/C_BLOB.h"; sourceTree = "<group>"; };
-		D173985A25C3BDC6008AD5E8 /* C_LONGINT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_LONGINT.cpp; path = "4D Plugin API/Classes/C_LONGINT.cpp"; sourceTree = "<group>"; };
-		D173985B25C3BDC6008AD5E8 /* C_BLOB.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_BLOB.cpp; path = "4D Plugin API/Classes/C_BLOB.cpp"; sourceTree = "<group>"; };
-		D173986325C3C2CB008AD5E8 /* libjsoncpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp.a; path = a/libjsoncpp.a; sourceTree = "<group>"; };
-		D175D9CC1A02E8DD0006B569 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D188F3062615F97000650473 /* libgmodule-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgmodule-2.0.a"; sourceTree = "<group>"; };
+		D188F3072615F97000650473 /* libgobject-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgobject-2.0.a"; sourceTree = "<group>"; };
+		D188F3082615F97000650473 /* libgmime-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgmime-3.0.a"; sourceTree = "<group>"; };
+		D188F3092615F97000650473 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libz.a; sourceTree = "<group>"; };
+		D188F30A2615F97000650473 /* libassuan.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libassuan.a; sourceTree = "<group>"; };
+		D188F30B2615F97000650473 /* libglib-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libglib-2.0.a"; sourceTree = "<group>"; };
+		D188F30C2615F97000650473 /* libjsoncpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjsoncpp.a; sourceTree = "<group>"; };
+		D188F30D2615F97000650473 /* libgpg-error.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgpg-error.a"; sourceTree = "<group>"; };
+		D188F30E2615F97000650473 /* libgio-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgio-2.0.a"; sourceTree = "<group>"; };
+		D188F30F2615F97000650473 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libintl.a; sourceTree = "<group>"; };
+		D188F3102615F97000650473 /* libgpgme.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgpgme.a; sourceTree = "<group>"; };
+		D188F3112615F97000650473 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libidn.a; sourceTree = "<group>"; };
+		D188F3122615F97000650473 /* libgthread-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgthread-2.0.a"; sourceTree = "<group>"; };
+		D188F3132615F97000650473 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiconv.a; sourceTree = "<group>"; };
+		D188F3142615F97000650473 /* libffi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libffi.a; sourceTree = "<group>"; };
+		D188F3252615FD1000650473 /* C_TYPES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TYPES.h; path = "4D Plugin API/Classes/C_TYPES.h"; sourceTree = "<group>"; };
+		D188F3262615FD1000650473 /* C_TEXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_TEXT.h; path = "4D Plugin API/Classes/C_TEXT.h"; sourceTree = "<group>"; };
+		D188F3272615FD1000650473 /* C_LONGINT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_LONGINT.h; path = "4D Plugin API/Classes/C_LONGINT.h"; sourceTree = "<group>"; };
+		D188F3282615FD1000650473 /* C_BLOB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = C_BLOB.h; path = "4D Plugin API/Classes/C_BLOB.h"; sourceTree = "<group>"; };
+		D188F3292615FD1000650473 /* C_LONGINT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_LONGINT.cpp; path = "4D Plugin API/Classes/C_LONGINT.cpp"; sourceTree = "<group>"; };
+		D188F32A2615FD1000650473 /* C_TEXT.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_TEXT.cpp; path = "4D Plugin API/Classes/C_TEXT.cpp"; sourceTree = "<group>"; };
+		D188F32B2615FD1000650473 /* C_BLOB.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = C_BLOB.cpp; path = "4D Plugin API/Classes/C_BLOB.cpp"; sourceTree = "<group>"; };
+		D188F3352615FE0B00650473 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		D188F3382615FE2B00650473 /* libpcre.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpcre.tbd; path = usr/lib/libpcre.tbd; sourceTree = SDKROOT; };
+		D188F33B2615FE3C00650473 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		D188F33F2615FE7400650473 /* libidn2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libidn2.a; sourceTree = "<group>"; };
+		D188F34D2616033C00650473 /* libunistring.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libunistring.a; sourceTree = "<group>"; };
+		D188F3512616070B00650473 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiconv.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,26 +109,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D173986425C3C2CB008AD5E8 /* libjsoncpp.a in Frameworks */,
-				D14B1D8125C4897600EDA41C /* libjson.a in Frameworks */,
-				D162F72D1EF7BDEE00E51DFB /* libresolv.dylib in Frameworks */,
-				D12A260420FF1243005B3A55 /* libgmime-3.0.a in Frameworks */,
-				D12A260120FF1243005B3A55 /* libffi.a in Frameworks */,
-				D12A260720FF1243005B3A55 /* libgio-2.0.a in Frameworks */,
-				D12A25FB20FF1243005B3A55 /* libglib-2.0.a in Frameworks */,
-				D12A260520FF1243005B3A55 /* libz.a in Frameworks */,
-				D13116C71A03B5B600DE1322 /* AppKit.framework in Frameworks */,
-				D12A25FA20FF1243005B3A55 /* libgthread-2.0.a in Frameworks */,
-				D12A260320FF1243005B3A55 /* libassuan.a in Frameworks */,
-				D12A25F920FF1243005B3A55 /* libgobject-2.0.a in Frameworks */,
-				D12A260220FF1243005B3A55 /* libidn.a in Frameworks */,
-				D12A25FE20FF1243005B3A55 /* libgmodule-2.0.a in Frameworks */,
-				D12A260020FF1243005B3A55 /* libiconv.a in Frameworks */,
-				D175D9CD1A02E8DD0006B569 /* CoreGraphics.framework in Frameworks */,
-				D12A260620FF1243005B3A55 /* libgpgme.a in Frameworks */,
-				D12A25FF20FF1243005B3A55 /* libgpg-error.a in Frameworks */,
-				D12A25FC20FF1243005B3A55 /* libintl.a in Frameworks */,
+				D188F3392615FE2B00650473 /* libpcre.tbd in Frameworks */,
+				D188F3362615FE0B00650473 /* libresolv.tbd in Frameworks */,
+				D188F3192615F97000650473 /* libassuan.a in Frameworks */,
+				D188F3402615FE7400650473 /* libidn2.a in Frameworks */,
+				D188F31A2615F97000650473 /* libglib-2.0.a in Frameworks */,
+				D188F3232615F97000650473 /* libffi.a in Frameworks */,
+				D188F3182615F97000650473 /* libz.a in Frameworks */,
+				D188F3152615F97000650473 /* libgmodule-2.0.a in Frameworks */,
+				D188F3172615F97000650473 /* libgmime-3.0.a in Frameworks */,
+				D188F34E2616033C00650473 /* libunistring.a in Frameworks */,
+				D188F3202615F97000650473 /* libidn.a in Frameworks */,
+				D188F3522616070B00650473 /* libiconv.a in Frameworks */,
+				D188F3162615F97000650473 /* libgobject-2.0.a in Frameworks */,
+				D188F31D2615F97000650473 /* libgio-2.0.a in Frameworks */,
 				D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */,
+				D188F31F2615F97000650473 /* libgpgme.a in Frameworks */,
+				D188F3212615F97000650473 /* libgthread-2.0.a in Frameworks */,
+				D188F31E2615F97000650473 /* libintl.a in Frameworks */,
+				D188F31B2615F97000650473 /* libjsoncpp.a in Frameworks */,
+				D188F31C2615F97000650473 /* libgpg-error.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,23 +138,20 @@
 		089C166AFE841209C02AAC07 /* MIME */ = {
 			isa = PBXGroup;
 			children = (
-				D173985325C394D9008AD5E8 /* json.h */,
-				D173984F25C39417008AD5E8 /* 4DPlugin-JSON.cpp */,
-				D173985025C39417008AD5E8 /* 4DPlugin-JSON.h */,
-				D173985B25C3BDC6008AD5E8 /* C_BLOB.cpp */,
-				D173985925C3BDC5008AD5E8 /* C_BLOB.h */,
-				D173985A25C3BDC6008AD5E8 /* C_LONGINT.cpp */,
-				D173985625C3BDC5008AD5E8 /* C_LONGINT.h */,
-				D173985825C3BDC5008AD5E8 /* C_TEXT.cpp */,
-				D173985725C3BDC5008AD5E8 /* C_TEXT.h */,
-				D173985525C3BDC5008AD5E8 /* C_TYPES.h */,
-				D162F70C1EF7BCEB00E51DFB /* a */,
+				D188F32B2615FD1000650473 /* C_BLOB.cpp */,
+				D188F3282615FD1000650473 /* C_BLOB.h */,
+				D188F3292615FD1000650473 /* C_LONGINT.cpp */,
+				D188F3272615FD1000650473 /* C_LONGINT.h */,
+				D188F32A2615FD1000650473 /* C_TEXT.cpp */,
+				D188F3262615FD1000650473 /* C_TEXT.h */,
+				D188F3252615FD1000650473 /* C_TYPES.h */,
+				D188F3052615F97000650473 /* a */,
 				D108BD7A1A03D1E6001F1B90 /* Manifest */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				189286360695AD8900B05D6E /* Products */,
-				D162F72B1EF7BDED00E51DFB /* Frameworks */,
+				D16FBB3C22A4C07E008F0416 /* Frameworks */,
 			);
 			name = MIME;
 			sourceTree = "<group>";
@@ -172,8 +159,6 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				D13116C61A03B5B600DE1322 /* AppKit.framework */,
-				D175D9CC1A02E8DD0006B569 /* CoreGraphics.framework */,
 				D130064E12F02D9700702C0E /* Cocoa.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -191,12 +176,9 @@
 		08FB77ADFE841716C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */,
-				D120937E13534DCC00A72CAA /* 4DPlugin.h */,
-				D14B1D7D25C4880A00EDA41C /* libjson_methods.cpp */,
-				D14B1D7E25C4880A00EDA41C /* libjson_methods.h */,
+				18B684FE06944F8800CC6A1E /* 4DPlugin-MIME.cpp */,
+				D120937E13534DCC00A72CAA /* 4DPlugin-MIME.h */,
 				18B684ED06944F2000CC6A1E /* 4D Plugin API */,
-				32BAE0B30371A71500C91783 /* 4D Plugin_Prefix.pch */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -231,36 +213,39 @@
 			name = Manifest;
 			sourceTree = "<group>";
 		};
-		D162F70C1EF7BCEB00E51DFB /* a */ = {
+		D16FBB3C22A4C07E008F0416 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D12A25F420FF1243005B3A55 /* libassuan.a */,
-				D12A25F220FF1243005B3A55 /* libffi.a */,
-				D12A25F820FF1243005B3A55 /* libgio-2.0.a */,
-				D12A25EC20FF1242005B3A55 /* libglib-2.0.a */,
-				D12A25F520FF1243005B3A55 /* libgmime-3.0.a */,
-				D12A25EF20FF1242005B3A55 /* libgmodule-2.0.a */,
-				D12A25EA20FF1242005B3A55 /* libgobject-2.0.a */,
-				D12A25F020FF1243005B3A55 /* libgpg-error.a */,
-				D12A25F720FF1243005B3A55 /* libgpgme.a */,
-				D12A25EB20FF1242005B3A55 /* libgthread-2.0.a */,
-				D12A25F120FF1243005B3A55 /* libiconv.a */,
-				D12A25F320FF1243005B3A55 /* libidn.a */,
-				D12A25ED20FF1242005B3A55 /* libintl.a */,
-				D12A25EE20FF1242005B3A55 /* libjson.a */,
-				D12A25F620FF1243005B3A55 /* libz.a */,
-			);
-			name = a;
-			path = stdc/a;
-			sourceTree = "<group>";
-		};
-		D162F72B1EF7BDED00E51DFB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D173986325C3C2CB008AD5E8 /* libjsoncpp.a */,
-				D162F72C1EF7BDEE00E51DFB /* libresolv.dylib */,
+				D188F33B2615FE3C00650473 /* libiconv.tbd */,
+				D188F3382615FE2B00650473 /* libpcre.tbd */,
+				D188F3352615FE0B00650473 /* libresolv.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D188F3052615F97000650473 /* a */ = {
+			isa = PBXGroup;
+			children = (
+				D188F34D2616033C00650473 /* libunistring.a */,
+				D188F3062615F97000650473 /* libgmodule-2.0.a */,
+				D188F3072615F97000650473 /* libgobject-2.0.a */,
+				D188F3082615F97000650473 /* libgmime-3.0.a */,
+				D188F3092615F97000650473 /* libz.a */,
+				D188F30A2615F97000650473 /* libassuan.a */,
+				D188F30B2615F97000650473 /* libglib-2.0.a */,
+				D188F30C2615F97000650473 /* libjsoncpp.a */,
+				D188F30D2615F97000650473 /* libgpg-error.a */,
+				D188F30E2615F97000650473 /* libgio-2.0.a */,
+				D188F30F2615F97000650473 /* libintl.a */,
+				D188F3102615F97000650473 /* libgpgme.a */,
+				D188F3512616070B00650473 /* libiconv.a */,
+				D188F3112615F97000650473 /* libidn.a */,
+				D188F33F2615FE7400650473 /* libidn2.a */,
+				D188F3122615F97000650473 /* libgthread-2.0.a */,
+				D188F3132615F97000650473 /* libiconv.a */,
+				D188F3142615F97000650473 /* libffi.a */,
+			);
+			path = a;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,20 +255,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D173985425C394D9008AD5E8 /* json.h in Headers */,
-				8D01CCC80486CAD60068D4B7 /* 4D Plugin_Prefix.pch in Headers */,
+				D188F32C2615FD1000650473 /* C_TYPES.h in Headers */,
 				18B684F706944F2000CC6A1E /* 4DPluginAPI.h in Headers */,
 				18B684F806944F2000CC6A1E /* EntryPoints.h in Headers */,
+				D188F32F2615FD1000650473 /* C_BLOB.h in Headers */,
 				18B684F906944F2000CC6A1E /* Flags.h in Headers */,
-				D14B1D8025C4880A00EDA41C /* libjson_methods.h in Headers */,
-				D173985E25C3BDC6008AD5E8 /* C_TEXT.h in Headers */,
-				D173986025C3BDC6008AD5E8 /* C_BLOB.h in Headers */,
 				18B684FA06944F2000CC6A1E /* PrivateTypes.h in Headers */,
-				D173985C25C3BDC6008AD5E8 /* C_TYPES.h in Headers */,
+				D188F32E2615FD1000650473 /* C_LONGINT.h in Headers */,
+				D188F32D2615FD1000650473 /* C_TEXT.h in Headers */,
 				18B684FB06944F2000CC6A1E /* PublicTypes.h in Headers */,
-				D173985D25C3BDC6008AD5E8 /* C_LONGINT.h in Headers */,
-				D173985225C39417008AD5E8 /* 4DPlugin-JSON.h in Headers */,
-				D120937F13534DCC00A72CAA /* 4DPlugin.h in Headers */,
+				D120937F13534DCC00A72CAA /* 4DPlugin-MIME.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +281,7 @@
 				8D01CCCB0486CAD60068D4B7 /* Sources */,
 				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
 				8D01CCCF0486CAD60068D4B7 /* Rez */,
-				D1BB1B8523517E260013FC00 /* ShellScript */,
+				D1292E7B22C4A91E00CB5A8C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -318,7 +299,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					8D01CCC60486CAD60068D4B7 = {
 						DevelopmentTeam = Y69CWUC25B;
@@ -368,16 +349,12 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D1BB1B8523517E260013FC00 /* ShellScript */ = {
+		D1292E7B22C4A91E00CB5A8C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-			);
-			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
@@ -392,13 +369,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D14B1D7F25C4880A00EDA41C /* libjson_methods.cpp in Sources */,
-				D173986225C3BDC6008AD5E8 /* C_BLOB.cpp in Sources */,
-				18B684FF06944F8800CC6A1E /* 4DPlugin.cpp in Sources */,
-				D173985125C39417008AD5E8 /* 4DPlugin-JSON.cpp in Sources */,
-				D173985F25C3BDC6008AD5E8 /* C_TEXT.cpp in Sources */,
+				D188F3302615FD1000650473 /* C_LONGINT.cpp in Sources */,
+				18B684FF06944F8800CC6A1E /* 4DPlugin-MIME.cpp in Sources */,
+				D188F3312615FD1000650473 /* C_TEXT.cpp in Sources */,
+				D188F3322615FD1000650473 /* C_BLOB.cpp in Sources */,
 				D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */,
-				D173986125C3BDC6008AD5E8 /* C_LONGINT.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,33 +394,35 @@
 		42D60B400A9DDBC8002ABB42 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.1.4;
 				DEBUGGING_SYMBOLS = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "4D Plugin_Prefix.pch";
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "include/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
@@ -455,8 +432,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -470,31 +447,32 @@
 		42D60B410A9DDBC8002ABB42 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4.1.4;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "4D Plugin_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = NDEBUG;
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "include/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
@@ -504,8 +482,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -519,28 +497,30 @@
 		42D60B420A9DDBC8002ABB42 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.1.4;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "4D Plugin_Prefix.pch";
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "include/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/stdc/a",
+					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
@@ -550,8 +530,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.4D.MIME;
 				PRODUCT_NAME = MIME;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0 include/libjson";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -564,7 +544,9 @@
 		42D60B440A9DDBC8002ABB42 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -583,13 +565,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = NDEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -598,18 +580,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
-				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
+				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
 			name = Development;
 		};
 		42D60B450A9DDBC8002ABB42 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -628,13 +611,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = NDEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -643,18 +626,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
-				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
+				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
 			name = Deployment;
 		};
 		42D60B460A9DDBC8002ABB42 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -673,12 +657,13 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				DEVELOPMENT_TEAM = Y69CWUC25B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = NDEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -687,10 +672,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
-				SYMROOT = "$(SRCROOT)/$(PRODUCT_NAME).4dbase/Plugins";
-				USER_HEADER_SEARCH_PATHS = "include/gmime-3.0 include/glib-2.0";
+				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
 			name = Default;
 		};

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -77,6 +77,12 @@ struct _GMimeFilterGZipClass {
 GType g_mime_filter_gzip_get_type (void);
 
 GMimeFilter *g_mime_filter_gzip_new (GMimeFilterGZipMode mode, int level);
+
+const char *g_mime_filter_gzip_get_filename (GMimeFilterGZip *gzip);
+void g_mime_filter_gzip_set_filename (GMimeFilterGZip *gzip, const char *filename);
+
+const char *g_mime_filter_gzip_get_comment (GMimeFilterGZip *gzip);
+void g_mime_filter_gzip_set_comment (GMimeFilterGZip *gzip, const char *comment);
 
 G_END_DECLS
 

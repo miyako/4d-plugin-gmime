@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 /**
  * GPollableOutputStream:
  *
- * An interface for a #GOutputStream that can be polled for readability.
+ * An interface for a #GOutputStream that can be polled for writeability.
  *
  * Since: 2.28
  */
@@ -49,6 +49,8 @@ typedef struct _GPollableOutputStreamInterface GPollableOutputStreamInterface;
  * @create_source: Creates a #GSource to poll the stream
  * @write_nonblocking: Does a non-blocking write or returns
  *   %G_IO_ERROR_WOULD_BLOCK
+ * @writev_nonblocking: Does a vectored non-blocking write, or returns
+ *   %G_POLLABLE_RETURN_WOULD_BLOCK
  *
  * The interface for pollable output streams.
  *
@@ -60,6 +62,12 @@ typedef struct _GPollableOutputStreamInterface GPollableOutputStreamInterface;
  * need to override it if it is possible that your @is_writable
  * implementation may return %TRUE when the stream is not actually
  * writable.
+ *
+ * The default implementation of @writev_nonblocking calls
+ * g_pollable_output_stream_write_nonblocking() for each vector, and converts
+ * its return value and error (if set) to a #GPollableReturn. You should
+ * override this where possible to avoid having to allocate a #GError to return
+ * %G_IO_ERROR_WOULD_BLOCK.
  *
  * Since: 2.28
  */
@@ -77,6 +85,11 @@ struct _GPollableOutputStreamInterface
 				     const void             *buffer,
 				     gsize                   count,
 				     GError                **error);
+  GPollableReturn (*writev_nonblocking) (GPollableOutputStream  *stream,
+					 const GOutputVector    *vectors,
+					 gsize                   n_vectors,
+					 gsize                  *bytes_written,
+					 GError                **error);
 };
 
 GLIB_AVAILABLE_IN_ALL
@@ -98,8 +111,15 @@ gssize   g_pollable_output_stream_write_nonblocking (GPollableOutputStream  *str
 						     GCancellable           *cancellable,
 						     GError                **error);
 
+GLIB_AVAILABLE_IN_2_60
+GPollableReturn g_pollable_output_stream_writev_nonblocking (GPollableOutputStream  *stream,
+							     const GOutputVector    *vectors,
+							     gsize                   n_vectors,
+							     gsize                  *bytes_written,
+							     GCancellable           *cancellable,
+							     GError                **error);
+
 G_END_DECLS
 
 
 #endif /* __G_POLLABLE_OUTPUT_STREAM_H__ */
-

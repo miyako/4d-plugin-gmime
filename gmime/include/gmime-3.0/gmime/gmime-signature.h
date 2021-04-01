@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -63,7 +63,7 @@ typedef struct _GMimeSignatureListClass GMimeSignatureListClass;
  * @GMIME_SIGNATURE_STATUS_SYS_ERROR: A system error occurred.
  * @GMIME_SIGNATURE_STATUS_TOFU_CONFLICT: Tofu conflict detected.
  *
- * A value representing the signature status flags for a particular
+ * A value representing the signature status bit flags for a particular
  * #GMimeSignature.
  **/
 typedef enum {
@@ -127,9 +127,11 @@ GMimeSignatureStatus g_mime_signature_get_status (GMimeSignature *sig);
 
 void g_mime_signature_set_created (GMimeSignature *sig, time_t created);
 time_t g_mime_signature_get_created (GMimeSignature *sig);
+gint64 g_mime_signature_get_created64 (GMimeSignature *sig);
 
 void g_mime_signature_set_expires (GMimeSignature *sig, time_t expires);
 time_t g_mime_signature_get_expires (GMimeSignature *sig);
+gint64 g_mime_signature_get_expires64 (GMimeSignature *sig);
 
 
 /**

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -71,6 +71,7 @@
 #include <gmime/gmime-filter-from.h>
 #include <gmime/gmime-filter-gzip.h>
 #include <gmime/gmime-filter-html.h>
+#include <gmime/gmime-filter-openpgp.h>
 #include <gmime/gmime-filter-smtp-data.h>
 #include <gmime/gmime-filter-strip.h>
 #include <gmime/gmime-filter-unix2dos.h>

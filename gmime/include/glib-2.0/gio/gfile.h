@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -80,14 +80,14 @@ typedef struct _GFileIface    		GFileIface;
  * @set_display_name: Sets the display name for a #GFile.
  * @set_display_name_async: Asynchronously sets a #GFile's display name.
  * @set_display_name_finish: Finishes asynchronously setting a #GFile's display name.
- * @query_settable_attributes: Returns a list of #GFileAttributes that can be set.
- * @_query_settable_attributes_async: Asynchronously gets a list of #GFileAttributes that can be set.
+ * @query_settable_attributes: Returns a list of #GFileAttributeInfos that can be set.
+ * @_query_settable_attributes_async: Asynchronously gets a list of #GFileAttributeInfos that can be set.
  * @_query_settable_attributes_finish: Finishes asynchronously querying settable attributes.
- * @query_writable_namespaces: Returns a list of #GFileAttribute namespaces that are writable.
- * @_query_writable_namespaces_async: Asynchronously gets a list of #GFileAttribute namespaces that are writable.
+ * @query_writable_namespaces: Returns a list of #GFileAttributeInfo namespaces that are writable.
+ * @_query_writable_namespaces_async: Asynchronously gets a list of #GFileAttributeInfo namespaces that are writable.
  * @_query_writable_namespaces_finish: Finishes asynchronously querying the writable namespaces.
- * @set_attribute: Sets a #GFileAttribute.
- * @set_attributes_from_info: Sets a #GFileAttribute with information from a #GFileInfo.
+ * @set_attribute: Sets a #GFileAttributeInfo.
+ * @set_attributes_from_info: Sets a #GFileAttributeInfo with information from a #GFileInfo.
  * @set_attributes_async: Asynchronously sets a file's attributes.
  * @set_attributes_finish: Finishes setting a file's attributes asynchronously.
  * @read_fn: Reads a file asynchronously.
@@ -111,10 +111,13 @@ typedef struct _GFileIface    		GFileIface;
  * @make_directory: Makes a directory.
  * @make_directory_async: Asynchronously makes a directory.
  * @make_directory_finish: Finishes making a directory asynchronously.
- * @make_symbolic_link: Makes a symbolic link.
+ * @make_symbolic_link: (nullable): Makes a symbolic link. %NULL if symbolic
+ *    links are unsupported.
  * @_make_symbolic_link_async: Asynchronously makes a symbolic link
  * @_make_symbolic_link_finish: Finishes making a symbolic link asynchronously.
- * @copy: Copies a file.
+ * @copy: (nullable): Copies a file. %NULL if copying is unsupported, which will
+ *     cause `GFile` to use a fallback copy method where it reads from the
+ *     source and writes to the destination.
  * @copy_async: Asynchronously copies a file.
  * @copy_finish: Finishes an asynchronous copy operation.
  * @move: Moves a file.
@@ -140,16 +143,16 @@ typedef struct _GFileIface    		GFileIface;
  * @replace_readwrite_async: Asynchronously replaces file read/write. Since 2.22.
  * @replace_readwrite_finish: Finishes an asynchronous replace read/write. Since 2.22.
  * @start_mountable: Starts a mountable object. Since 2.22.
- * @start_mountable_finish: Finishes an start operation. Since 2.22.
+ * @start_mountable_finish: Finishes a start operation. Since 2.22.
  * @stop_mountable: Stops a mountable. Since 2.22.
- * @stop_mountable_finish: Finishes an stop operation. Since 2.22.
+ * @stop_mountable_finish: Finishes a stop operation. Since 2.22.
  * @supports_thread_contexts: a boolean that indicates whether the #GFile implementation supports thread-default contexts. Since 2.22.
  * @unmount_mountable_with_operation: Unmounts a mountable object using a #GMountOperation. Since 2.22.
  * @unmount_mountable_with_operation_finish: Finishes an unmount operation using a #GMountOperation. Since 2.22.
  * @eject_mountable_with_operation: Ejects a mountable object using a #GMountOperation. Since 2.22.
  * @eject_mountable_with_operation_finish: Finishes an eject operation using a #GMountOperation. Since 2.22.
  * @poll_mountable: Polls a mountable object for media changes. Since 2.22.
- * @poll_mountable_finish: Finishes an poll operation for media changes. Since 2.22.
+ * @poll_mountable_finish: Finishes a poll operation for media changes. Since 2.22.
  * @measure_disk_usage: Recursively measures the disk usage of @file. Since 2.38
  * @measure_disk_usage_async: Asynchronously recursively measures the disk usage of @file. Since 2.38
  * @measure_disk_usage_finish: Finishes an asynchronous recursive measurement of the disk usage of @file. Since 2.38
@@ -606,6 +609,9 @@ GFile *                 g_file_new_tmp                    (const char           
                                                            GError                    **error);
 GLIB_AVAILABLE_IN_ALL
 GFile *                 g_file_parse_name                 (const char                 *parse_name);
+GLIB_AVAILABLE_IN_2_56
+GFile *                 g_file_new_build_filename         (const gchar                *first_element,
+                                                           ...) G_GNUC_NULL_TERMINATED;
 GLIB_AVAILABLE_IN_ALL
 GFile *                 g_file_dup                        (GFile                      *file);
 GLIB_AVAILABLE_IN_ALL
@@ -617,6 +623,8 @@ GLIB_AVAILABLE_IN_ALL
 char *                  g_file_get_basename               (GFile                      *file);
 GLIB_AVAILABLE_IN_ALL
 char *                  g_file_get_path                   (GFile                      *file);
+GLIB_AVAILABLE_IN_2_56
+const char *            g_file_peek_path                  (GFile                      *file);
 GLIB_AVAILABLE_IN_ALL
 char *                  g_file_get_uri                    (GFile                      *file);
 GLIB_AVAILABLE_IN_ALL
@@ -1086,6 +1094,12 @@ gboolean                g_file_eject_mountable_with_operation_finish (GFile     
 							   GAsyncResult               *result,
 							   GError                    **error);
 
+GLIB_AVAILABLE_IN_2_68
+char *			g_file_build_attribute_list_for_copy (GFile                   *file,
+							   GFileCopyFlags              flags,
+							   GCancellable               *cancellable,
+							   GError                    **error);
+
 GLIB_AVAILABLE_IN_ALL
 gboolean                g_file_copy_attributes            (GFile                      *source,
 							   GFile                      *destination,
@@ -1178,6 +1192,17 @@ GLIB_AVAILABLE_IN_ALL
 GAppInfo *g_file_query_default_handler       (GFile                  *file,
 					      GCancellable           *cancellable,
 					      GError                **error);
+GLIB_AVAILABLE_IN_2_60
+void      g_file_query_default_handler_async (GFile                  *file,
+                                              int                     io_priority,
+                                              GCancellable           *cancellable,
+                                              GAsyncReadyCallback     callback,
+                                              gpointer                user_data);
+GLIB_AVAILABLE_IN_2_60
+GAppInfo *g_file_query_default_handler_finish (GFile                 *file,
+                                               GAsyncResult          *result,
+                                               GError               **error);
+
 GLIB_AVAILABLE_IN_ALL
 gboolean g_file_load_contents                (GFile                  *file,
 					      GCancellable           *cancellable,
@@ -1247,6 +1272,22 @@ gboolean g_file_replace_contents_finish      (GFile                  *file,
 
 GLIB_AVAILABLE_IN_ALL
 gboolean g_file_supports_thread_contexts     (GFile                  *file);
+
+GLIB_AVAILABLE_IN_2_56
+GBytes  *g_file_load_bytes                   (GFile                  *file,
+                                              GCancellable           *cancellable,
+                                              gchar                 **etag_out,
+                                              GError                **error);
+GLIB_AVAILABLE_IN_2_56
+void     g_file_load_bytes_async             (GFile                  *file,
+                                              GCancellable           *cancellable,
+                                              GAsyncReadyCallback     callback,
+                                              gpointer                user_data);
+GLIB_AVAILABLE_IN_2_56
+GBytes  *g_file_load_bytes_finish            (GFile                  *file,
+                                              GAsyncResult           *result,
+                                              gchar                 **etag_out,
+                                              GError                **error);
 
 G_END_DECLS
 

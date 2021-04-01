@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -81,16 +81,19 @@ char *g_mime_header_format_default (GMimeHeader *header, GMimeFormatOptions *opt
  * A message or mime-part header.
  **/
 struct _GMimeHeader {
+	/* <private> */
 	GObject parent_object;
 	
 	char *name, *value;
 	
-	/* < private > */
+	/* <private> */
 	GMimeHeaderRawValueFormatter formatter;
 	GMimeParserOptions *options;
+	gboolean reformat;
 	gpointer changed;
 	char *raw_value;
 	char *raw_name;
+	char *charset;
 	gint64 offset;
 };
 

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -42,6 +42,7 @@ char *g_mime_utils_decode_message_id (const char *message_id);
 char  *g_mime_utils_structured_header_fold (GMimeParserOptions *options, GMimeFormatOptions *format, const char *header);
 char  *g_mime_utils_unstructured_header_fold (GMimeParserOptions *options, GMimeFormatOptions *format, const char *header);
 char  *g_mime_utils_header_printf (GMimeParserOptions *options, GMimeFormatOptions *format, const char *text, ...) G_GNUC_PRINTF (3, 4);
+char  *g_mime_utils_header_unfold (const char *value);
 
 char  *g_mime_utils_quote_string (const char *str);
 void   g_mime_utils_unquote_string (char *str);

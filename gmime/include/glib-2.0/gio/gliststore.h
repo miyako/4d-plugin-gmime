@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -71,6 +71,17 @@ void                    g_list_store_splice                             (GListSt
                                                                          guint       n_removals,
                                                                          gpointer   *additions,
                                                                          guint       n_additions);
+
+GLIB_AVAILABLE_IN_2_64
+gboolean                g_list_store_find                               (GListStore *store,
+                                                                         gpointer    item,
+                                                                         guint      *position);
+
+GLIB_AVAILABLE_IN_2_64
+gboolean                g_list_store_find_with_equal_func               (GListStore *store,
+                                                                         gpointer    item,
+                                                                         GEqualFunc  equal_func,
+                                                                         guint      *position);
 
 G_END_DECLS
 

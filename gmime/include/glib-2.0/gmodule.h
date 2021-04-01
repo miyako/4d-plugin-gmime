@@ -4,7 +4,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -101,7 +101,7 @@ const gchar *         g_module_name          (GModule      *module);
  * directory where the module file is supposed to be, or NULL or empty
  * in which case it should either be in the current directory or, on
  * some operating systems, in some standard place, for instance on the
- * PATH. Hence, to be absoultely sure to get the correct module,
+ * PATH. Hence, to be absolutely sure to get the correct module,
  * always pass in a directory. The file name consists of the directory,
  * if supplied, and 'module_name' suitably decorated according to
  * the operating system's conventions (for instance lib*.so or *.dll).

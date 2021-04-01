@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,7 +36,7 @@ G_BEGIN_DECLS
  * @name_owner: Unique name of the owner of the name being watched.
  * @user_data: User data passed to g_bus_watch_name().
  *
- * Invoked when the name being watched is known to have to have a owner.
+ * Invoked when the name being watched is known to have to have an owner.
  *
  * Since: 2.26
  */
@@ -52,9 +52,9 @@ typedef void (*GBusNameAppearedCallback) (GDBusConnection *connection,
  * @name: The name being watched.
  * @user_data: User data passed to g_bus_watch_name().
  *
- * Invoked when the name being watched is known not to have to have a owner.
+ * Invoked when the name being watched is known not to have to have an owner.
  *
- * This is also invoked when the #GDBusConection on which the watch was
+ * This is also invoked when the #GDBusConnection on which the watch was
  * established has been closed.  In that case, @connection will be
  * %NULL.
  *

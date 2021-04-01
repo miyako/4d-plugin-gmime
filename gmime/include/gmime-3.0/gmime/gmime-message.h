@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -30,6 +30,8 @@
 #include <gmime/gmime-object.h>
 #include <gmime/gmime-header.h>
 #include <gmime/gmime-stream.h>
+#include <gmime/gmime-autocrypt.h>
+#include <gmime/gmime-crypto-context.h>
 
 G_BEGIN_DECLS
 
@@ -61,7 +63,7 @@ typedef enum _GMimeAddressType {
 	GMIME_ADDRESS_TYPE_REPLY_TO,
 	GMIME_ADDRESS_TYPE_TO,
 	GMIME_ADDRESS_TYPE_CC,
-	GMIME_ADDRESS_TYPE_BCC
+	GMIME_ADDRESS_TYPE_BCC,
 } GMimeAddressType;
 
 
@@ -85,7 +87,7 @@ struct _GMimeMessage {
 	GDateTime *date;
 	char *subject;
 	
-	/* < private > */
+	/* <private> */
 	char *marker;
 };
 
@@ -121,6 +123,10 @@ const char *g_mime_message_get_message_id (GMimeMessage *message);
 
 GMimeObject *g_mime_message_get_mime_part (GMimeMessage *message);
 void g_mime_message_set_mime_part (GMimeMessage *message, GMimeObject *mime_part);
+
+GMimeAutocryptHeader *g_mime_message_get_autocrypt_header (GMimeMessage *message, GDateTime *now);
+GMimeAutocryptHeaderList *g_mime_message_get_autocrypt_gossip_headers (GMimeMessage *message, GDateTime *now, GMimeDecryptFlags flags, const char *session_key, GError **err);
+GMimeAutocryptHeaderList *g_mime_message_get_autocrypt_gossip_headers_from_inner_part (GMimeMessage *message, GDateTime *now, GMimeObject *inner_part);
 
 /* convenience functions */
 

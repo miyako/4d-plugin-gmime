@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the licence, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -374,6 +374,8 @@ GVariantType *                  g_variant_type_new_dict_entry           (const G
 /*< private >*/
 GLIB_AVAILABLE_IN_ALL
 const GVariantType *            g_variant_type_checked_                 (const gchar *);
+GLIB_AVAILABLE_IN_2_60
+gsize                           g_variant_type_string_get_depth_        (const gchar *type_string);
 
 G_END_DECLS
 

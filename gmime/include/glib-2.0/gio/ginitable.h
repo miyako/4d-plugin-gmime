@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -81,12 +81,17 @@ gpointer g_initable_new        (GType          object_type,
 				const gchar   *first_property_name,
 				...);
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+
 GLIB_DEPRECATED_IN_2_54_FOR(g_object_new_with_properties and g_initable_init)
 gpointer g_initable_newv       (GType          object_type,
 				guint          n_parameters,
 				GParameter    *parameters,
 				GCancellable  *cancellable,
 				GError       **error);
+
+G_GNUC_END_IGNORE_DEPRECATIONS
+
 GLIB_AVAILABLE_IN_ALL
 GObject* g_initable_new_valist (GType          object_type,
 				const gchar   *first_property_name,

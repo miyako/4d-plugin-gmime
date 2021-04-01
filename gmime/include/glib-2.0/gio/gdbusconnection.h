@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -114,6 +114,8 @@ void             g_dbus_connection_set_exit_on_close          (GDBusConnection  
                                                                gboolean            exit_on_close);
 GLIB_AVAILABLE_IN_ALL
 GDBusCapabilityFlags  g_dbus_connection_get_capabilities      (GDBusConnection    *connection);
+GLIB_AVAILABLE_IN_2_60
+GDBusConnectionFlags  g_dbus_connection_get_flags             (GDBusConnection    *connection);
 
 /* ---------------------------------------------------------------------------------------------------- */
 
@@ -430,11 +432,11 @@ gboolean         g_dbus_connection_unregister_object          (GDBusConnection  
  * specified (ie: to verify that the object path is valid).
  *
  * Hierarchies are not supported; the items that you return should not
- * contain the '/' character.
+ * contain the `/` character.
  *
  * The return value will be freed with g_strfreev().
  *
- * Returns: A newly allocated array of strings for node names that are children of @object_path.
+ * Returns: (array zero-terminated=1) (transfer full): A newly allocated array of strings for node names that are children of @object_path.
  *
  * Since: 2.26
  */
@@ -470,7 +472,7 @@ typedef gchar** (*GDBusSubtreeEnumerateFunc) (GDBusConnection       *connection,
  * remote introspector in the empty array case, but not in the %NULL
  * case.
  *
- * Returns: A %NULL-terminated array of pointers to #GDBusInterfaceInfo, or %NULL.
+ * Returns: (array zero-terminated=1) (nullable) (transfer full): A %NULL-terminated array of pointers to #GDBusInterfaceInfo, or %NULL.
  *
  * Since: 2.26
  */
@@ -487,7 +489,7 @@ typedef GDBusInterfaceInfo ** (*GDBusSubtreeIntrospectFunc) (GDBusConnection    
  * @object_path: The object path that was registered with g_dbus_connection_register_subtree().
  * @interface_name: The D-Bus interface name that the method call or property access is for.
  * @node: A node that is a child of @object_path (relative to @object_path) or %NULL for the root of the subtree.
- * @out_user_data: (nullable) (not optional): Return location for user data to pass to functions in the returned #GDBusInterfaceVTable (never %NULL).
+ * @out_user_data: (nullable) (not optional): Return location for user data to pass to functions in the returned #GDBusInterfaceVTable.
  * @user_data: The @user_data #gpointer passed to g_dbus_connection_register_subtree().
  *
  * The type of the @dispatch function in #GDBusSubtreeVTable.
@@ -495,7 +497,7 @@ typedef GDBusInterfaceInfo ** (*GDBusSubtreeIntrospectFunc) (GDBusConnection    
  * Subtrees are flat.  @node, if non-%NULL, is always exactly one
  * segment of the object path (ie: it never contains a slash).
  *
- * Returns: A #GDBusInterfaceVTable or %NULL if you don't want to handle the methods.
+ * Returns: (nullable): A #GDBusInterfaceVTable or %NULL if you don't want to handle the methods.
  *
  * Since: 2.26
  */
@@ -548,7 +550,8 @@ gboolean         g_dbus_connection_unregister_subtree         (GDBusConnection  
 /**
  * GDBusSignalCallback:
  * @connection: A #GDBusConnection.
- * @sender_name: The unique bus name of the sender of the signal.
+ * @sender_name: (nullable): The unique bus name of the sender of the signal,
+   or %NULL on a peer-to-peer D-Bus connection.
  * @object_path: The object path that the signal was emitted on.
  * @interface_name: The name of the interface.
  * @signal_name: The name of the signal.
@@ -604,7 +607,7 @@ void             g_dbus_connection_signal_unsubscribe         (GDBusConnection  
  *                 gboolean         incoming,
  *                 gpointer         user_data)
  * {
- *   /<!-- -->* inspect @message *<!-- -->/
+ *   // inspect @message
  *   return message;
  * }
  * ]|
@@ -637,10 +640,10 @@ void             g_dbus_connection_signal_unsubscribe         (GDBusConnection  
  *
  *   error = NULL;
  *   copy = g_dbus_message_copy (message, &error);
- *   /<!-- -->* handle @error being is set *<!-- -->/
+ *   // handle @error being set
  *   g_object_unref (message);
  *
- *   /<!-- -->* modify @copy *<!-- -->/
+ *   // modify @copy
  *
  *   return copy;
  * }

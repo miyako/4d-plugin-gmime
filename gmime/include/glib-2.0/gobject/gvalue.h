@@ -4,7 +4,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -88,6 +88,8 @@ G_BEGIN_DECLS
  * 
  * The type of value transformation functions which can be registered with
  * g_value_register_transform_func().
+ *
+ * @dest_value will be initialized to the correct destination type.
  */
 typedef void (*GValueTransform) (const GValue *src_value,
 				 GValue       *dest_value);
@@ -169,9 +171,20 @@ void	g_value_register_transform_func	(GType		 src_type,
  *
  * If passed to G_VALUE_COLLECT(), allocated data won't be copied
  * but used verbatim. This does not affect ref-counted types like
- * objects.
+ * objects. This does not affect usage of g_value_copy(), the data will
+ * be copied if it is not ref-counted.
  */
 #define G_VALUE_NOCOPY_CONTENTS (1 << 27)
+
+/**
+ * G_VALUE_INTERNED_STRING:
+ *
+ * For string values, indicates that the string contained is canonical and will
+ * exist for the duration of the process. See g_value_set_interned_string().
+ *
+ * Since: 2.66
+ */
+#define G_VALUE_INTERNED_STRING (1 << 28) GLIB_AVAILABLE_MACRO_IN_2_66
 
 /**
  * G_VALUE_INIT:

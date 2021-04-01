@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -108,10 +108,14 @@ GType                 g_binding_get_type            (void) G_GNUC_CONST;
 
 GLIB_AVAILABLE_IN_ALL
 GBindingFlags         g_binding_get_flags           (GBinding *binding);
-GLIB_AVAILABLE_IN_ALL
+GLIB_DEPRECATED_IN_2_68_FOR(g_binding_dup_source)
 GObject *             g_binding_get_source          (GBinding *binding);
-GLIB_AVAILABLE_IN_ALL
+GLIB_AVAILABLE_IN_2_68
+GObject *             g_binding_dup_source          (GBinding *binding);
+GLIB_DEPRECATED_IN_2_68_FOR(g_binding_dup_target)
 GObject *             g_binding_get_target          (GBinding *binding);
+GLIB_AVAILABLE_IN_2_68
+GObject *             g_binding_dup_target          (GBinding *binding);
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_binding_get_source_property (GBinding *binding);
 GLIB_AVAILABLE_IN_ALL

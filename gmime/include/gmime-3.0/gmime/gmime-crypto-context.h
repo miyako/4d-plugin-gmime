@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -79,13 +79,21 @@ typedef GMimeCryptoContext * (* GMimeCryptoContextNewFunc) (void);
 /**
  * GMimeDecryptFlags:
  * @GMIME_DECRYPT_NONE: No flags specified.
- * @GMIME_DECRYPT_EXPORT_SESSION_KEY: Export the decryption session-key
+ * @GMIME_DECRYPT_EXPORT_SESSION_KEY: Export the decryption session-key.
+ * @GMIME_DECRYPT_NO_VERIFY: Disable signature verification.
+ * @GMIME_DECRYPT_ENABLE_KEYSERVER_LOOKUPS: Enable OpenPGP keyserver lookups.
+ * @GMIME_DECRYPT_ENABLE_ONLINE_CERTIFICATE_CHECKS: Enable CRL and OCSP checks that require network lookups.
  *
  * Decryption flags.
  **/
 typedef enum {
-	GMIME_DECRYPT_NONE               = 0,
-	GMIME_DECRYPT_EXPORT_SESSION_KEY = 1 << 0,
+	GMIME_DECRYPT_NONE                             = 0,
+	GMIME_DECRYPT_EXPORT_SESSION_KEY               = 1 << 0,
+	GMIME_DECRYPT_NO_VERIFY                        = 1 << 1,
+
+	/* Note: these values must stay in sync with GMimeVerifyFlags */
+	GMIME_DECRYPT_ENABLE_KEYSERVER_LOOKUPS         = 1 << 15,
+	GMIME_DECRYPT_ENABLE_ONLINE_CERTIFICATE_CHECKS = 1 << 15
 } GMimeDecryptFlags;
 
 
@@ -111,11 +119,15 @@ typedef enum {
 /**
  * GMimeVerifyFlags:
  * @GMIME_VERIFY_NONE: No flags specified.
+ * @GMIME_VERIFY_ENABLE_KEYSERVER_LOOKUPS: Enable OpenPGP keyserver lookups.
+ * @GMIME_VERIFY_ENABLE_ONLINE_CERTIFICATE_CHECKS: Enable CRL and OCSP checks that require network lookups.
  *
  * Signature verification flags.
  **/
 typedef enum {
-	GMIME_VERIFY_NONE           = 0
+	GMIME_VERIFY_NONE                             = 0,
+	GMIME_VERIFY_ENABLE_KEYSERVER_LOOKUPS         = 1 << 15,
+	GMIME_VERIFY_ENABLE_ONLINE_CERTIFICATE_CHECKS = 1 << 15
 } GMimeVerifyFlags;
 
 
@@ -164,6 +176,14 @@ struct _GMimeCryptoContextClass {
 	
 	int                      (* export_keys) (GMimeCryptoContext *ctx, const char *keys[],
 						  GMimeStream *ostream, GError **err);
+
+#if 0
+	int                      (* compress)    (GMimeCryptoContext *ctx, GMimeStream *istream,
+						  GMimeStream *ostream, GError **err);
+
+	int                      (* decompress)  (GMimeCryptoContext *ctx, GMimeStream *istream,
+						  GMimeStream *ostream, GError **err);
+#endif
 };
 
 

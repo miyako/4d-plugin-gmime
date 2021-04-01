@@ -5,7 +5,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -49,6 +49,12 @@ void g_dbus_gvariant_to_gvalue (GVariant  *value,
 GLIB_AVAILABLE_IN_ALL
 GVariant *g_dbus_gvalue_to_gvariant (const GValue         *gvalue,
                                      const GVariantType   *type);
+GLIB_AVAILABLE_IN_2_68
+gchar *g_dbus_escape_object_path_bytestring (const guint8 *bytes);
+GLIB_AVAILABLE_IN_2_68
+gchar *g_dbus_escape_object_path (const gchar *s);
+GLIB_AVAILABLE_IN_2_68
+guint8 *g_dbus_unescape_object_path (const gchar *s);
 
 G_END_DECLS
 

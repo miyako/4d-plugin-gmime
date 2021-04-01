@@ -4,7 +4,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -345,7 +345,7 @@ void        g_io_channel_win32_make_pollfd (GIOChannel   *channel,
 					    GIOCondition  condition,
 					    GPollFD      *fd);
 
-/* This can be used to wait a until at least one of the channels is readable.
+/* This can be used to wait until at least one of the channels is readable.
  * On Unix you would do a select() on the file descriptors of the channels.
  */
 GLIB_AVAILABLE_IN_ALL

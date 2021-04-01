@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -60,6 +60,7 @@ GType g_mime_filter_checksum_get_type (void);
 GMimeFilter *g_mime_filter_checksum_new (GChecksumType type);
 
 size_t g_mime_filter_checksum_get_digest (GMimeFilterChecksum *checksum, unsigned char *digest, size_t len);
+gchar *g_mime_filter_checksum_get_string (GMimeFilterChecksum *checksum);
 
 G_END_DECLS
 

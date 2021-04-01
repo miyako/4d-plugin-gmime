@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  GMime
- *  Copyright (C) 2000-2017 Jeffrey Stedfast
+ *  Copyright (C) 2000-2020 Jeffrey Stedfast
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -77,9 +77,9 @@ typedef struct {
  * Abstract I/O stream class.
  **/
 struct _GMimeStream {
+	/* <private> */
 	GObject parent_object;
 	
-	/* <private> */
 	GMimeStream *super_stream;
 	
 	gint64 position;

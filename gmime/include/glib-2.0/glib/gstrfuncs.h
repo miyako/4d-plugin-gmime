@@ -4,7 +4,7 @@
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -253,9 +253,13 @@ GLIB_AVAILABLE_IN_ALL
 gchar*                g_strescape      (const gchar *source,
 					const gchar *exceptions) G_GNUC_MALLOC;
 
-GLIB_AVAILABLE_IN_ALL
-gpointer              g_memdup	       (gconstpointer mem,
-					guint	       byte_size) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(2);
+GLIB_DEPRECATED_IN_2_68_FOR (g_memdup2)
+gpointer              g_memdup         (gconstpointer mem,
+                                        guint         byte_size) G_GNUC_ALLOC_SIZE(2);
+
+GLIB_AVAILABLE_IN_2_68
+gpointer              g_memdup2        (gconstpointer mem,
+                                        gsize         byte_size) G_GNUC_ALLOC_SIZE(2);
 
 /* NULL terminated string arrays.
  * g_strsplit(), g_strsplit_set() split up string into max_tokens tokens
@@ -270,18 +274,18 @@ typedef gchar** GStrv;
 GLIB_AVAILABLE_IN_ALL
 gchar**	              g_strsplit       (const gchar  *string,
 					const gchar  *delimiter,
-					gint          max_tokens) G_GNUC_MALLOC;
+					gint          max_tokens);
 GLIB_AVAILABLE_IN_ALL
 gchar **	      g_strsplit_set   (const gchar *string,
 					const gchar *delimiters,
-					gint         max_tokens) G_GNUC_MALLOC;
+					gint         max_tokens);
 GLIB_AVAILABLE_IN_ALL
 gchar*                g_strjoinv       (const gchar  *separator,
 					gchar       **str_array) G_GNUC_MALLOC;
 GLIB_AVAILABLE_IN_ALL
 void                  g_strfreev       (gchar       **str_array);
 GLIB_AVAILABLE_IN_ALL
-gchar**               g_strdupv        (gchar       **str_array) G_GNUC_MALLOC;
+gchar**               g_strdupv        (gchar       **str_array);
 GLIB_AVAILABLE_IN_ALL
 guint                 g_strv_length    (gchar       **str_array);
 
@@ -306,6 +310,10 @@ gboolean                g_str_match_string                              (const g
 GLIB_AVAILABLE_IN_2_44
 gboolean              g_strv_contains  (const gchar * const *strv,
                                         const gchar         *str);
+
+GLIB_AVAILABLE_IN_2_60
+gboolean              g_strv_equal     (const gchar * const *strv1,
+                                        const gchar * const *strv2);
 
 /* Convenience ASCII string to number API */
 

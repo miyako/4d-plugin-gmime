@@ -13,8 +13,29 @@
 
 #include "4DPluginAPI.h"
 
+#if VERSIONWIN
+#if defined(WIN64)
+#define ssize_t __int64
+#else
+#define ssize_t int
+#endif
+#endif
+
 #include "gmime/gmime.h"
-#include "json.h"
+#include "json/json.h"
+
+#include <mutex>
+
+#if defined(_WIN32)
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
+#include "windows.h"
+extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
+#endif
 
 typedef struct
 {
@@ -43,20 +64,6 @@ typedef struct
     bool is_message;
     
 }mime_ctx;
-
-#include <mutex>
-
-#if defined(_WIN32)
-
-#define snprintf _snprintf
-#define vsnprintf _vsnprintf
-#define strcasecmp _stricmp
-#define strncasecmp _strnicmp
-
-extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
-extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
-extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
-#endif
 
 #pragma mark -
 

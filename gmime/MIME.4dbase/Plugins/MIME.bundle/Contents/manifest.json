@@ -1,0 +1,16 @@
+{
+    "name": "MIME",
+    "id": 20000,
+    "commands": [
+                 {
+                 "theme": "MIME",
+                 "syntax": "MIME PARSE MESSAGE(&O;&T;&Y)",
+                 "threadSafe": false
+                 },
+                 {
+                 "theme": "MIME",
+                 "syntax": "MIME Create message(&T;&Y):O",
+                 "threadSafe": false
+                 }
+                 ]
+}

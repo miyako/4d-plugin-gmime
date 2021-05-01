@@ -894,35 +894,6 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
     }
 }
 
-static void filter_double_header(GMimeObject *message_mime, const char *name, BOOL with_new_line = FALSE) {
-    
-    if(name)
-    {
-        std::string header_string = (const char *)name;
-        if(with_new_line)
-        {
-            header_string += (const char *)": \n";
-        }else{
-            header_string += (const char *)":";
-        }
-        
-        for (guint i = 0; i < message_mime->headers->array->len; i++)
-        {
-            GMimeHeader *header = (GMimeHeader *) message_mime->headers->array->pdata[i];
-            
-            if (!g_ascii_strcasecmp (name, header->name))
-            {
-                std::string raw_header_value = (const char *)g_mime_header_get_raw_value (header);
-                if(raw_header_value.find(header_string) == 0)
-                {
-                    g_mime_header_set_raw_value(header, (const char *)raw_header_value.substr(header_string.length()).c_str());
-                    break;
-                }
-            }
-        }
-    }
-}
-
 static void add_mailboxes(GMimeMessage *message, Json::Value& message_node, const char *key, GMimeAddressType type) {
     
     Json::Value node = message_node[key];
@@ -971,12 +942,24 @@ static void add_headers(GMimeObject *message_mime, Json::Value& message_node) {
                 value_s   = name.isString() ?   value.asString() : "";
                 charset_s = name.isString() ? charset.asString() : NULL;
 
-                g_mime_object_set_header(message_mime,
-                                         name_s.c_str(),
-                                         value_s.c_str(),
-                                         charset_s.c_str());
-                
-                filter_double_header(message_mime, name_s.c_str());
+                if (name_s.length()) {
+                    if (value_s.length()) {
+                        //g_mime_object_remove_header(message_mime, name_s.c_str());
+
+						if (   (name_s != "from")
+							&& (name_s != "cc")
+							&& (name_s != "to")
+							&& (name_s != "bcc")
+							&& (name_s != "sender")
+							&& (name_s != "reply_to")
+							&& (name_s != "subject")) {
+							g_mime_object_set_header(message_mime,
+								name_s.c_str(),
+								value_s.c_str(),
+								charset_s.c_str());
+						}  
+                    }
+                }
             }
         }
     }
@@ -995,10 +978,10 @@ static void add_date(GMimeMessage *message, Json::Value& message_node) {
         GTimeVal time;
         if(g_time_val_from_iso8601 ((const gchar *)utc_date_s.c_str(), &time))
         {
+            g_mime_object_remove_header(message_mime, "Date");
             GDateTime *date = g_date_time_new_from_timeval_utc(&time);
             g_mime_message_set_date(message, date);
             g_date_time_unref(date);
-            filter_double_header(message_mime, "Date");
         }
     }else
     {
@@ -1009,10 +992,10 @@ static void add_date(GMimeMessage *message, Json::Value& message_node) {
             GTimeVal time;
             if(g_time_val_from_iso8601 ((const gchar *)local_date.asString().c_str(), &time))
             {
+                g_mime_object_remove_header(message_mime, "Date");
                 GDateTime *date = g_date_time_new_from_timeval_local(&time);
                 g_mime_message_set_date(message, date);
                 g_date_time_unref(date);
-                filter_double_header(message_mime, "Date");
             }
         }
     }
@@ -1298,9 +1281,7 @@ static void add_parts(GMimeObject *message_mime,
                                g_mime_part_set_content_encoding(part, GMIME_CONTENT_ENCODING_BASE64);
                            }
                        }
-                       
-                       filter_double_header(part_mime, "Content-Transfer-Encoding");
-                       
+                                              
                        Json::Value part_content_id = it->get("content_id", defaultValue);
                                        
                        if(part_content_id.isString())
@@ -1320,7 +1301,6 @@ static void add_parts(GMimeObject *message_mime,
                        if(part_content_location.isString())
                        {
                            g_mime_part_set_content_location(part, part_content_location.asString().c_str());
-                           filter_double_header(part_mime, "Content-Location");
                        }
                        
                        Json::Value part_content_description = it->get("content_description", defaultValue);
@@ -1328,7 +1308,6 @@ static void add_parts(GMimeObject *message_mime,
                        if(part_content_description.isString())
                        {
                            g_mime_part_set_content_description(part, part_content_description.asString().c_str());
-                           filter_double_header(part_mime, "Content-Description");
                        }
                        
                        Json::Value part_file_name = it->get("file_name", defaultValue);
@@ -1343,7 +1322,6 @@ static void add_parts(GMimeObject *message_mime,
                        if(part_content_md5.isString())
                        {
                            g_mime_part_set_content_md5(part, part_content_md5.asString().c_str());
-                           filter_double_header(part_mime, "Content-Md5");
                        }
                        
                        if(isBody)
@@ -1686,8 +1664,6 @@ void MIME_Create_message(PA_PluginParameters params)
             
             if(message_node.isObject())
             {
-                add_headers(message_mime, message_node);
-                add_date(message, message_node);
                 add_mailboxes(message, message_node, "from", GMIME_ADDRESS_TYPE_FROM);
                 add_mailboxes(message, message_node, "cc", GMIME_ADDRESS_TYPE_CC);
                 add_mailboxes(message, message_node, "to", GMIME_ADDRESS_TYPE_TO);
@@ -1696,8 +1672,8 @@ void MIME_Create_message(PA_PluginParameters params)
                 add_mailboxes(message, message_node, "reply_to", GMIME_ADDRESS_TYPE_REPLY_TO);
                 
                 Json::Value subject_charset = message_node["subject_charset"];
-
                 Json::Value subject = message_node["subject"];
+                
                 if(subject_charset.isString())
                 {
                     g_mime_message_set_subject(message, subject.asString().c_str(),
@@ -1706,7 +1682,6 @@ void MIME_Create_message(PA_PluginParameters params)
                 }else{
                     g_mime_message_set_subject(message, subject.asString().c_str(), NULL);
                 }
-                filter_double_header(message_mime, "Subject");
 
                 Json::Value message_id = message_node["id"];
                 if(message_id.isString())
@@ -1723,6 +1698,9 @@ void MIME_Create_message(PA_PluginParameters params)
                     g_mime_object_set_content_type(message_mime, content_type);
                 }
                 
+                add_headers(message_mime, message_node);
+                add_date(message, message_node);
+                
                 GMimeMultipart *multipart = NULL;
 
                 Json::ArrayIndex part_count = 0;
@@ -1736,8 +1714,15 @@ void MIME_Create_message(PA_PluginParameters params)
                 
                 //prepare
                 GMimeFormatOptions *format_options = g_mime_format_options_new();
-                g_mime_format_options_set_param_encoding_method(format_options, GMIME_PARAM_ENCODING_METHOD_RFC2231);
-                g_mime_format_options_set_newline_format (format_options, GMIME_NEWLINE_FORMAT_DOS);
+                
+                g_mime_format_options_set_param_encoding_method(
+                                                                format_options,
+                                                                GMIME_PARAM_ENCODING_METHOD_RFC2231);
+
+                g_mime_format_options_set_newline_format (
+                                                          format_options,
+                                                          GMIME_NEWLINE_FORMAT_DOS);
+                
                 GMimeStream *stream = g_mime_stream_mem_new();
                 GByteArray *array = g_byte_array_new();
                 g_mime_stream_mem_set_byte_array ((GMimeStreamMem *)stream, array);

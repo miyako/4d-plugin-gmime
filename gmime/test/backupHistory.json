@@ -1,0 +1,30 @@
+﻿{
+	"Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DB": [
+		{
+			"backupPath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME[0001].4BK",
+			"structurePath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DB",
+			"dataPath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DD",
+			"logPath": "",
+			"startingDate": "2021-05-05T00:34:36.050Z",
+			"endingDate": "2021-05-05T00:34:36.050Z",
+			"scheduledDate": "2021-05-05T00:34:36.050Z",
+			"status": -1,
+			"backupNumber": 1,
+			"duration": 49,
+			"attachments": [
+				{
+					"attachmentPath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DSyncHeader",
+					"found": false
+				},
+				{
+					"attachmentPath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DSyncData",
+					"found": false
+				},
+				{
+					"attachmentPath": "Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DIndx",
+					"found": false
+				}
+			]
+		}
+	]
+}

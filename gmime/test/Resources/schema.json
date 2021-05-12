@@ -1,0 +1,204 @@
+{
+	"title": "MIME message object",
+	"description": "",
+	"type": "object",
+	"properties":
+	{
+		"message":
+		{
+			"description": "",
+			"type": "object",
+			"properties":
+			{
+				"subject":
+				{
+					"description": "The Subject header",
+					"type": ["string", "null"]
+				},
+				"id":
+				{
+					"description": "The Message-ID header",
+					"type": ["string", "null"]
+				},
+				"local_time":
+				{
+					"description": "The local time in milliseconds since midnight",
+					"type": "integer"
+				},
+				"utc_time":
+				{
+					"description": "The UTC time in milliseconds since midnight",
+					"type": "integer"
+				},
+				"local_date":
+				{
+					"description": "ISO 8601 time with offset from UTC",
+					"type": "string",
+					"pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{4}$"
+				},
+				"utc_date":
+				{
+					"description": "ISO 8601 time in UTC",
+					"type": "string",
+					"pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+				},
+				"headers":
+				{
+					"description": "List of MIME headers of the main message",
+					"type": "array",
+					"items":
+					{
+						"description": "A MIME header of the main message",
+						"type": "object",
+						"properties":
+						{
+							"name":
+							{
+								"description": "Header name",
+								"type": "string"
+							},
+							"value":
+							{
+								"description": "Header value",
+								"type": ["string", "null"]
+							}
+						},
+						"required": ["name", "value"]
+					}
+				}
+			},
+			"patternProperties":
+			{
+				"body|attachments":
+				{
+					"description": "list of MIME parts of a multi-part message",
+					"type": "array",
+					"items":
+					{
+						"description": "MIME part of a multi-part message",
+						"type": "object",
+						"properties":
+						{
+							"mime_type":
+							{
+								"description": "MIME type e.g. text/plain",
+								"type": ["string", "null"]
+							},
+							"media_type":
+							{
+								"description": "Media type e.g. text",
+								"type": ["string", "null"]
+							},
+							"media_subtype":
+							{
+								"description": "Media subtype e.g. plain",
+								"type": ["string", "null"]
+							},
+							"file_name":
+							{
+								"description": "File name",
+								"type": ["string", "null"]
+							},
+							"content_description":
+							{
+								"description": "Content-Description header",
+								"type": ["string", "null"]
+							},
+							"content_md5":
+							{
+								"description": "Content-MD5 header",
+								"type": ["string", "null"]
+							},
+							"content_location":
+							{
+								"description": "Content-Location header",
+								"type": ["string", "null"]
+							},
+							"content_encoding":
+							{
+								"description": "Content-Encoding header",
+								"type": ["string", "null"]
+							},
+							"data":
+							{
+								"description": "Cotent text for text/* parts, or the element index of the BLOB array for other types",
+								"type": ["string", "integer"]
+							},
+							"headers":
+							{
+								"description": "List of headers for each MIME part",
+								"type": "array",
+								"items":
+								{
+									"description": "A MIME header each MIME part",
+									"type": "object",
+									"properties":
+									{
+										"name":
+										{
+											"description": "Header name",
+											"type": "string"
+										},
+										"value":
+										{
+											"description": "Header value",
+											"type": ["string", "null"]
+										}
+									},
+									"required": ["name", "value"]
+								}
+							}
+						},
+						"required": ["mime_type", "media_subtype", "file_name",
+												 "content_description", "content_md5", "content_location", "content_encoding", "data", "headers"]
+					}
+				}
+			},
+			"patternProperties":
+			{
+				"from|cc|to|bcc|sender|reply_to|all_recipients":
+				{
+					"description": "list of recipient address",
+					"type": "array",
+					"items":
+					{
+						"description": "recipient address",
+						"type": "object",
+						"properties":
+						{
+							"name":
+							{
+								"description": "The label of an email address e.g. miyako",
+								"type": ["string", "null"]
+							},
+							"string":
+							{
+								"description": "The decoded value an email address e.g. miyako <keisuke.miyako@4d.com>",
+								"type": ["string", "null"]
+							},
+							"encoded_string":
+							{
+								"description": "The encoded value an email address e.g. miyako <keisuke.miyako@4d.com>",
+								"type": ["string", "null"]
+							},
+							"addr":
+							{
+								"description": "The email address e.g. keisuke.miyako@4d.com",
+								"type": ["string", "null"]
+							},
+							"idn_addr":
+							{
+								"description": "The email address in IDN e.g. keisuke.miyako@4d.com",
+								"type": ["string", "null"]
+							}
+						},
+						"required": ["name", "string", "encoded_string", "addr", "idn_addr"]
+					}
+				}
+			},
+			"required": ["subject", "id", "local_time", "utc_time", "local_date", "utc_date",
+									 "from", "cc", "to", "bcc", "sender", "reply_to", "all_recipients"]
+		}
+	},
+	"required": ["message"]
+}

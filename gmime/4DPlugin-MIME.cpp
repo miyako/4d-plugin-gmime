@@ -190,7 +190,7 @@ static void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mim
         bool hasHeaders = getHeaders(part, "headers", json_part);
 
         if(hasHeaders) {
-            
+                        
             GMimeFormatOptions *format_options = g_mime_format_options_new();
             g_mime_format_options_set_param_encoding_method(format_options, GMIME_PARAM_ENCODING_METHOD_RFC2231);
             g_mime_format_options_set_newline_format (format_options, GMIME_NEWLINE_FORMAT_DOS);
@@ -204,7 +204,29 @@ static void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mim
             
             PA_Variable element = PA_CreateVariable(eVK_Blob);
             
-            PA_SetBlobVariable(&element, array->data, array->len);
+            guint8 *data = array->data;
+            guint   len  = array->len;
+            
+            for (guint i = 0; i < array->len; ++i) {
+                
+                if(*data == '\r') {
+                    data++;
+                    len--;
+                    continue;
+                }
+                
+                if(*data == '\n') {
+                    data++;
+                    len--;
+                    continue;
+                }
+                
+                break;
+            }
+            
+            
+            //PA_SetBlobVariable(&element, array->data, array->len);
+            PA_SetBlobVariable(&element, data, len);
             PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
             
                     json_part["data"] = i;

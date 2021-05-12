@@ -8,11 +8,15 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/gXAFSUV0rtR0yyvfUs/mbSkMd4=
+			p18S5zoJ9j1nFUJHjNFt3W/DWgQ=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/constants.xlf</key>
+		<data>
+		UbZYnK1QdI2HA5cO0/aNT2a+ucQ=
+		</data>
 		<key>Resources/manifest.json</key>
 		<data>
 		ZmHDOlwmnnEkIemmy5YUbiA6n10=
@@ -20,20 +24,48 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>QuickLook/Thumbnail.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			98jKbUnZvoNXKS37m5JUoBfuRCxC2JzhKP+uHKV6WFc=
+			</data>
+		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9h5AzA9U2El30/mErx/8THNdJdJBNck6lX7bqP+G3/M=
+			M7yc7w5WXexQ5xGHKjInjphwcAuD9py1Nt5QslZA6d4=
 			</data>
 			<key>optional</key>
 			<true/>
+		</dict>
+		<key>Resources/constants.xlf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7t2nF9u/4W05GOd8UQ7QAt/PFge16k3ydWYX/6ElmJk=
+			</data>
 		</dict>
 		<key>Resources/manifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			nby7lOWFyAZuKvie0qJrUFQywhP6ct1av7nOD22pLBE=
+			</data>
+		</dict>
+		<key>Windows/MIME.4DX</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			YvrSgtFd9lhcpj5Q0oLMU6lG1CUgA/C0tehRAWwXElE=
+			</data>
+		</dict>
+		<key>Windows64/MIME.4DX</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			lnAqL847DJP7BnAaNNsBG5BhB5WAgpsYowKIgR95054=
 			</data>
 		</dict>
 	</dict>

@@ -11,9 +11,7 @@
 #ifndef PLUGIN_MIME_H
 #define PLUGIN_MIME_H
 
-#include "4DPluginAPI.h"
-
-#if VERSIONWIN
+#if defined(_WIN32)
 #if defined(WIN64)
 #define ssize_t __int64
 #else
@@ -36,6 +34,8 @@ extern "C" BOOL glib_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRese
 extern "C" BOOL gio_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 extern "C" BOOL gobject_DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 #endif
+
+#include "4DPluginAPI.h"
 
 typedef struct
 {

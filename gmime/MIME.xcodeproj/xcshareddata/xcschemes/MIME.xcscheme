@@ -42,7 +42,7 @@
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/Applications/4D v18.4/4D.app">
+         FilePath = "/Applications/4D v18.5/Hotfix 3/4D.app">
       </PathRunnable>
    </LaunchAction>
    <ProfileAction

@@ -1,0 +1,10 @@
+*** Full Backup
+Creating archive : Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME[0001].4BK
+Attachment(s): 
+	Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DSyncHeader [NOT FOUND]
+	Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DSyncData [NOT FOUND]
+	Macintosh HD:Users:miyako:Documents:miyako@github.com:4d-plugin-gmime:gmime:test:MIME.4DIndx [NOT FOUND]
+Scheduled 1/01/02 9:18
+Starting 2021/11/26 12:56
+Ending 2021/11/26 12:56
+

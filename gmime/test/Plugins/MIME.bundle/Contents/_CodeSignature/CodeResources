@@ -8,7 +8,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2/5mTXXiMrwiz3aDYZvbsDbmaEs=
+			wwV+J477JUbccyjwhEWSkW5hLEE=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -35,7 +35,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			PAo/y8QAvLMYgumC6/r8a8JRvqtWIlHFDKEhQTD/oeQ=
+			mBCLUH0ir5euo3P3N77z6m/uq6/eB24msWTCwaJuNrg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -54,18 +54,18 @@
 			nby7lOWFyAZuKvie0qJrUFQywhP6ct1av7nOD22pLBE=
 			</data>
 		</dict>
-		<key>Windows/MIME.4DX</key>
+		<key>windows/MIME.4DX</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YvrSgtFd9lhcpj5Q0oLMU6lG1CUgA/C0tehRAWwXElE=
+			7K9T++w1qTkw3HFAXxhuQ1X9d5+zj2NmLlwGqmqxX2o=
 			</data>
 		</dict>
-		<key>Windows64/MIME.4DX</key>
+		<key>windows64/MIME.4DX</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lnAqL847DJP7BnAaNNsBG5BhB5WAgpsYowKIgR95054=
+			gE0JDON2OyIm/Yikg28/6LrXsBoyO7ywQhsuAABJ7bw=
 			</data>
 		</dict>
 	</dict>

@@ -571,12 +571,11 @@ static void processBodyOrAttachment(GMimeObject *parent, GMimeObject *part, mime
             #endif
                             g_date_time_unref(local_date_dt);
                                 
-                            GDateTime *utc_time_dt = g_date_time_to_local(date);
-                            int utc_time = ((g_date_time_get_hour(utc_time_dt) * 3600)
-                                            + (g_date_time_get_minute(utc_time_dt) * 60)
-                                            +  g_date_time_get_second(utc_time_dt)) * 1000;
-                            
-                            gchar *utc_date = g_date_time_format(utc_time_dt, "%Y-%m-%dT%H:%M:%S%z");
+                            int utc_time = ((g_date_time_get_hour(date) * 3600)
+                                            + (g_date_time_get_minute(date) * 60)
+                                            +  g_date_time_get_second(date)) * 1000;
+
+                            gchar *utc_date = g_date_time_format(date, "%Y-%m-%dT%H:%M:%S%z");
                             
                             json_part["utc_date"] = utc_date;
                             json_part["utc_time"] = utc_time;
@@ -587,7 +586,6 @@ static void processBodyOrAttachment(GMimeObject *parent, GMimeObject *part, mime
                                 g_free(utc_date);//corrupts heap on windows
                             }
             #endif
-                            g_date_time_unref(utc_time_dt);
 
                         }else
                         {
@@ -766,12 +764,11 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
 #endif
                 g_date_time_unref(local_date_dt);
                     
-                GDateTime *utc_time_dt = g_date_time_to_local(date);
-                int utc_time = ((g_date_time_get_hour(utc_time_dt) * 3600)
-                                + (g_date_time_get_minute(utc_time_dt) * 60)
-                                +  g_date_time_get_second(utc_time_dt)) * 1000;
+                int utc_time = ((g_date_time_get_hour(date) * 3600)
+                                + (g_date_time_get_minute(date) * 60)
+                                +  g_date_time_get_second(date)) * 1000;
                 
-                gchar *utc_date = g_date_time_format(utc_time_dt, "%Y-%m-%dT%H:%M:%S%z");
+                gchar *utc_date = g_date_time_format(date, "%Y-%m-%dT%H:%M:%S%z");
                 
                 json_part["utc_date"] = utc_date;
                 json_part["utc_time"] = utc_time;
@@ -782,7 +779,6 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
                     g_free(utc_date);//corrupts heap on windows
                 }
 #endif
-                g_date_time_unref(utc_time_dt);
             
             }else
             {
@@ -1598,12 +1594,11 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
 #endif
                 g_date_time_unref(local_date_dt);
 
-                GDateTime *utc_time_dt = g_date_time_to_local(date);
-                int utc_time = ((g_date_time_get_hour(utc_time_dt) * 3600)
-                                + (g_date_time_get_minute(utc_time_dt) * 60)
-                                +  g_date_time_get_second(utc_time_dt)) * 1000;
+                int utc_time = ((g_date_time_get_hour(date) * 3600)
+                                + (g_date_time_get_minute(date) * 60)
+                                +  g_date_time_get_second(date)) * 1000;
                 
-                gchar *utc_date = g_date_time_format(utc_time_dt, "%Y-%m-%dT%H:%M:%S%z");
+                gchar *utc_date = g_date_time_format(date, "%Y-%m-%dT%H:%M:%S%z");
                 
                 json_message["utc_date"] = utc_date;
                 json_message["utc_time"] = utc_time;
@@ -1614,7 +1609,6 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
                     g_free(utc_date);//corrupts heap on windows
                 }
 #endif
-                g_date_time_unref(utc_time_dt);
 
             }else
             {

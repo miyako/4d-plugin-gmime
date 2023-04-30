@@ -186,7 +186,61 @@ static void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mim
     if(GMIME_IS_MESSAGE_PART(part)) {
                 
         Json::Value json_part = Json::Value(Json::objectValue);
-            
+        
+        const char *_content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
+        std::string content_disposition;
+        if(_content_disposition != NULL) {
+            content_disposition = _content_disposition;
+        }
+        const char *_content_description = g_mime_part_get_content_description((GMimePart *)part);
+        std::string content_description;
+        if(_content_description != NULL) {
+            content_description = _content_description;
+        }
+        const char *_content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
+        std::string content_md5;
+        if(_content_md5 != NULL) {
+            content_md5 = _content_md5;
+        }
+        const char *_file_name = g_mime_part_get_filename((GMimePart *)part);
+        std::string file_name;
+        if(_file_name != NULL) {
+            file_name = _file_name;
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_type_parameter (part, "name");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_disposition_parameter (part, "filename");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        const char *_content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
+        std::string content_encoding;
+        if(_content_encoding != NULL) {
+            content_encoding = _content_encoding;
+        }
+        else{
+            _content_encoding = g_mime_object_get_header(part, "Content-Transfer-Encoding");
+            if(_content_encoding != NULL) {
+                content_encoding = _content_encoding;
+            }
+        }
+        
+        const char *_content_id = g_mime_object_get_content_id(part);
+        std::string content_id;
+        if(_content_id != NULL) {
+            content_id = _content_id;
+        }
+        
+        /*
+         getHeaders() invalidates disposition
+         */
+        
         bool hasHeaders = getHeaders(part, "headers", json_part);
 
         if(hasHeaders) {
@@ -251,58 +305,26 @@ static void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mim
                     if(content_id) {
                         json_part["content_id"] = content_id;
                     }
-//                    json_part["content_id"] = content_id ? content_id : "";
                     
-            const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-            if(content_encoding) {
-                json_part["content_encoding"] = content_encoding;
-            }
-            //                    json_part["content_encoding"] = content_encoding ? content_encoding : "";
-            else{
-                const char *encoding = g_mime_object_get_header(part, "Content-Transfer-Encoding:");
-                if(encoding) {
-                    json_part["content_encoding"] = encoding;
-                }
-            }
             
-            const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-            if(file_name) {
-                json_part["file_name"] = file_name;
-            }else{
-                const char *_name = g_mime_object_get_content_type_parameter (part, "name");
-                if(_name) {
-                    json_part["file_name"] = _name;
-                }else{
-                    const char *_filename = g_mime_object_get_content_disposition_parameter (part, "filename");
-                    if(_filename) {
-                        json_part["file_name"] = _filename;
-                    }
-                }
+            if(content_encoding.length() != 0) {
+                json_part["content_encoding"] = content_encoding.c_str();
+            }
+
+            if(file_name.length() != 0) {
+                json_part["file_name"] = file_name.c_str();
             }
                         
-            const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-            if(content_description) {
-                json_part["content_description"] = content_description;
+            if(content_description.length() != 0) {
+                json_part["content_description"] = content_description.c_str();
             }
-//            json_part["content_description"] = content_description ? content_description : "";
-                    
-                    const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-            if(content_md5) {
-                json_part["content_md5"] = content_md5;
+
+            if(content_md5.length() != 0) {
+                json_part["content_md5"] = content_md5.c_str();
             }
-//                    json_part["content_md5"] = content_md5 ? content_md5 : "";
-                    
-                    const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-                            
-            if(content_disposition) {
-                json_part["content_disposition"] = content_disposition;
-            }
-//                    json_part["content_disposition"] = content_disposition ? content_disposition : "";
-            else{
-//                const char *disposition = g_mime_object_get_disposition(part);
-//                if(disposition) {
-//                    json_part["content_disposition"] = disposition;
-//                }
+            
+            if(content_disposition.length() != 0) {
+                json_part["content_disposition"] = content_disposition.c_str();
             }
 
                     Json::Value *value = ctx->json;
@@ -333,6 +355,7 @@ static void processAttachmentMessage(GMimeObject *parent, GMimeObject *part, mim
         }
     }
 }
+
 static void processMessage(GMimeObject *parent, GMimeObject *part, gpointer user_data) {
     
     mime_ctx_simple *ctx = (mime_ctx_simple *)user_data;
@@ -396,7 +419,7 @@ static void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer use
             ctx->part++;
         }
     }
-
+    
     if(!isMultipart) {
         
         if(!isMessage) {
@@ -412,7 +435,7 @@ static void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer use
                     if(0 == strncasecmp(mediaType, "text", 4))
                     {
                         ctx->name =  "body";
-
+                        
                         processBottomLevel(parent, part, ctx);
                     }else{
                         
@@ -448,9 +471,9 @@ static void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer use
                 ctx->message = message;
                 g_mime_message_foreach(message, processNextLevel, ctx);
                 ctx->message = _message;
-
+                
             }
-  
+            
         }
         
     }else{
@@ -505,7 +528,7 @@ static void processNextLevel(GMimeObject *parent, GMimeObject *part, gpointer us
                 ctx->message = message;
                 g_mime_message_foreach(message, processTopLevel, ctx);
                 ctx->message = _message;
-
+                
             }
         }
         
@@ -530,189 +553,229 @@ static void processBodyOrAttachment(GMimeObject *parent, GMimeObject *part, mime
     {
         Json::Value json_part = Json::Value(Json::objectValue);
         
+        const char *_content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
+        std::string content_disposition;
+        if(_content_disposition != NULL) {
+            content_disposition = _content_disposition;
+        }
+        const char *_content_description = g_mime_part_get_content_description((GMimePart *)part);
+        std::string content_description;
+        if(_content_description != NULL) {
+            content_description = _content_description;
+        }
+        const char *_content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
+        std::string content_md5;
+        if(_content_md5 != NULL) {
+            content_md5 = _content_md5;
+        }
+        const char *_file_name = g_mime_part_get_filename((GMimePart *)part);
+        std::string file_name;
+        if(_file_name != NULL) {
+            file_name = _file_name;
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_type_parameter (part, "name");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_disposition_parameter (part, "filename");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        const char *_content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
+        std::string content_encoding;
+        if(_content_encoding != NULL) {
+            content_encoding = _content_encoding;
+        }
+        else{
+            _content_encoding = g_mime_object_get_header(part, "Content-Transfer-Encoding");
+            if(_content_encoding != NULL) {
+                content_encoding = _content_encoding;
+            }
+        }
+        const char *_content_id = g_mime_object_get_content_id(part);
+        std::string content_id;
+        if(_content_id != NULL) {
+            content_id = _content_id;
+        }
+        
+        /*
+         getHeaders() invalidates disposition
+         */
+        
         bool hasHeaders = getHeaders(part, "headers", json_part);
-
+        
         if(hasHeaders) {
-                    if(GMIME_IS_MESSAGE_PART(part)) {
-                        
-                        GMimeMessage *message = ctx->message;
-
-                        getAddress(g_mime_message_get_from (message), "from", json_part);
-                        getAddress(g_mime_message_get_cc (message), "cc", json_part);
-                        getAddress(g_mime_message_get_to (message), "to", json_part);
-                        getAddress(g_mime_message_get_bcc (message), "bcc", json_part);
-                        getAddress(g_mime_message_get_sender (message), "sender", json_part);
-                        getAddress(g_mime_message_get_reply_to (message), "reply_to", json_part);
-                        getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_part);
-
-                        json_part["id"]      = g_mime_message_get_message_id(message);
-                        json_part["subject"] = g_mime_message_get_subject(message);
-
-
-                        GDateTime *date = g_mime_message_get_date(message);
-                        
-                        if(date)
-                        {
-                            GDateTime *local_date_dt = g_date_time_to_local(date);
-                            int local_time = ((g_date_time_get_hour(local_date_dt) * 3600)
-                                              + (g_date_time_get_minute(local_date_dt) * 60)
-                                              +  g_date_time_get_second(local_date_dt)) * 1000;
-                            
-                            gchar *local_date = g_date_time_format(local_date_dt, "%Y-%m-%dT%H:%M:%S%z");
-                            
-                            json_part["local_date"] = local_date;
-                            json_part["local_time"] = local_time;
-                            
-            #if VERSIONMAC
-                            if(local_date)
-                            {
-                                g_free(local_date);//corrupts heap on windows
-                            }
-            #endif
-                            g_date_time_unref(local_date_dt);
-                                
-                            int utc_time = ((g_date_time_get_hour(date) * 3600)
-                                            + (g_date_time_get_minute(date) * 60)
-                                            +  g_date_time_get_second(date)) * 1000;
-
-                            gchar *utc_date = g_date_time_format(date, "%Y-%m-%dT%H:%M:%S%z");
-                            
-                            json_part["utc_date"] = utc_date;
-                            json_part["utc_time"] = utc_time;
-                            
-            #if VERSIONMAC
-                            if(utc_date)
-                            {
-                                g_free(utc_date);//corrupts heap on windows
-                            }
-            #endif
-
-                        }else
-                        {
-                            json_part["local_date"] = Json::Value(Json::nullValue);
-                            json_part["local_time"] = Json::Value(Json::nullValue);
-                            json_part["utc_date"]   = Json::Value(Json::nullValue);
-                            json_part["utc_time"]   = Json::Value(Json::nullValue);
-                        }
-                    }
+            if(GMIME_IS_MESSAGE_PART(part)) {
+                
+                GMimeMessage *message = ctx->message;
+                
+                getAddress(g_mime_message_get_from (message), "from", json_part);
+                getAddress(g_mime_message_get_cc (message), "cc", json_part);
+                getAddress(g_mime_message_get_to (message), "to", json_part);
+                getAddress(g_mime_message_get_bcc (message), "bcc", json_part);
+                getAddress(g_mime_message_get_sender (message), "sender", json_part);
+                getAddress(g_mime_message_get_reply_to (message), "reply_to", json_part);
+                getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_part);
+                
+                json_part["id"]      = g_mime_message_get_message_id(message);
+                json_part["subject"] = g_mime_message_get_subject(message);
+                
+                GDateTime *date = g_mime_message_get_date(message);
+                
+                if(date)
+                {
+                    GDateTime *local_date_dt = g_date_time_to_local(date);
+                    int local_time = ((g_date_time_get_hour(local_date_dt) * 3600)
+                                      + (g_date_time_get_minute(local_date_dt) * 60)
+                                      +  g_date_time_get_second(local_date_dt)) * 1000;
                     
-                    bool isBinary = true;
+                    gchar *local_date = g_date_time_format(local_date_dt, "%Y-%m-%dT%H:%M:%S%z");
                     
-                    GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
-                    const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
-                    if(0 == strncasecmp(mediaType, "text", 4))
+                    json_part["local_date"] = local_date;
+                    json_part["local_time"] = local_time;
+                    
+#if VERSIONMAC
+                    if(local_date)
                     {
-                        //g_mime_text_part_get_text will alloc
-                        // https://developer.gnome.org/gmime/stable/GMimeTextPart.html
-                        
-                        //special consideration for microsoft mht
-                        const char *charset = g_mime_text_part_get_charset((GMimeTextPart *)part);
-                        if(charset && (0 == strncasecmp(charset, "unicode", 7)))
-                        {
-                            g_mime_text_part_set_charset ((GMimeTextPart *)part, "utf-16le");
-                        }
-                        
-                        if(charset) {
-
-                            char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
-                            json_part["data"] = text;
-                            if(text) g_free(text);
-
-                            isBinary = false;
-                        }
-             
+                        g_free(local_date);//corrupts heap on windows
                     }
+#endif
+                    g_date_time_unref(local_date_dt);
                     
-                    if(isBinary) {
-                        
-                        GMimeStream *content = g_mime_stream_mem_new();
-                        g_mime_data_wrapper_write_to_stream(wrapper, content);
-                        GByteArray *bytes = g_mime_stream_mem_get_byte_array ((GMimeStreamMem *)content);
-                        
-                        PA_long32 i = PA_GetArrayNbElements(*(ctx->array_blob));
-                        PA_ResizeArray(ctx->array_blob, ++i);
-                        
-                        PA_Variable element = PA_CreateVariable(eVK_Blob);
-                        PA_SetBlobVariable(&element, (void *)bytes->data, bytes->len);
-                        PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
-                        json_part["data"] = i;
-
-                        g_mime_stream_close(content);
-                        g_clear_object(&content);
-                        
-                    }
-
-                    //Content-Type
-                    GMimeContentType *type = g_mime_object_get_content_type(part);
+                    int utc_time = ((g_date_time_get_hour(date) * 3600)
+                                    + (g_date_time_get_minute(date) * 60)
+                                    +  g_date_time_get_second(date)) * 1000;
                     
-                    //g_mime_content_type_get_mime_type will alloc
-                    // https://developer.gnome.org/gmime/stable/GMimeContentType.html#g-mime-content-type-get-mime-type
+                    gchar *utc_date = g_date_time_format(date, "%Y-%m-%dT%H:%M:%S%z");
                     
-                    char *mime_type = g_mime_content_type_get_mime_type(type);
-                    json_part["mime_type"] = mime_type ? mime_type : "";
-                    if(mime_type) g_free(mime_type);
-
-                    const char *media_type = g_mime_content_type_get_media_type(type);
-                    json_part["media_type"] = media_type ? media_type : "";
+                    json_part["utc_date"] = utc_date;
+                    json_part["utc_time"] = utc_time;
                     
-                    const char *media_subtype = g_mime_content_type_get_media_subtype(type);
-                    json_part["media_subtype"] = media_subtype ? media_subtype : "";
-                    
-                    const char *content_id = g_mime_object_get_content_id(part);
-                    if(content_id) {
-                        json_part["content_id"] = content_id;
-                    }
-            //        json_part["content_id"] = content_id ? content_id : "";
-
-                    const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-                    if(content_encoding) {
-                        json_part["content_encoding"] = content_encoding;
-                    }
-            //        json_part["content_encoding"] = content_encoding ? content_encoding : "";
-                    
-                    const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-                    if(file_name) {
-                        json_part["file_name"] = file_name;
-                    }
-            //        json_part["file_name"] = file_name ? file_name : "";
-                    
-                    const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-                    if(content_description) {
-                        json_part["content_description"] = content_description;
-                    }
-            //        json_part["content_description"] = content_description ? content_description : "";
-                    
-                    const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-                    if(content_md5) {
-                        json_part["content_md5"] = content_md5;
-                    }
-            //        json_part["content_md5"] = content_md5 ? content_md5 : "";
-                    
-                    const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-                    if(content_disposition) {
-                        json_part["content_disposition"] = content_disposition;
-                    }
-            //        json_part["content_disposition"] = content_disposition ? content_disposition : "";
-
-                    Json::Value *value = ctx->json;
-                    if(value->isObject())
+#if VERSIONMAC
+                    if(utc_date)
                     {
-                        Json::Value defaultValue;
-                        Json::Value part = value->get(ctx->name, defaultValue);
-                        
-                        if(part.isArray())
-                        {
-                            (*value)[ctx->name].append(json_part);
-                            
-                        }else{
-                            (*value)[ctx->name] = Json::Value(Json::arrayValue);
-                            (*value)[ctx->name].append(json_part);
-                        }
-
+                        g_free(utc_date);//corrupts heap on windows
                     }
-
+#endif
+                    
+                }else
+                {
+                    json_part["local_date"] = Json::Value(Json::nullValue);
+                    json_part["local_time"] = Json::Value(Json::nullValue);
+                    json_part["utc_date"]   = Json::Value(Json::nullValue);
+                    json_part["utc_time"]   = Json::Value(Json::nullValue);
+                }
+            }
+            
+            bool isBinary = true;
+            
+            GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
+            const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
+            if(0 == strncasecmp(mediaType, "text", 4))
+            {
+                //g_mime_text_part_get_text will alloc
+                // https://developer.gnome.org/gmime/stable/GMimeTextPart.html
+                
+                //special consideration for microsoft mht
+                const char *charset = g_mime_text_part_get_charset((GMimeTextPart *)part);
+                if(charset && (0 == strncasecmp(charset, "unicode", 7)))
+                {
+                    g_mime_text_part_set_charset ((GMimeTextPart *)part, "utf-16le");
+                }
+                
+                if(charset) {
+                    
+                    char *text = g_mime_text_part_get_text((GMimeTextPart *)part);
+                    json_part["data"] = text;
+                    if(text) g_free(text);
+                    
+                    isBinary = false;
+                }
+                
+            }
+            
+            if(isBinary) {
+                
+                GMimeStream *content = g_mime_stream_mem_new();
+                g_mime_data_wrapper_write_to_stream(wrapper, content);
+                GByteArray *bytes = g_mime_stream_mem_get_byte_array ((GMimeStreamMem *)content);
+                
+                PA_long32 i = PA_GetArrayNbElements(*(ctx->array_blob));
+                PA_ResizeArray(ctx->array_blob, ++i);
+                
+                PA_Variable element = PA_CreateVariable(eVK_Blob);
+                PA_SetBlobVariable(&element, (void *)bytes->data, bytes->len);
+                PA_SetBlobInArray(*(ctx->array_blob), i, element.uValue.fBlob);
+                json_part["data"] = i;
+                
+                g_mime_stream_close(content);
+                g_clear_object(&content);
+                
+            }
+            
+            //Content-Type
+            GMimeContentType *type = g_mime_object_get_content_type(part);
+            
+            //g_mime_content_type_get_mime_type will alloc
+            // https://developer.gnome.org/gmime/stable/GMimeContentType.html#g-mime-content-type-get-mime-type
+            
+            char *mime_type = g_mime_content_type_get_mime_type(type);
+            json_part["mime_type"] = mime_type ? mime_type : "";
+            if(mime_type) g_free(mime_type);
+            
+            const char *media_type = g_mime_content_type_get_media_type(type);
+            json_part["media_type"] = media_type ? media_type : "";
+            
+            const char *media_subtype = g_mime_content_type_get_media_subtype(type);
+            json_part["media_subtype"] = media_subtype ? media_subtype : "";
+            
+            if(content_id.length() != 0) {
+                json_part["content_id"] = content_id.c_str();
+            }
+            
+            if(content_encoding.length() != 0) {
+                json_part["content_encoding"] = content_encoding.c_str();
+            }
+            
+            if(file_name.length() != 0) {
+                json_part["file_name"] = file_name.c_str();
+            }
+            
+            if(content_description.length() != 0) {
+                json_part["content_description"] = content_description.c_str();
+            }
+            
+            if(content_md5.length() != 0) {
+                json_part["content_md5"] = content_md5.c_str();
+            }
+            
+            if(content_disposition.length() != 0) {
+                json_part["content_disposition"] = content_disposition.c_str();
+            }
+            
+            Json::Value *value = ctx->json;
+            if(value->isObject())
+            {
+                Json::Value defaultValue;
+                Json::Value part = value->get(ctx->name, defaultValue);
+                
+                if(part.isArray())
+                {
+                    (*value)[ctx->name].append(json_part);
+                    
+                }else{
+                    (*value)[ctx->name] = Json::Value(Json::arrayValue);
+                    (*value)[ctx->name].append(json_part);
+                }
+                
+            }
+            
         }else{
-
+            
         }
     }
 }
@@ -726,6 +789,59 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
     {
         Json::Value json_part = Json::Value(Json::objectValue);
 
+        const char *_content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
+        std::string content_disposition;
+        if(_content_disposition != NULL) {
+            content_disposition = _content_disposition;
+        }
+        const char *_content_description = g_mime_part_get_content_description((GMimePart *)part);
+        std::string content_description;
+        if(_content_description != NULL) {
+            content_description = _content_description;
+        }
+        const char *_content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
+        std::string content_md5;
+        if(_content_md5 != NULL) {
+            content_md5 = _content_md5;
+        }
+        const char *_file_name = g_mime_part_get_filename((GMimePart *)part);
+        std::string file_name;
+        if(_file_name != NULL) {
+            file_name = _file_name;
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_type_parameter (part, "name");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        if(file_name.length() == 0) {
+            _file_name = g_mime_object_get_content_disposition_parameter (part, "filename");
+            if(_file_name != NULL) {
+                file_name = _file_name;
+            }
+        }
+        const char *_content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
+        std::string content_encoding;
+        if(_content_encoding != NULL) {
+            content_encoding = _content_encoding;
+        }
+        else{
+            _content_encoding = g_mime_object_get_header(part, "Content-Transfer-Encoding");
+            if(_content_encoding != NULL) {
+                content_encoding = _content_encoding;
+            }
+        }
+        const char *_content_id = g_mime_object_get_content_id(part);
+        std::string content_id;
+        if(_content_id != NULL) {
+            content_id = _content_id;
+        }
+        
+        /*
+         getHeaders() invalidates disposition
+         */
+        
         if(GMIME_IS_MESSAGE_PART(part)) {
             
             GMimeMessage *message = ctx->message;
@@ -836,8 +952,8 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
             
         }
 
-            json_part["level"]   = ctx->part_level;
-            json_part["message"] = ctx->part;
+        json_part["level"]   = ctx->part_level;
+        json_part["message"] = ctx->part;
 
         //Content-Type
         GMimeContentType *type = g_mime_object_get_content_type(part);
@@ -855,41 +971,29 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
         const char *media_subtype = g_mime_content_type_get_media_subtype(type);
         json_part["media_subtype"] = media_subtype ? media_subtype : "";
         
-        const char *content_id = g_mime_object_get_content_id(part);
-        if(content_id) {
-            json_part["content_id"] = content_id;
+        if(content_id.length() != 0) {
+            json_part["content_id"] = content_id.c_str();
         }
-//        json_part["content_id"] = content_id ? content_id : "";
-
-        const char *content_encoding = g_mime_content_encoding_to_string(g_mime_part_get_content_encoding((GMimePart *)part));
-        if(content_encoding) {
-            json_part["content_encoding"] = content_encoding;
-        }
-//        json_part["content_encoding"] = content_encoding ? content_encoding : "";
         
-        const char *file_name = g_mime_part_get_filename((GMimePart *)part);
-        if(file_name) {
-            json_part["file_name"] = file_name;
+        if(content_encoding.length() != 0) {
+            json_part["content_encoding"] = content_encoding.c_str();
         }
-//        json_part["file_name"] = file_name ? file_name : "";
         
-        const char *content_description = g_mime_part_get_content_description((GMimePart *)part);
-        if(content_description) {
-            json_part["content_description"] = content_description;
+        if(file_name.length() != 0) {
+            json_part["file_name"] = file_name.c_str();
         }
-//        json_part["content_description"] = content_description ? content_description : "";
         
-        const char *content_md5 = g_mime_part_get_content_md5((GMimePart *)part);
-        if(content_md5) {
-            json_part["content_md5"] = content_md5;
+        if(content_description.length() != 0) {
+            json_part["content_description"] = content_description.c_str();
         }
-//        json_part["content_md5"] = content_md5 ? content_md5 : "";
         
-        const char *content_disposition = g_mime_content_disposition_get_disposition(g_mime_object_get_content_disposition (part));
-        if(content_disposition) {
-            json_part["content_disposition"] = content_disposition;
+        if(content_md5.length() != 0) {
+            json_part["content_md5"] = content_md5.c_str();
         }
-//        json_part["content_disposition"] = content_disposition ? content_disposition : "";
+        
+        if(content_disposition.length() != 0) {
+            json_part["content_disposition"] = content_disposition.c_str();
+        }
 
         getHeaders(part, "headers", json_part);
 

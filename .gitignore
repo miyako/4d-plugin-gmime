@@ -1,1 +1,5 @@
 gmime/build/*
+gmime/Objs/*
+*.suo
+*.db
+*.user

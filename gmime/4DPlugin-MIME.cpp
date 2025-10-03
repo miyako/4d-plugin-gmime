@@ -1626,7 +1626,7 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
         Json::Value json = Json::Value(Json::objectValue);
         Json::Value json_message = Json::Value(Json::objectValue);
 
-        GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
+        GMimeStream *stream g_mime_parser_new_with_stream= g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
         GMimeParser *parser = g_mime_parser_new_with_stream (stream);
         GMimeParserOptions *options = g_mime_parser_options_new();
         g_mime_parser_options_set_address_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);

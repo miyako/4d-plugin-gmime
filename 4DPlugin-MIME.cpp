@@ -103,8 +103,12 @@ static void getAddress(InternetAddressList *list, const char *label, Json::Value
 
 static bool isPartialTextPart(GMimeObject *part) {
     
-    if(0 == strncasecmp(part->content_type->type, "message", 7)) {
-        if(0 == strncasecmp(part->content_type->subtype, "partial", 7)) {
+    GMimeContentType *content_type = g_mime_object_get_content_type(part);
+    const char *type = g_mime_content_type_get_media_type(content_type);
+    const char *subtype = g_mime_content_type_get_media_subtype(content_type);
+
+    if(type && (0 == strncasecmp(type, "message", 7))) {
+        if(subtype && (0 == strncasecmp(subtype, "partial", 7))) {
             return true;
         }
     }
@@ -432,15 +436,17 @@ static void processTopLevel(GMimeObject *parent, GMimeObject *part, gpointer use
                     GMimeContentType *partMediaType = g_mime_object_get_content_type(part);
                     const char *mediaType = g_mime_content_type_get_media_type(partMediaType);
                     
-                    if(0 == strncasecmp(mediaType, "text", 4))
+                    if(mediaType && (0 == strncasecmp(mediaType, "text", 4)))
                     {
                         ctx->name =  "body";
                         
                         processBottomLevel(parent, part, ctx);
                     }else{
                         
-                        if(0 == strncasecmp(part->content_type->type, "message", 7)) {
-                            if(0 == strncasecmp(part->content_type->subtype, "partial", 7)) {
+                        const char *mediaSubtype = g_mime_content_type_get_media_subtype(partMediaType);
+
+                        if(mediaType && (0 == strncasecmp(mediaType, "message", 7))) {
+                            if(mediaSubtype && (0 == strncasecmp(mediaSubtype, "partial", 7))) {
                                 ctx->name =  "body";
                                 processBottomLevel(parent, part, ctx);
                             }
@@ -621,8 +627,13 @@ static void processBodyOrAttachment(GMimeObject *parent, GMimeObject *part, mime
                 getAddress(g_mime_message_get_reply_to (message), "reply_to", json_part);
                 getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_part);
                 
-                json_part["id"]      = g_mime_message_get_message_id(message);
-                json_part["subject"] = g_mime_message_get_subject(message);
+                const char *part_message_id = g_mime_message_get_message_id(message);
+                if(part_message_id)
+                    json_part["id"] = part_message_id;
+
+                const char *part_message_subject = g_mime_message_get_subject(message);
+                if(part_message_subject)
+                    json_part["subject"] = part_message_subject;
                 
                 GDateTime *date = g_mime_message_get_date(message);
                 
@@ -854,8 +865,13 @@ static void processBottomLevel(GMimeObject *parent, GMimeObject *part, gpointer 
             getAddress(g_mime_message_get_reply_to (message), "reply_to", json_part);
             getAddress(g_mime_message_get_all_recipients (message), "all_recipients", json_part);
             
-            json_part["id"]      = g_mime_message_get_message_id(message);
-            json_part["subject"] = g_mime_message_get_subject(message);
+            const char *part_message_id = g_mime_message_get_message_id(message);
+            if(part_message_id)
+                json_part["id"] = part_message_id;
+
+            const char *part_message_subject = g_mime_message_get_subject(message);
+            if(part_message_subject)
+                json_part["subject"] = part_message_subject;
 
 
             GDateTime *date = g_mime_message_get_date(message);
@@ -1059,10 +1075,11 @@ static void add_headers(GMimeObject *message_mime, Json::Value& message_node) {
                 Json::Value charset = it->get("charset", defaultValue);
                                 
                 JSONCPP_STRING name_s, value_s, charset_s;
+                bool has_charset = charset.isString();
                 
-                name_s    = name.isString() ?    name.asString() : "";
-                value_s   = name.isString() ?   value.asString() : "";
-                charset_s = name.isString() ? charset.asString() : NULL;
+                name_s    =    name.isString() ?    name.asString() : "";
+                value_s   =   value.isString() ?   value.asString() : "";
+                charset_s = has_charset ? charset.asString() : "";
 
                 if (name_s.length()) {
                     if (value_s.length()) {
@@ -1078,7 +1095,7 @@ static void add_headers(GMimeObject *message_mime, Json::Value& message_node) {
 							g_mime_object_set_header(message_mime,
 								name_s.c_str(),
 								value_s.c_str(),
-								charset_s.c_str());
+								has_charset ? charset_s.c_str() : NULL);
 						}  
                     }
                 }
@@ -1623,10 +1640,14 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
     
     if(h)
     {
+      bool locked = false;
+      try
+      {
         Json::Value json = Json::Value(Json::objectValue);
         Json::Value json_message = Json::Value(Json::objectValue);
 
-        GMimeStream *stream g_mime_parser_new_with_stream= g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
+        GMimeStream *stream = g_mime_stream_mem_new_with_buffer((const char *)PA_LockHandle(h), PA_GetHandleSize(h));
+        locked = true;
         GMimeParser *parser = g_mime_parser_new_with_stream (stream);
         GMimeParserOptions *options = g_mime_parser_options_new();
         g_mime_parser_options_set_address_compliance_mode(options, GMIME_RFC_COMPLIANCE_LOOSE);
@@ -1742,6 +1763,17 @@ void MIME_PARSE_MESSAGE(PA_PluginParameters params)
         Param2.setUTF16String(&u16);
         
         PA_UnlockHandle(h);
+        locked = false;
+      }
+      catch(...)
+      {
+        /* don't let an exception skip the return-value marshaling below -
+           if that happened, 4D would be left waiting on a return that
+           never comes. Fall through with whatever partial result exists
+           (Param2/Param3 may be empty/default). */
+        if(locked)
+            PA_UnlockHandle(h);
+      }
     }
     
     PA_SetVariableParameter(params, 3, Param3, 0);
@@ -1773,6 +1805,9 @@ void MIME_Create_message(PA_PluginParameters params)
                                &errors);
     delete reader;
     
+    bool returned = false;
+    try
+    {
     if(parse)
     {
         if(root.isObject())
@@ -1855,12 +1890,24 @@ void MIME_Create_message(PA_PluginParameters params)
                 g_mime_object_write_to_stream (message_mime, format_options, stream);
                 
                 PA_ReturnBlob(params, array->data, array->len);
+                returned = true;
                 
                 //cleanup
                 g_object_unref (stream);//GMimeStream
                 g_byte_array_free (array, FALSE);//GByteArray
                 g_mime_format_options_free(format_options);//GMimeFormatOptions
             }
+            g_object_unref(message);//GMimeMessage - was previously never freed
         }
     }
+    }
+    catch(...)
+    {
+        /* don't let an exception skip PA_ReturnBlob below - if that
+           happened, 4D would be left waiting on a return that never
+           comes. */
+    }
+    
+    if(!returned)
+        PA_ReturnBlob(params, NULL, 0);
 }

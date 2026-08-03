@@ -8,6 +8,17 @@
 #endif
 
 #if _WIN32
+// Without this, <windows.h> auto-includes the legacy <winsock.h>. If
+// anything else in a project's include chain (e.g. 4DPlugin-JSON.h) later
+// includes <winsock2.h>, the two collide -- duplicate sockaddr/fd_set/
+// accept/bind/... declarations with different linkage (MSVC C2011/C2375).
+// This has already hit two different projects that include C_TEXT.h (and
+// therefore this file) before 4DPlugin-JSON.h, via two different upstream
+// culprits (msime.h in one case, this file in another) -- guarding it here
+// closes the root cause regardless of what else pulls in <windows.h> first.
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
 #endif
 

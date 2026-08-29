@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.3.1</string>
+	<string>5.3.2</string>
 	<key>CFBundleSignature</key>
 	<string>4D06</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>5.3.2</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>

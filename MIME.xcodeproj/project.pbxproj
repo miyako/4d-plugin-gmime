@@ -44,6 +44,7 @@
 		D188F3402615FE7400650473 /* libidn2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F33F2615FE7400650473 /* libidn2.a */; };
 		D188F34E2616033C00650473 /* libunistring.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F34D2616033C00650473 /* libunistring.a */; };
 		D188F3522616070B00650473 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D188F3512616070B00650473 /* libiconv.a */; };
+		0D1219243F9418BF02B7000A /* constants.xlf in CopyFiles */ = {isa = PBXBuildFile; fileRef = D14D10DD1A03A8A5008B3411 /* constants.xlf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +55,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */,
+				0D1219243F9418BF02B7000A /* constants.xlf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
